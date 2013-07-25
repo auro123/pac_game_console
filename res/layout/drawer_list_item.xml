@@ -28,7 +28,7 @@
         android:layout_centerVertical="true"
         android:layout_marginBottom="3dp"
         android:layout_marginTop="3dp"
-        android:layout_toLeftOf="@id/dli_toggle"
+        android:layout_toLeftOf="@+id/dli_toggle"
         android:orientation="vertical" >
 
         <TextView
