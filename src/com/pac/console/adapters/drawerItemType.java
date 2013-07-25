@@ -4,6 +4,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class drawerItemType {
 
+	public String FLAG;
 	public String title;
 	
 	public boolean caption_display = false;

@@ -13,15 +13,16 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:minHeight="?android:attr/listPreferredItemHeight"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:textColor="#fff" >
 
     <LinearLayout
+        android:id="@+id/titleHolder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -36,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="This is an Object"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMediumInverse" />
 
         <TextView
             android:id="@+id/dli_caption"
@@ -44,7 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:maxLines="5"
-            android:text="This is some crap in said object (optional)" />
+            android:text="This is some crap in said object (optional)"
+            android:textColor="@android:color/secondary_text_light" />
 
     </LinearLayout>
 

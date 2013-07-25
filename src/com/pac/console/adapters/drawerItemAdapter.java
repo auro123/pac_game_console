@@ -50,6 +50,9 @@ public class drawerItemAdapter extends ArrayAdapter<drawerItemType>{
 		 **/
 
 		if (mItem != null){
+			// set the title
+			TextView tvTit = (TextView) view.findViewById(id.dli_title);
+			tvTit.setText(mItem.title);
 			// show the caption
 			if (mItem.caption_display){
 				TextView tvCap = (TextView) view.findViewById(id.dli_caption);
@@ -61,7 +64,8 @@ public class drawerItemAdapter extends ArrayAdapter<drawerItemType>{
 			//show the toggler
 			if (mItem.toggle_display){
 				Switch swTog = (Switch) view.findViewById(id.dli_toggle);
-				swTog.setOnCheckedChangeListener(mItem.ontoggle);
+				// TODO COMMENT OUT WHILE TESTING
+				//swTog.setOnCheckedChangeListener(mItem.ontoggle);
 			} else {
 				Switch swTog = (Switch) view.findViewById(id.dli_toggle);
 				swTog.setVisibility(View.GONE);
