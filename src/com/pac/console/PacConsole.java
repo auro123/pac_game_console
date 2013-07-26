@@ -64,6 +64,7 @@ public class PacConsole extends Activity {
         createDrawList();
         
         mDrawerList.setAdapter(new drawerItemAdapter(this,R.layout.drawer_list_item, mGameTitles));
+        
         mDrawerList.setOnItemClickListener(new OnItemClickListener(){
 
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
@@ -75,6 +76,7 @@ public class PacConsole extends Activity {
 				
 				// ATTACH req fragment to content view
 				attachFrag(arg2);
+				//mDrawerList.setSelection(arg2);
 			}
 
         	
@@ -144,7 +146,7 @@ public class PacConsole extends Activity {
         holder.caption_display = true;
         holder.FLAG = "controls";*/
        
-        mGameTitles.add(holder);
+        //mGameTitles.add(holder);
 
         holder = new drawerItemType();
         holder.title = "About PAC";
