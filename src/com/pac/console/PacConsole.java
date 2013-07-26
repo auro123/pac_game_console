@@ -4,11 +4,14 @@ import java.util.ArrayList;
 
 import com.pac.console.adapters.drawerItemAdapter;
 import com.pac.console.adapters.drawerItemType;
+import com.pac.console.ui.OTA_frag;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.Fragment;
 import android.graphics.Color;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,7 +26,9 @@ public class PacConsole extends Activity {
 
     private ArrayList<drawerItemType> mGameTitles;
     private ListView mDrawerList;
-
+    
+    private drawerItemType mSelectedItem;
+    
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
 
@@ -45,13 +50,14 @@ public class PacConsole extends Activity {
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
             	//TODO Update the actionbar title
-            	//getActionBar().setTitle("Closed");
+            	getActionBar().setTitle(mSelectedItem.title);
+            	
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
             	//TODO Update the actionbar title
-            	//getActionBar().setTitle("Open");
+            	getActionBar().setTitle("PAC Console");
 
             }
         };
@@ -93,6 +99,24 @@ public class PacConsole extends Activity {
 		/**
 		 * use tag to select the frag needed.
 		 */
+        // Create a new fragment and specify the planet to show based on position
+        Fragment fragment = new OTA_frag();
+        Bundle args = new Bundle();
+        //args.putInt(DragFrag.ARG_PORT_NUMBER, mTrackTitles.get(position).port);
+        //fragment.setArguments(args);
+
+        // Insert the fragment by replacing any existing fragment
+        android.app.FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                       .replace(R.id.content_frame, fragment)
+                       .commit();
+
+        // Highlight the selected item, update the title, and close the drawer
+        mDrawerList.setItemChecked(arg2, true);
+        
+        mSelectedItem = mGameTitles.get(arg2);
+        
+        mDrawerLayout.closeDrawer(mDrawerList);
 		
 	}
 
