@@ -76,7 +76,7 @@ public class PacConsole extends Activity {
 				
 				// ATTACH req fragment to content view
 				attachFrag(arg2);
-				//mDrawerList.setSelection(arg2);
+				mDrawerList.setSelection(arg2);
 			}
 
         	
