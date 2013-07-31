@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">PAC Game Console</string>
+    <string name="app_name">PAC Console</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="ota_cur_lbl">Current Rom Details</string>
+    <string name="ota_avail_lbl">Build Available on Server</string>
+    <string name="ota_non_pac">This is not a PAC rom\nor Tyler must have broken it</string>
+    <string name="ota_download">Download Zip</string>
+    <string name="ota_flash">Flash Update</string>
+    <string name="ota_menu_lbl">Update Rom</string>
+    <string name="ota_menu_cap">Toggle OTA Update Options</string>
+    <string name="contrib_menu_lbl">PAC Contributors</string>
+    <string name="contrib_menu_cap">Who Makes this Possible?</string>
+    <string name="about_menu_lbl">About PAC</string>
+    <string name="help_menu_lbl">Help</string>
+    <string name="help_menu_cap">contact Devs to get Help!</string>
 
 </resources>

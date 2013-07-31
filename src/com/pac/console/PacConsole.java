@@ -60,7 +60,7 @@ public class PacConsole extends Activity {
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
             	//TODO Update the actionbar title
-            	getActionBar().setTitle("PAC Console");
+            	getActionBar().setTitle(PacConsole.this.getResources().getString(R.string.app_name));
 
             }
         };
@@ -92,7 +92,7 @@ public class PacConsole extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
         mDrawerLayout.openDrawer(mDrawerList);
-        getActionBar().setTitle("PAC Console");
+        //getActionBar().setTitle("PAC Console");
         
         //args.putInt(DragFrag.ARG_PORT_NUMBER, mTrackTitles.get(position).port);
         //fragment.setArguments(args);
@@ -150,8 +150,8 @@ public class PacConsole extends Activity {
          */
         // OTA Frag
         drawerItemType holder = new drawerItemType();
-        holder.title = "Update Rom";
-        holder.caption = "Toggle OTA Update Options";
+        holder.title = this.getResources().getString(R.string.ota_menu_lbl);
+        holder.caption = this.getResources().getString(R.string.ota_menu_cap);
         holder.caption_display = true;
         holder.FLAG = "ota";
        
@@ -159,8 +159,8 @@ public class PacConsole extends Activity {
         
         //Contributers
         holder = new drawerItemType();
-        holder.title = "PAC Contributers";
-        holder.caption = "Who makes this possible?";
+        holder.title = this.getResources().getString(R.string.contrib_menu_lbl);
+        holder.caption = this.getResources().getString(R.string.contrib_menu_cap);
         holder.caption_display = true;
         holder.FLAG = "contributors";
        
@@ -168,7 +168,7 @@ public class PacConsole extends Activity {
 
         // About PAC Frag and set as default.
         holder = new drawerItemType();
-        holder.title = "About PAC";
+        holder.title = this.getResources().getString(R.string.about_menu_lbl);
         holder.FLAG = "about";
        
         mGameTitles.add(holder);
@@ -184,8 +184,8 @@ public class PacConsole extends Activity {
         
         // Help Frag
         holder = new drawerItemType();
-        holder.title = "Help";
-        holder.caption = "Contact Devs to get Help!";
+        holder.title = this.getResources().getString(R.string.help_menu_lbl);
+        holder.caption = this.getResources().getString(R.string.help_menu_cap);
         holder.caption_display = true;
         holder.FLAG = "help";
        
