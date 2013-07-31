@@ -149,12 +149,24 @@ public class OTA_frag extends Fragment {
 			String[] results = result.split(",");
 			Message msg = new Message();
 			Bundle data = new Bundle();
-			data.putString("version", results[2]);
-			String[] dlurl = results[0].split("/");
-			data.putString("file", dlurl[dlurl.length-1]);
-			data.putString("url", results[0]);
-			data.putString("md5", results[3]);
-			msg.setData(data);
+			if (!results[0].contains("#BLAMETYLER")){
+				data.putString("version", results[2]);
+				String[] dlurl = results[0].split("/");
+				data.putString("file", dlurl[dlurl.length-1]);
+				data.putString("url", results[0]);
+				data.putString("md5", results[3]);
+				msg.setData(data);
+			} else{
+				// error device not on server records!
+				if (results[1].contains("NO_CONFIG_FOUND")){
+					data.putString("version", "No Info found!");
+				} else if (results[1].contains("NO_PARAMS")){
+					data.putString("version", "Server Is Borked");
+				}
+				data.putString("file", "Or Tyler Broke Something!");
+
+			}
+				
 			updateRemote.sendMessage(msg);
 		}
 
