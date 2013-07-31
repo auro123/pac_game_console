@@ -155,7 +155,6 @@ public class OTA_frag extends Fragment {
 				data.putString("file", dlurl[dlurl.length-1]);
 				data.putString("url", results[0]);
 				data.putString("md5", results[3]);
-				msg.setData(data);
 			} else{
 				// error device not on server records!
 				if (results[1].contains("NO_CONFIG_FOUND")){
@@ -166,7 +165,7 @@ public class OTA_frag extends Fragment {
 				data.putString("file", "Or Tyler Broke Something!");
 
 			}
-				
+			msg.setData(data);
 			updateRemote.sendMessage(msg);
 		}
 
