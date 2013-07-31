@@ -20,7 +20,7 @@ public class About_frag extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle ofjoy) {
 		
-		View layout = inflater.inflate(R.layout.ota_frag_layout, null);
+		View layout = inflater.inflate(R.layout.about_frag_layout, null);
 
 		
 		
