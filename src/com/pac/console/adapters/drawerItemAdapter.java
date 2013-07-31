@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -61,6 +62,14 @@ public class drawerItemAdapter extends ArrayAdapter<drawerItemType>{
 				TextView tvCap = (TextView) view.findViewById(id.dli_caption);
 				tvCap.setVisibility(View.GONE);
 			}
+			// show the Image
+			if (false){
+				ImageView tvCap = (ImageView) view.findViewById(id.dli_caption);
+				tvCap.setBackgroundResource(R.drawable.pacman_header);
+			} else {
+				//TextView tvCap = (TextView) view.findViewById(id.dli_caption);
+				//tvCap.setVisibility(View.GONE);
+			}
 			//show the toggler
 			if (mItem.toggle_display){
 				Switch swTog = (Switch) view.findViewById(id.dli_toggle);
@@ -76,7 +85,6 @@ public class drawerItemAdapter extends ArrayAdapter<drawerItemType>{
 				// TODO do a package intent
 			} else {
 				// TODO do notihng?
-
 			}
 			
 			// are we doing a web launch?
@@ -84,7 +92,6 @@ public class drawerItemAdapter extends ArrayAdapter<drawerItemType>{
 				// TODO do a url intent
 			} else {
 				// TODO do notihng?
-				
 			}
 		}
 		

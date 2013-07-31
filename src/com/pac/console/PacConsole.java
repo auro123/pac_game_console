@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import com.pac.console.adapters.drawerItemAdapter;
 import com.pac.console.adapters.drawerItemType;
 import com.pac.console.ui.About_frag;
+import com.pac.console.ui.Contrib_frag;
+import com.pac.console.ui.Help_frag;
 import com.pac.console.ui.OTA_frag;
 
 import android.os.Bundle;
@@ -109,11 +111,17 @@ public class PacConsole extends Activity {
 		 * use tag to select the frag needed.
 		 */
         // Create a new fragment and specify the planet to show based on position
-        Fragment fragment = new OTA_frag();
-        Bundle args = new Bundle();
-        //args.putInt(DragFrag.ARG_PORT_NUMBER, mTrackTitles.get(position).port);
-        //fragment.setArguments(args);
-
+        Fragment fragment = null;
+        
+        if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("ota")){
+        	fragment = new OTA_frag();
+        } else if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("contributors")){
+        	fragment = new Contrib_frag();
+        } else if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("about")){
+        	fragment = new About_frag();
+        } else if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("help")){
+        	fragment = new Help_frag();
+        }
         // Insert the fragment by replacing any existing fragment
         android.app.FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
@@ -197,7 +205,7 @@ public class PacConsole extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.pac_console, menu);
+        //getMenuInflater().inflate(R.menu.pac_console, menu);
         return true;
     }
     
