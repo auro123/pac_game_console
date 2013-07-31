@@ -4,11 +4,15 @@ import java.util.ArrayList;
 
 import com.pac.console.adapters.drawerItemAdapter;
 import com.pac.console.adapters.drawerItemType;
+import com.pac.console.ui.About_frag;
+import com.pac.console.ui.OTA_frag;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.Fragment;
 import android.graphics.Color;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,7 +27,9 @@ public class PacConsole extends Activity {
 
     private ArrayList<drawerItemType> mGameTitles;
     private ListView mDrawerList;
-
+    
+    private drawerItemType mSelectedItem;
+    
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
 
@@ -31,7 +37,7 @@ public class PacConsole extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pac_console);
-        
+       
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -45,13 +51,16 @@ public class PacConsole extends Activity {
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
             	//TODO Update the actionbar title
-            	//getActionBar().setTitle("Closed");
+            	if(mSelectedItem != null){
+            		getActionBar().setTitle(mSelectedItem.title);
+            	}
+            	
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
             	//TODO Update the actionbar title
-            	//getActionBar().setTitle("Open");
+            	getActionBar().setTitle("PAC Console");
 
             }
         };
@@ -70,9 +79,7 @@ public class PacConsole extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				
-				// TODO fix the selection colors
-				// TODO THIS IS A BUG - before release MUST BE FIXED
-				// TODO  it is the caption thats fucked
+				
 				
 				// ATTACH req fragment to content view
 				attachFrag(arg2);
@@ -84,15 +91,41 @@ public class PacConsole extends Activity {
         // setup the drawer tab
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
+        mDrawerLayout.openDrawer(mDrawerList);
+        getActionBar().setTitle("PAC Console");
+        
+        //args.putInt(DragFrag.ARG_PORT_NUMBER, mTrackTitles.get(position).port);
+        //fragment.setArguments(args);
+
+        // Insert the fragment by replacing any existing fragment
+        
 
     }
     
-	private void attachFrag(int arg2) {
+	private void attachFrag(int possition) {
 		// TODO swap fragment out.
 		
 		/**
 		 * use tag to select the frag needed.
 		 */
+        // Create a new fragment and specify the planet to show based on position
+        Fragment fragment = new OTA_frag();
+        Bundle args = new Bundle();
+        //args.putInt(DragFrag.ARG_PORT_NUMBER, mTrackTitles.get(position).port);
+        //fragment.setArguments(args);
+
+        // Insert the fragment by replacing any existing fragment
+        android.app.FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                       .replace(R.id.content_frame, fragment)
+                       .commit();
+
+        // Highlight the selected item, update the title, and close the drawer
+        mDrawerList.setItemChecked(possition, true);
+        
+        mSelectedItem = mGameTitles.get(possition);
+        
+        mDrawerLayout.closeDrawer(mDrawerList);
 		
 	}
 
@@ -115,7 +148,7 @@ public class PacConsole extends Activity {
          * Contributors
          * Help
          */
-        
+        // OTA Frag
         drawerItemType holder = new drawerItemType();
         holder.title = "Update Rom";
         holder.caption = "Toggle OTA Update Options";
@@ -124,36 +157,7 @@ public class PacConsole extends Activity {
        
         mGameTitles.add(holder);
         
-        /*holder = new drawerItemType();
-        holder.title = "Display";
-        holder.caption = "Common Display Options";
-        holder.caption_display = true;
-        holder.FLAG = "display";
-       
-        mGameTitles.add(holder);
-
-        holder = new drawerItemType();
-        holder.title = "Sound";
-        holder.caption = "Common Sound Options";
-        holder.caption_display = true;
-        holder.FLAG = "sound";
-       
-        mGameTitles.add(holder);
-    	
-        holder = new drawerItemType();
-        holder.title = "UI Controls";
-        holder.caption = "Common UI Control Options";
-        holder.caption_display = true;
-        holder.FLAG = "controls";*/
-       
-        //mGameTitles.add(holder);
-
-        holder = new drawerItemType();
-        holder.title = "About PAC";
-        holder.FLAG = "about";
-       
-        mGameTitles.add(holder);
-        
+        //Contributers
         holder = new drawerItemType();
         holder.title = "PAC Contributers";
         holder.caption = "Who makes this possible?";
@@ -162,6 +166,23 @@ public class PacConsole extends Activity {
        
         mGameTitles.add(holder);
 
+        // About PAC Frag and set as default.
+        holder = new drawerItemType();
+        holder.title = "About PAC";
+        holder.FLAG = "about";
+       
+        mGameTitles.add(holder);
+        
+        Fragment fragment = new About_frag();
+        android.app.FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                       .replace(R.id.content_frame, fragment)
+                       .commit();
+
+        mDrawerList.setItemChecked(mGameTitles.size()-1, true);       
+        mSelectedItem = mGameTitles.get(mGameTitles.size()-1);
+        
+        // Help Frag
         holder = new drawerItemType();
         holder.title = "Help";
         holder.caption = "Contact Devs to get Help!";
