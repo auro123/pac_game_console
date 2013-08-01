@@ -73,6 +73,7 @@ public class Contrib_frag extends Fragment {
 			} else {
 				data.putString("contribs", "Or Tyler Broke Something!");
 			}
+			msg.setData(data);
 			updateRemote.sendMessage(msg);
 
 		}
