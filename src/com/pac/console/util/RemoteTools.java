@@ -40,7 +40,36 @@ public class RemoteTools {
 		dm.enqueue(r);
 
 	}
-	
+	public static String getContrib(){
+		String URL = config.PAC_CONTRIB;
+		
+		DefaultHttpClient mClient = new DefaultHttpClient();
+		HttpGet getRequest = new HttpGet(URL);
+		try {
+			HttpResponse getResponse = mClient.execute(getRequest);
+			final int statusCode = getResponse.getStatusLine().getStatusCode();
+
+			if (statusCode != HttpStatus.SC_OK) {
+				Log.e("OTA_TOOLS", "#BLAMETYLER " + statusCode
+						+ " for URL " + URL);
+				return null;
+			}
+			Log.d("OTA_TOOLS", "Got Connection " + URL);
+			HttpEntity getResponseEntity = getResponse.getEntity();
+
+			if (getResponseEntity != null) {
+				return EntityUtils.toString(getResponseEntity);
+			}
+
+		} catch (IOException e) {
+			getRequest.abort();
+			Log.e("OTA_TOOLS", "#BLAMETYLER Error for URL " + URL, e);
+		}
+
+		return null;
+		
+	}
+
 	public static String checkRom(String device){
 		String URL = config.OTA_SCRIPT;
 		URL += "?device=";

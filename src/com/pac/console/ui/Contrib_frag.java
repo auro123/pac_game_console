@@ -3,9 +3,14 @@ package com.pac.console.ui;
 import in.uncod.android.bypass.Bypass;
 
 import com.pac.console.R;
+import com.pac.console.util.RemoteTools;
 
 import android.app.Fragment;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +19,7 @@ import android.widget.TextView;
 
 public class Contrib_frag extends Fragment {
 	
+	TextView contrib;
 	
 	public static Contrib_frag newInstance(String content) {
 		Contrib_frag fragment = new Contrib_frag();		
@@ -26,32 +32,49 @@ public class Contrib_frag extends Fragment {
 		
 		View layout = inflater.inflate(R.layout.contrib_frag_layout, null);
 
-		TextView contrib = (TextView) layout.findViewById(R.id.textView1);
+		contrib = (TextView) layout.findViewById(R.id.textView1);
 		
-		Bypass bypass = new Bypass();
-		String markdownString = "#NATIVE MARKUP\n"
-				+ "MUTHERFUCKERS!\n"
-				+ "#Header sizes\n##Smaller header\n"
-				+ "###Even smaller header\n"
-				+ "Paragraphs are obviously supported along with all the fancy text styling you could want.\n"
-				+ "There is *italic*, **bold** and ***bold italic***. Even links are supported, visit the\n"
-				+ "github page for Bypass [here](https://github.com/Uncodin/bypass).\n"
-				+ "* Nested List\n"
-				+ "	* One\n"
-				+ "	* Two\n"
-				+ "	* Three\n"
-				+ "* One\n"
-				+ "	* One\n"
-				+ "	* Two\n"
-				+ "	* Three\n"
-				+ "## Code Block Support\n"
-				+ "	const char* str;\n"
-				+ "str = env->GetStringUTFChars(markdown, NULL);";
-		CharSequence string = bypass.markdownToSpannable(markdownString);
-		contrib.setText(string);
-		contrib.setMovementMethod(LinkMovementMethod.getInstance());
-		
+		AsyncTask checkTast = new CheckRemote();
+		String[] dev = {" "};
+		dev[0] = (String)Build.DEVICE;
+		checkTast.execute(dev);
+
 		return layout;
 	}
+	
+	Handler updateRemote = new Handler(){
+	    @Override
+	    public void handleMessage(Message msg){
+	    	msg.getData().getString("file");
+			Bypass bypass = new Bypass();
+			String markdownString = msg.getData().getString("contribs");
+			CharSequence string = bypass.markdownToSpannable(markdownString);
+			contrib.setText(string);
+			contrib.setMovementMethod(LinkMovementMethod.getInstance());
 
+	    }
+
+	};
+	private class CheckRemote extends
+	AsyncTask<String, Void, String> {
+
+		@Override
+		protected String doInBackground(String... arg0) {
+			// TODO Auto-generated method stub
+			String out = RemoteTools.getContrib();
+			return out;
+		}
+		@Override
+		protected void onPostExecute(final String result) {
+			Message msg = new Message();
+			Bundle data = new Bundle();
+			if (result != null){
+				data.putString("contribs", result);
+			} else {
+				data.putString("contribs", "Or Tyler Broke Something!");
+			}
+			updateRemote.sendMessage(msg);
+
+		}
+	};
 }
