@@ -57,7 +57,7 @@ public class Bypass {
 			builder.append("\n");
 		}
 		if (element.getType() == Type.LIST_ITEM) {
-			builder.append("\u2022");
+			builder.append("");
 		}
 		builder.append(text);
 		builder.append(concat);

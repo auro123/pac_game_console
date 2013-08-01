@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ public class Contrib_frag extends Fragment {
 			Bypass bypass = new Bypass();
 			String markdownString = msg.getData().getString("contribs");
 			CharSequence string = bypass.markdownToSpannable(markdownString);
+			Log.d("MARKUP", ""+string);
 			contrib.setText(string);
 			contrib.setMovementMethod(LinkMovementMethod.getInstance());
 
