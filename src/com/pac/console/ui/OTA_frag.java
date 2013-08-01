@@ -1,7 +1,5 @@
 package com.pac.console.ui;
 
-import java.sql.ResultSet;
-
 import com.pac.console.R;
 import com.pac.console.util.RemoteTools;
 
@@ -140,7 +138,6 @@ public class OTA_frag extends Fragment {
 			return out;
 		}
 		
-		
 		@Override
 		protected void onPostExecute(final String result) {
 			
@@ -164,12 +161,12 @@ public class OTA_frag extends Fragment {
 						data.putString("version", "Server Is Borked");
 					}
 					data.putString("file", "Or Tyler Broke Something!");
-
 				}
 			} else {
 				data.putString("version", "Server Is Borked");
 				data.putString("file", "Or Tyler Broke Something!");
 			}
+			
 			msg.setData(data);
 			updateRemote.sendMessage(msg);
 		}
