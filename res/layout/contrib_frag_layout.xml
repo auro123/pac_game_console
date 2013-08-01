@@ -13,6 +13,6 @@
         android:scrollbarAlwaysDrawVerticalTrack="true"
         android:scrollbarStyle="insideInset"
         android:scrollbars="vertical"
-        android:text="The Markdown Lib is not working\nThis shuld be showing the contributos list from the github repo" />
+        android:text="Loading!" />
 
 </LinearLayout>
