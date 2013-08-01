@@ -43,7 +43,7 @@ public class RemoteTools {
 	
 	public static String checkRom(String device){
 		String URL = config.OTA_SCRIPT;
-		URL += "device=";
+		URL += "?device=";
 		URL += device;
 		URL += "&type=check";
 		
