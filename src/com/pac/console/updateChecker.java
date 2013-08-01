@@ -35,8 +35,6 @@ public class updateChecker extends Service {
 		filter.addAction(Intent.ACTION_SCREEN_OFF);
 		BroadcastReceiver mReceiver = new ScreenReceiver();
 		registerReceiver(mReceiver, filter);
-
-
 		
 	}
 
@@ -78,7 +76,7 @@ public class updateChecker extends Service {
 					e1.printStackTrace();
 				}
 			}
-			int numberOfDays = (int) ((finalDay.getTime() - today.getTime()) / (3600 * 1000));
+			int numberOfHours = (int) ((finalDay.getTime() - today.getTime()) / (3600 * 1000));
 			
 			//TODO 6 hours passed? 
 			//check for update on server adn reset time oonce done

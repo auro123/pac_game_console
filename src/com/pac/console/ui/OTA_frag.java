@@ -108,7 +108,6 @@ public class OTA_frag extends Fragment {
 				ActionBar.LayoutParams.WRAP_CONTENT, Gravity.CENTER_VERTICAL
 						| Gravity.RIGHT));
 
-		actionbar.setTitle("Sounds options");
 
 		mOTAEnabler = new OTA_enabler(getActivity(), actionBarSwitch);
 

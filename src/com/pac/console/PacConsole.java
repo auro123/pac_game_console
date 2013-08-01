@@ -80,9 +80,6 @@ public class PacConsole extends Activity {
 
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				
-				
-				
 				// ATTACH req fragment to content view
 				attachFrag(arg2);
 				mDrawerList.setSelection(arg2);
@@ -90,16 +87,11 @@ public class PacConsole extends Activity {
 
         	
         });
+        
         // setup the drawer tab
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
         mDrawerLayout.openDrawer(mDrawerList);
-        //getActionBar().setTitle("PAC Console");
-        
-        //args.putInt(DragFrag.ARG_PORT_NUMBER, mTrackTitles.get(position).port);
-        //fragment.setArguments(args);
-
-        // Insert the fragment by replacing any existing fragment
         
 
     }
