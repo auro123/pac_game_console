@@ -51,6 +51,8 @@ public class OTA_enabler implements OnCheckedChangeListener {
 			i.setClass(mContext, updateChecker.class);
 			mContext.startService(i);
 		} else if (!isChecked && isMyServiceRunning()){
+			Log.d("PACCON", "ENDING OTA SERVER");
+
 			mContext.stopService(new Intent(mContext, com.pac.console.updateChecker.class));
 		}
 	}

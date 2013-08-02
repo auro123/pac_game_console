@@ -5,7 +5,9 @@ import com.pac.console.util.RemoteTools;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +32,7 @@ public class OTA_frag extends Fragment {
 	String DlMd5 = "";
 	String FileName = "";
 	String DlVersion = "";
+	AlertDialog.Builder alert;
 	
 	//RemoteTools.downloadFile(OTA_frag.this.getActivity(), DlUrl, FileName);
 
@@ -74,7 +77,29 @@ public class OTA_frag extends Fragment {
 
 			public void onClick(View v) {
 				if (DlUrl != null && FileName != null){
-					RemoteTools.downloadFile(OTA_frag.this.getActivity(), DlUrl, FileName);				
+					int con = RemoteTools.checkConnection(OTA_frag.this.getActivity());
+					if (con == RemoteTools.MOBILE){
+						alert = new AlertDialog.Builder(getActivity());
+						alert.setTitle(OTA_frag.this.getActivity().getString(R.string.mobile_data));
+						alert.setMessage(OTA_frag.this.getActivity().getString(R.string.wifi_rec) + "\n" +
+								OTA_frag.this.getActivity().getString(R.string.carges));
+						alert.setPositiveButton("Yes!", new AlertDialog.OnClickListener(){
+							public void onClick(DialogInterface dialog,
+									int which) {
+								RemoteTools.downloadFile(OTA_frag.this.getActivity(), DlUrl, FileName);				
+							}
+						});
+						alert.setNegativeButton("No!", new AlertDialog.OnClickListener(){
+							public void onClick(DialogInterface dialog,
+									int which) {
+							}
+						});
+						alert.show();
+					} else if (con == RemoteTools.DISCONNECTED){
+						//POPUP no connection
+					} else if (con == RemoteTools.WIFI){
+						RemoteTools.downloadFile(OTA_frag.this.getActivity(), DlUrl, FileName);				
+					}
 				}
 			}
 			
@@ -119,11 +144,15 @@ public class OTA_frag extends Fragment {
 		// ADD service to catch updates ( only polling 6 hours ATM )
 		
 		// TODO Long term push updates direct from dibs
-		
-		AsyncTask checkTast = new CheckRemote();
-		String[] dev = {" "};
-		dev[0] = (String)Build.DEVICE;
-		checkTast.execute(dev);
+		int con = RemoteTools.checkConnection(OTA_frag.this.getActivity());
+		if (con > RemoteTools.DISCONNECTED){
+			AsyncTask checkTast = new CheckRemote();
+			String[] dev = {" "};
+			dev[0] = (String)Build.DEVICE;
+			checkTast.execute(dev);
+		} else {
+			update.setText(this.getActivity().getString(R.string.no_data));
+		}
 		
 		return layout;
 	}

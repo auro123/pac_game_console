@@ -37,12 +37,15 @@ public class Contrib_frag extends Fragment {
 		View layout = inflater.inflate(R.layout.contrib_frag_layout, null);
 
 		contrib = (TextView) layout.findViewById(R.id.textView1);
-		
-		AsyncTask checkTast = new CheckRemote();
-		String[] dev = {" "};
-		dev[0] = (String)Build.DEVICE;
-		checkTast.execute(dev);
-
+		int con = RemoteTools.checkConnection(Contrib_frag.this.getActivity());
+		if (con > RemoteTools.DISCONNECTED){
+			AsyncTask checkTast = new CheckRemote();
+			String[] dev = {" "};
+			dev[0] = (String)Build.DEVICE;
+			checkTast.execute(dev);
+		} else {
+			contrib.setText(Contrib_frag.this.getActivity().getString(R.string.no_data));
+		}
 		return layout;
 	}
 	

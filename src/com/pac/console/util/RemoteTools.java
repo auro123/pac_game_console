@@ -12,6 +12,8 @@ import org.apache.http.util.EntityUtils;
 import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
@@ -68,6 +70,26 @@ public class RemoteTools {
 
 		return null;
 		
+	}
+	
+	public static final int DISCONNECTED = 0;
+	public static final int MOBILE = 1;
+	public static final int WIFI = 2;
+
+	public static int checkConnection(Context context){
+		ConnectivityManager conMgr =  (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+	
+		if ( conMgr.getNetworkInfo(0).getState() == NetworkInfo.State.CONNECTED ){
+			return MOBILE;
+		}
+		if ( conMgr.getNetworkInfo(1).getState() == NetworkInfo.State.CONNECTING  ) {
+			return WIFI;
+		}
+		else if ( conMgr.getNetworkInfo(0).getState() == NetworkInfo.State.DISCONNECTED 
+		    ||  conMgr.getNetworkInfo(1).getState() == NetworkInfo.State.DISCONNECTED) {
+			return DISCONNECTED;	
+		}
+		return DISCONNECTED;
 	}
 
 	public static String checkRom(String device){
