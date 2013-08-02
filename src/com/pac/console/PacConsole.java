@@ -9,6 +9,7 @@ import com.pac.console.ui.Contrib_frag;
 import com.pac.console.ui.Help_frag;
 import com.pac.console.ui.OTA_frag;
 
+import android.media.audiofx.BassBoost.Settings;
 import android.os.Bundle;
 import android.pacstats.PACStats;
 import android.app.Activity;
@@ -35,10 +36,37 @@ public class PacConsole extends Activity {
     
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
+    private int poss = 0;
+    private boolean state = false;
+    Fragment mContent = null;
+    @Override
+    public void onSaveInstanceState(Bundle ofLove) {
+      super.onSaveInstanceState(ofLove);
+      // Save UI state changes to the savedInstanceState.
+      // This bundle will be passed to onCreate if the process is
+      // killed and restarted.
+      ofLove.putInt("flag", poss);
+      ofLove.putBoolean("store", true);
+
+    }
+    
+    @Override
+    public void onRestoreInstanceState(Bundle ofLove) {
+      super.onRestoreInstanceState(ofLove);
+      // Restore UI state from the savedInstanceState.
+      // This bundle has also been passed to onCreate.
+      poss = ofLove.getInt("flag");
+      state = ofLove.getBoolean("store");
+
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle ofLove) {
+        super.onCreate(ofLove);
+        if (ofLove!=null){
+	        poss = ofLove.getInt("flag");
+	        state = ofLove.getBoolean("store");
+        }
         setContentView(R.layout.pac_console);
        
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -84,6 +112,7 @@ public class PacConsole extends Activity {
 				// ATTACH req fragment to content view
 				attachFrag(arg2);
 				mDrawerList.setSelection(arg2);
+				poss = arg2;
 			}
 
         	
@@ -92,8 +121,12 @@ public class PacConsole extends Activity {
         // setup the drawer tab
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
-        mDrawerLayout.openDrawer(mDrawerList);
         
+        if (!state){
+        	mDrawerLayout.openDrawer(mDrawerList);
+        } else {
+        	attachFrag(poss);
+        }
 
     }
     
@@ -103,25 +136,26 @@ public class PacConsole extends Activity {
 		/**
 		 * use tag to select the frag needed.
 		 */
-        // Create a new fragment and specify the planet to show based on position
-        Fragment fragment = null;
-        
-        if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("ota")){
-        	fragment = new OTA_frag();
-        } else if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("contributors")){
-        	fragment = new Contrib_frag();
-        } else if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("about")){
-        	fragment = new About_frag();
-        } else if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("help")){
-        	fragment = new Help_frag();
-        } else if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("stats")){
-        	fragment = new PACStats();
-        }
-        // Insert the fragment by replacing any existing fragment
-        android.app.FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                       .replace(R.id.content_frame, fragment)
-                       .commit();
+	        Fragment fragment = null;
+	        android.app.FragmentManager fragmentManager = getFragmentManager();
+	        if (fragment == null){
+		        if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("ota")){
+		        	fragment = new OTA_frag();
+		        } else if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("contributors")){
+		        	fragment = new Contrib_frag();
+		        } else if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("about")){
+		        	fragment = new About_frag();
+		        } else if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("help")){
+		        	fragment = new Help_frag();
+		        } else if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("stats")){
+		        	fragment = new PACStats();
+		        }
+
+	        // Insert the fragment by replacing any existing fragment
+	        fragmentManager.beginTransaction()
+	                       .replace(R.id.content_frame, fragment, mGameTitles.get(possition).FLAG)
+	                       .commit();
+	    }
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(possition, true);

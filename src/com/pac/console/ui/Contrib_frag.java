@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +25,8 @@ import android.widget.TextView;
 public class Contrib_frag extends Fragment {
 	
 	TextView contrib;
+	public String contribs = "";
+	boolean store = false;
 	
 	public static Contrib_frag newInstance(String content) {
 		Contrib_frag fragment = new Contrib_frag();		
@@ -31,21 +34,42 @@ public class Contrib_frag extends Fragment {
 	
 	}
 	
+    @Override
+    public void onSaveInstanceState(Bundle ofLove) {
+      super.onSaveInstanceState(ofLove);
+      // Save UI state changes to the savedInstanceState.
+      // This bundle will be passed to onCreate if the process is
+      // killed and restarted.
+      ofLove.putBoolean("store", true);
+      ofLove.putString("contribs", contribs);
+    }
+    
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle oflove) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle ofLove) {
 		
+        if (ofLove!=null){
+        	contribs = ofLove.getString("contribs");
+	        store = ofLove.getBoolean("store");
+        }
+        
+        contribs = Settings.System.getString(this.getActivity().getContentResolver(), "contribs");
+        
 		View layout = inflater.inflate(R.layout.contrib_frag_layout, null);
 
 		contrib = (TextView) layout.findViewById(R.id.textView1);
-		int con = RemoteTools.checkConnection(Contrib_frag.this.getActivity());
-		if (con > RemoteTools.DISCONNECTED){
-			AsyncTask checkTast = new CheckRemote();
-			String[] dev = {" "};
-			dev[0] = (String)Build.DEVICE;
-			checkTast.execute(dev);
-		} else {
-			contrib.setText(Contrib_frag.this.getActivity().getString(R.string.no_data));
-		}
+
+		//restore old state if needed
+			int con = RemoteTools.checkConnection(Contrib_frag.this.getActivity());
+			if (con > RemoteTools.DISCONNECTED){
+				AsyncTask checkTast = new CheckRemote();
+				String[] dev = {" "};
+				dev[0] = (String)Build.DEVICE;
+				checkTast.execute(dev);
+			} else {
+				if (contribs==null){
+					contrib.setText(Contrib_frag.this.getActivity().getString(R.string.no_data));
+				}
+			}
 		return layout;
 	}
 	
@@ -55,6 +79,7 @@ public class Contrib_frag extends Fragment {
 	    	//msg.getData().getString("file");
 			Bypass bypass = new Bypass();
 			String markdownString = msg.getData().getString("contribs");
+			contribs = markdownString;
 			String[] formater = markdownString.split("\n");
 			markdownString = "";
 			Pattern pattern = Pattern.compile("[^\\S\\r\\n]{2,}");
@@ -79,6 +104,13 @@ public class Contrib_frag extends Fragment {
 		@Override
 		protected String doInBackground(String... arg0) {
 			// TODO Auto-generated method stub
+			if (Contrib_frag.this.contribs != null){
+				Message msg = new Message();
+				Bundle data = new Bundle();
+				data.putString("contribs", contribs);
+				msg.setData(data);
+				updateRemote.sendMessage(msg);
+			}
 			String out = RemoteTools.getContrib();
 			return out;
 		}
@@ -88,6 +120,9 @@ public class Contrib_frag extends Fragment {
 			Bundle data = new Bundle();
 			if (result != null){
 				data.putString("contribs", result);
+				if (Contrib_frag.this.getActivity()!=null){
+					Settings.System.putString(Contrib_frag.this.getActivity().getContentResolver(), "contribs", result);
+				}
 			} else {
 				data.putString("contribs", "Or Tyler Broke Something!");
 			}
