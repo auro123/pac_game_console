@@ -1,11 +1,18 @@
 package com.pac.console.ui;
 
+import com.pac.console.config;
+import com.pac.console.updateChecker;
+
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -38,7 +45,25 @@ public class OTA_enabler implements OnCheckedChangeListener {
 		Settings.System.putInt(mContext.getContentResolver(), "OTA_ENABLE", (isChecked) ? 1 : 0);
 		
 		// TODO fire up service! maybe?
+		if (isChecked && !isMyServiceRunning()){
+			Intent i = new Intent("com.pac.console.updateChecker");
+			Log.d("PACCON", "STARTING OTA SERVER");
+			i.setClass(mContext, updateChecker.class);
+			mContext.startService(i);
+		} else if (!isChecked && isMyServiceRunning()){
+			mContext.stopService(new Intent(mContext, com.pac.console.updateChecker.class));
+		}
 	}
+	
+    private boolean isMyServiceRunning() {
+        ActivityManager manager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if ("com.pac.console.updateChecker".equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 	public boolean isSwitchOn() {
 		Boolean onoff = false;
