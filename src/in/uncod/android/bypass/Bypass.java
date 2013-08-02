@@ -1,12 +1,14 @@
 package in.uncod.android.bypass;
 
 import in.uncod.android.bypass.Element.Type;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.BulletSpan;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.LeadingMarginSpan;
 import android.text.style.QuoteSpan;
 import android.text.style.RelativeSizeSpan;
@@ -80,6 +82,8 @@ public class Bypass {
 			builder.setSpan(new RelativeSizeSpan(HEADER_SIZES[level]), 0,
 					builder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			builder.setSpan(new StyleSpan(Typeface.BOLD), 0, builder.length(),
+					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			builder.setSpan(new ForegroundColorSpan(Color.YELLOW), 0, builder.length(),
 					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		} else if (element.getType() == Type.LIST_ITEM
 				&& element.getParent().getParent() != null) {

@@ -1,5 +1,8 @@
 package com.pac.console.ui;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import in.uncod.android.bypass.Bypass;
 
 import com.pac.console.R;
@@ -46,13 +49,23 @@ public class Contrib_frag extends Fragment {
 	Handler updateRemote = new Handler(){
 	    @Override
 	    public void handleMessage(Message msg){
-	    	msg.getData().getString("file");
+	    	//msg.getData().getString("file");
 			Bypass bypass = new Bypass();
 			String markdownString = msg.getData().getString("contribs");
+			String[] formater = markdownString.split("\n");
+			markdownString = "";
+			Pattern pattern = Pattern.compile("[^\\S\\r\\n]{2,}");
+
+			for (int i = 0; i< formater.length; i++){
+				Matcher matcher = pattern.matcher(formater[i]);
+					//formater[i].replaceAll("\\s{2,}+||\\t", " ");
+				String str = matcher.replaceAll(" ");
+				markdownString+=str+"\n";	
+			}
 			CharSequence string = bypass.markdownToSpannable(markdownString);
 			Log.d("MARKUP", ""+string);
 			contrib.setText(string);
-			contrib.setMovementMethod(LinkMovementMethod.getInstance());
+			//contrib.setMovementMethod(LinkMovementMethod.getInstance());
 
 	    }
 
