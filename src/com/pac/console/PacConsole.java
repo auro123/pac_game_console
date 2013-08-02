@@ -10,6 +10,7 @@ import com.pac.console.ui.Help_frag;
 import com.pac.console.ui.OTA_frag;
 
 import android.os.Bundle;
+import android.pacstats.PACStats;
 import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Color;
@@ -113,6 +114,8 @@ public class PacConsole extends Activity {
         	fragment = new About_frag();
         } else if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("help")){
         	fragment = new Help_frag();
+        } else if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("stats")){
+        	fragment = new PACStats();
         }
         // Insert the fragment by replacing any existing fragment
         android.app.FragmentManager fragmentManager = getFragmentManager();
@@ -168,8 +171,10 @@ public class PacConsole extends Activity {
 
         // About PAC Frag and set as default.
         holder = new drawerItemType();
-        holder.title = this.getResources().getString(R.string.about_menu_lbl);
-        holder.FLAG = "about";
+        holder.title = this.getResources().getString(R.string.stat_menu_lbl);
+        holder.caption = this.getResources().getString(R.string.stat_menu_cap);
+        holder.caption_display = true;
+        holder.FLAG = "stats";
        
         mGameTitles.add(holder);
         

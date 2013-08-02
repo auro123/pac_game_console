@@ -39,9 +39,7 @@ public class PACStats extends PreferenceFragment
         Preference.OnPreferenceChangeListener {
 
     private static final String VIEW_STATS = "pref_view_stats";
-    
-    private static final String PREF_UNINSTALL = "pref_uninstall_pacstats";
-    
+        
     protected static final String PAC_OPT_IN = "pref_pac_opt_in";
     protected static final String PAC_LAST_CHECKED = "pref_pac_checked_in";
 
@@ -69,32 +67,8 @@ public class PACStats extends PreferenceFragment
     	PreferenceScreen prefSet = getPreferenceScreen();
         mEnableReporting = (CheckBoxPreference) prefSet.findPreference(PAC_OPT_IN);
         mViewStats = (Preference) prefSet.findPreference(VIEW_STATS);
-        btnUninstall = prefSet.findPreference(PREF_UNINSTALL);
         
-        // show Uninstall button if PACStats is installed as User App
-        try {
-            PackageManager pm = this.getActivity().getPackageManager();
-            ApplicationInfo appInfo = pm.getApplicationInfo(this.getActivity().getPackageName(), 0);
             
-            //Log.d(Utilities.TAG, "App is installed in: " + appInfo.sourceDir);
-            //Log.d(Utilities.TAG, "App is system: " + (appInfo.flags & ApplicationInfo.FLAG_SYSTEM));
-            
-            if ((appInfo.sourceDir.startsWith("/data/app/")) && (appInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
-            	// it is a User app
-            	btnUninstall.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-
-					public boolean onPreferenceClick(Preference preference) {
-							uninstallSelf();
-							return true;
-					}
-				});
-            } else {
-            	prefSet.removePreference(btnUninstall);
-            }
-            
-        } catch (Exception e) {
-        	prefSet.removePreference(btnUninstall);
-        }
     }
 
 	@Override
@@ -128,13 +102,6 @@ public class PACStats extends PreferenceFragment
 		}
 		return true;
 	}
-
-    
-    public void uninstallSelf() {
-		Intent intent = new Intent(Intent.ACTION_DELETE);
-		intent.setData(Uri.parse("package:" + this.getActivity().getPackageName()));
-		startActivity(intent);
-    }
 
 	public boolean onPreferenceChange(Preference arg0, Object arg1) {
 		return false;

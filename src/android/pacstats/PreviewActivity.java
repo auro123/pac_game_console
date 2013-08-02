@@ -24,7 +24,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 
-public class PreviewActivity extends PreferenceFragment {
+public class PreviewActivity extends PreferenceActivity {
 
     private static final String UNIQUE_ID = "preview_id";
     private static final String DEVICE = "preview_device";
@@ -41,7 +41,7 @@ public class PreviewActivity extends PreferenceFragment {
 		addPreferencesFromResource(R.xml.preview_data);
 
 		final PreferenceScreen prefSet = getPreferenceScreen();
-		final Context context = this.getActivity();
+		final Context context = this.getBaseContext();
 
         prefSet.findPreference(UNIQUE_ID).setSummary(Utilities.getUniqueID(context));
         prefSet.findPreference(DEVICE).setSummary(Utilities.getDevice());
