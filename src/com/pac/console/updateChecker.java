@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.pac.console.ui.OTA_frag.CheckRemote;
 import com.pac.console.util.LocalTools;
 import com.pac.console.util.RemoteTools;
 
@@ -128,7 +127,7 @@ public class updateChecker extends Service {
 				// NOTIFY!
 				
 			}
-
+		}
 	}
 
 }

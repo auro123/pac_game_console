@@ -135,7 +135,7 @@ public class OTA_frag extends Fragment {
 
 		});
 
-		device.setText(getProp("ro.cm.device") + " - " + Build.DEVICE + "\n" + getProp("ro.pacrom.version"));
+		device.setText(LocalTools.getProp("ro.cm.device") + " - " + Build.DEVICE + "\n" + LocalTools.getProp("ro.pacrom.version"));
 
 		Activity activity = getActivity();
 		ActionBar actionbar = activity.getActionBar();
