@@ -51,7 +51,7 @@
             android:layout_below="@+id/textView3"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:text="@string/ota_non_pac" />
+            android:text="@string/ota_checking" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

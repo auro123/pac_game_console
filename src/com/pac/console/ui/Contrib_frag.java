@@ -51,11 +51,9 @@ public class Contrib_frag extends Fragment {
         	contribs = ofLove.getString("contribs");
 	        store = ofLove.getBoolean("store");
         }
-        
-        contribs = Settings.System.getString(this.getActivity().getContentResolver(), "contribs");
-        
-		View layout = inflater.inflate(R.layout.contrib_frag_layout, null);
 
+        contribs = Settings.System.getString(this.getActivity().getContentResolver(), "contribs");
+		View layout = inflater.inflate(R.layout.contrib_frag_layout, null);
 		contrib = (TextView) layout.findViewById(R.id.textView1);
 
 		//restore old state if needed
@@ -72,8 +70,9 @@ public class Contrib_frag extends Fragment {
 			}
 		return layout;
 	}
-	
+
 	Handler updateRemote = new Handler(){
+
 	    @Override
 	    public void handleMessage(Message msg){
 	    	//msg.getData().getString("file");
@@ -103,6 +102,7 @@ public class Contrib_frag extends Fragment {
 
 		@Override
 		protected String doInBackground(String... arg0) {
+			
 			// TODO Auto-generated method stub
 			if (Contrib_frag.this.contribs != null){
 				Message msg = new Message();
@@ -111,9 +111,11 @@ public class Contrib_frag extends Fragment {
 				msg.setData(data);
 				updateRemote.sendMessage(msg);
 			}
+			
 			String out = RemoteTools.getContrib();
 			return out;
 		}
+		
 		@Override
 		protected void onPostExecute(final String result) {
 			Message msg = new Message();
@@ -128,7 +130,6 @@ public class Contrib_frag extends Fragment {
 			}
 			msg.setData(data);
 			updateRemote.sendMessage(msg);
-
 		}
 	};
 }

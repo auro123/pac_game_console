@@ -6,14 +6,16 @@ import com.pac.console.adapters.drawerItemAdapter;
 import com.pac.console.adapters.drawerItemType;
 import com.pac.console.ui.About_frag;
 import com.pac.console.ui.Contrib_frag;
-import com.pac.console.ui.Help_frag;
 import com.pac.console.ui.OTA_frag;
 
 import android.media.audiofx.BassBoost.Settings;
+import android.net.Uri;
 import android.os.Bundle;
 import android.pacstats.PACStats;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
@@ -26,6 +28,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class PacConsole extends Activity {
 
@@ -63,10 +66,12 @@ public class PacConsole extends Activity {
     @Override
     protected void onCreate(Bundle ofLove) {
         super.onCreate(ofLove);
+        
         if (ofLove!=null){
 	        poss = ofLove.getInt("flag");
 	        state = ofLove.getBoolean("store");
         }
+        
         setContentView(R.layout.pac_console);
        
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -129,7 +134,6 @@ public class PacConsole extends Activity {
         }
 
     }
-    
 	private void attachFrag(int possition) {
 		// TODO swap fragment out.
 		
@@ -145,8 +149,6 @@ public class PacConsole extends Activity {
 		        	fragment = new Contrib_frag();
 		        } else if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("about")){
 		        	fragment = new About_frag();
-		        } else if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("help")){
-		        	fragment = new Help_frag();
 		        } else if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("stats")){
 		        	fragment = new PACStats();
 		        }
@@ -226,7 +228,7 @@ public class PacConsole extends Activity {
         holder.title = this.getResources().getString(R.string.help_menu_lbl);
         holder.caption = this.getResources().getString(R.string.help_menu_cap);
         holder.caption_display = true;
-        holder.FLAG = "help";
+        holder.FLAG = "about";
        
         mGameTitles.add(holder);
 
