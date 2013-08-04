@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import com.pac.console.R;
+import com.pac.console.util.LocalTools;
 import com.pac.console.util.RemoteTools;
 
 import android.app.ActionBar;
@@ -165,7 +166,7 @@ public class OTA_frag extends Fragment {
 		if (con > RemoteTools.DISCONNECTED) {
 			AsyncTask checkTast = new CheckRemote();
 			String[] dev = { " " };
-			dev[0] = (String) getProp("ro.cm.device");
+			dev[0] = (String) LocalTools.getProp("ro.cm.device");
 			checkTast.execute(dev);
 		} else {
 			update.setText(this.getActivity().getString(R.string.no_data));
@@ -218,23 +219,4 @@ public class OTA_frag extends Fragment {
 
 	}
 
-	private String getProp(String propKey) {
-		Process p = null;
-		String propVal = "";
-		try {
-			p = new ProcessBuilder("/system/bin/getprop", propKey)
-					.redirectErrorStream(true).start();
-			BufferedReader br = new BufferedReader(new InputStreamReader(
-					p.getInputStream()));
-			String line = "";
-			while ((line = br.readLine()) != null) {
-				propVal = line;
-			}
-			p.destroy();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return propVal;
-	}
 }
