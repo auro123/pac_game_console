@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,7 +33,9 @@ public class OTA_frag extends Fragment {
 
 	private OTA_enabler mOTAEnabler;
 	TextView update;
-
+	Button download;
+	Button flash;
+	
 	String DlUrl = "";
 	String DlMd5 = "";
 	String FileName = "";
@@ -47,6 +50,12 @@ public class OTA_frag extends Fragment {
 			update.setText(msg.getData().getString("version") + "\n"
 					+ msg.getData().getString("file"));
 			DlUrl = msg.getData().getString("url");
+			if (DlUrl != null){
+				download.setClickable(true);
+				download.setActivated(true);
+				download.setTextColor(Color.WHITE);
+
+			}
 			DlMd5 = msg.getData().getString("md5");
 			DlVersion = msg.getData().getString("version");
 			FileName = msg.getData().getString("file");
@@ -78,8 +87,8 @@ public class OTA_frag extends Fragment {
 		View layout = inflater.inflate(R.layout.ota_frag_layout, null);
 		TextView device = (TextView) layout.findViewById(R.id.ota_device);
 		update = (TextView) layout.findViewById(R.id.ota_update);
-		Button download = (Button) layout.findViewById(R.id.down_button);
-		Button flash = (Button) layout.findViewById(R.id.flash_button);
+		download = (Button) layout.findViewById(R.id.down_button);
+		flash = (Button) layout.findViewById(R.id.flash_button);
 
 		download.setOnClickListener(new OnClickListener() {
 
@@ -129,13 +138,26 @@ public class OTA_frag extends Fragment {
 					// TODO check for file and dl if needed
 
 					// TODO Flash this bad boy in CWM / what ever it is
+					
+					// TODO add my CWM library
 
 				}
 			}
 
 		});
+		
+		// TODO enable this guy
+		flash.setClickable(false);
+		flash.setActivated(false);
+		flash.setTextColor(Color.GRAY);
+		
+		// TODO enable this guy
+		download.setClickable(false);
+		download.setActivated(false);
+		download.setTextColor(Color.GRAY);
 
-		device.setText(LocalTools.getProp("ro.cm.device") + " - " + Build.DEVICE + "\n" + LocalTools.getProp("ro.pacrom.version"));
+		String deviceName = LocalTools.getProp("ro.cm.device").equals("")? Build.PRODUCT : LocalTools.getProp("ro.cm.device");
+		device.setText(deviceName + " - " + Build.DEVICE + "\n" + (LocalTools.getProp("ro.pacrom.version").equals("")?getString(R.string.ota_non_pac):LocalTools.getProp("ro.pacrom.version")));
 
 		Activity activity = getActivity();
 		ActionBar actionbar = activity.getActionBar();
@@ -166,7 +188,7 @@ public class OTA_frag extends Fragment {
 		if (con > RemoteTools.DISCONNECTED) {
 			AsyncTask checkTast = new CheckRemote();
 			String[] dev = { " " };
-			dev[0] = (String) LocalTools.getProp("ro.cm.device");
+			dev[0] = (String) deviceName;
 			checkTast.execute(dev);
 		} else {
 			update.setText(this.getActivity().getString(R.string.no_data));
@@ -202,15 +224,15 @@ public class OTA_frag extends Fragment {
 				} else {
 					// error device not on server records!
 					if (results[1].contains("NO_CONFIG_FOUND")) {
-						data.putString("version", "No Info found!");
+						data.putString("version", getString(R.string.error_dev));
 					} else if (results[1].contains("NO_PARAMS")) {
-						data.putString("version", "Server Is Borked");
+						data.putString("version", getString(R.string.error_serv));
 					}
-					data.putString("file", "Or Tyler Broke Something!");
+					data.putString("file", getString(R.string.error));
 				}
 			} else {
-				data.putString("version", "Server Is Borked");
-				data.putString("file", "Or Tyler Broke Something!");
+				data.putString("version", getString(R.string.error_serv));
+				data.putString("file", getString(R.string.error));
 			}
 
 			msg.setData(data);

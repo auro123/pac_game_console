@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -56,7 +57,7 @@ public class updateChecker extends Service {
 				// DO WHATEVER YOU NEED TO DO HERE
 				wasScreenOn = false;
 			} else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
-				// AND DO WHATEVER YOU NEED TO DO HERE
+				checkOTA.start();
 				wasScreenOn = true;
 			}
 		}
@@ -89,7 +90,7 @@ public class updateChecker extends Service {
 			if (numberOfHours+6 < 0){
 				AsyncTask checkTast = new CheckRemote();
 				String[] dev = { " " };
-				dev[0] = (String) LocalTools.getProp("ro.cm.device");
+				dev[0] = (String) (LocalTools.getProp("ro.cm.device")!=null? LocalTools.getProp("ro.cm.device"): Build.BOARD);
 				checkTast.execute(dev);
 
 			}
