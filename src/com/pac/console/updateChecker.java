@@ -58,8 +58,10 @@ public class updateChecker extends Service {
 				// DO WHATEVER YOU NEED TO DO HERE
 				wasScreenOn = false;
 			} else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
-				Thread check = new Thread(checkOTA);
-				check.start();
+				if (!wasScreenOn){
+					Thread check = new Thread(checkOTA);
+					check.start();
+				}
 				wasScreenOn = true;
 			}
 		}
@@ -71,28 +73,23 @@ public class updateChecker extends Service {
 			// TODO Auto-generated method stub
 			// checky McCheck
 			Calendar currentDate = Calendar.getInstance();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 			
 			Date today = currentDate.getTime();
 			Date finalDay = null;
 			try {
-				finalDay = (Date) sdf.parse(Settings.System.getString(getContentResolver(), "lastUpdate"));
+				finalDay = new Date(Settings.System.getLong(getContentResolver(), "lastUpdate"));
 			} catch (Exception e) {
-				try {
-					finalDay = (Date) sdf.parse("2013-08-14 12:11");
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				finalDay = new Date(0);
 			}
 			int numberOfHours = (int) ((finalDay.getTime() - today.getTime()) / (3600 * 1000));
 			
 			Log.d("SERVICE", "hours - " + numberOfHours);
 			//TODO 6 hours passed? 
 			if (numberOfHours+6 < 0){
+				Settings.System.putLong(getContentResolver(), "lastUpdate", today.getTime());
 				AsyncTask checkTast = new CheckRemote();
 				String[] dev = { " " };
-				dev[0] = (String) (LocalTools.getProp("ro.cm.device")!=null? LocalTools.getProp("ro.cm.device"): Build.BOARD);
+				dev[0] = (String) (LocalTools.getProp("ro.cm.device")!=null? LocalTools.getProp("ro.cm.device"): Build.DEVICE);
 				checkTast.execute(dev);
 
 			}
@@ -101,7 +98,9 @@ public class updateChecker extends Service {
 			//Settings.System.putString(getContentResolver(), "lastUpdate", "hhmmddyymmdd");
 			
 			//else do nothing
-			
+			today = null;
+			finalDay = null;
+			currentDate = null;
 		}
 		
 	});

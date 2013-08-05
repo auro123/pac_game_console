@@ -1,7 +1,9 @@
 package com.pac.console.ui;
 
+import com.pac.console.R;
 import com.pac.console.config;
 import com.pac.console.updateChecker;
+import com.pac.console.util.LocalTools;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Switch;
+import android.widget.Toast;
 
 public class OTA_enabler implements OnCheckedChangeListener {
 
@@ -34,6 +37,7 @@ public class OTA_enabler implements OnCheckedChangeListener {
 
 		if (mSwitch != null)
 			mSwitch.setOnCheckedChangeListener(null);
+		
 		mSwitch = swtch;
 		mSwitch.setOnCheckedChangeListener(this);
 
@@ -43,17 +47,21 @@ public class OTA_enabler implements OnCheckedChangeListener {
 	public void onCheckedChanged(CompoundButton view, boolean isChecked) {
 
 		Settings.System.putInt(mContext.getContentResolver(), "OTA_ENABLE", (isChecked) ? 1 : 0);
-		
+		String pac = LocalTools.getProp("ro.pacrom.version");
 		// TODO fire up service! maybe?
-		if (isChecked && !isMyServiceRunning()){
-			Intent i = new Intent("com.pac.console.updateChecker");
-			Log.d("PACCON", "STARTING OTA SERVER");
-			i.setClass(mContext, updateChecker.class);
-			mContext.startService(i);
-		} else if (!isChecked && isMyServiceRunning()){
-			Log.d("PACCON", "ENDING OTA SERVER");
-
-			mContext.stopService(new Intent(mContext, com.pac.console.updateChecker.class));
+		if (!pac.equals("")){
+			if (isChecked && !isMyServiceRunning()){
+				Intent i = new Intent("com.pac.console.updateChecker");
+				Log.d("PACCON", "STARTING OTA SERVER");
+				i.setClass(mContext, updateChecker.class);
+				mContext.startService(i);
+			} else if (!isChecked && isMyServiceRunning()){
+				Log.d("PACCON", "ENDING OTA SERVER");
+	
+				mContext.stopService(new Intent(mContext, com.pac.console.updateChecker.class));
+			}
+		} else {
+			Toast.makeText(mContext, mContext.getString(R.string.ota_non_pac), Toast.LENGTH_LONG).show();
 		}
 	}
 	

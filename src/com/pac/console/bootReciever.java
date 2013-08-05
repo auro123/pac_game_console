@@ -1,5 +1,7 @@
 package com.pac.console;
 
+import com.pac.console.util.LocalTools;
+
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.content.BroadcastReceiver;
@@ -16,19 +18,22 @@ public class bootReciever extends BroadcastReceiver {
 	    // TODO Auto-generated method stub
 		Boolean onoff = false;
 		//Log.d("PACCON", "PROCESSING OTA SERVER");
-
-		try {
-			onoff = (1 == Settings.System.getInt(context.getContentResolver(), "OTA_ENABLE"))?true:false;
-		} catch (SettingNotFoundException e) {
-			onoff = false;
-		}
-		if (onoff && !isMyServiceRunning(context)){
-			Intent i = new Intent("com.pac.console.updateChecker");
-			Log.d("PACCON", "STARTING OTA SERVER");
-			i.setClass(context, updateChecker.class);
-			context.startService(i);
-		} else {
-			Log.d("PACCON", "NOT STARTING OTA SERVER");
+		String pac = LocalTools.getProp("ro.pacrom.version");
+		// TODO fire up service! maybe?
+		if (!pac.equals("")){
+			try {
+				onoff = (1 == Settings.System.getInt(context.getContentResolver(), "OTA_ENABLE"))?true:false;
+			} catch (SettingNotFoundException e) {
+				onoff = false;
+			}
+			if (onoff && !isMyServiceRunning(context)){
+				Intent i = new Intent("com.pac.console.updateChecker");
+				Log.d("PACCON", "STARTING OTA SERVER");
+				i.setClass(context, updateChecker.class);
+				context.startService(i);
+			} else {
+				Log.d("PACCON", "NOT STARTING OTA SERVER");
+			}
 		}
 	}
 	
