@@ -43,7 +43,8 @@ public class updateChecker extends Service {
 		filter.addAction(Intent.ACTION_SCREEN_OFF);
 		BroadcastReceiver mReceiver = new ScreenReceiver();
 		registerReceiver(mReceiver, filter);
-		checkOTA.start();		
+		Thread check = new Thread(checkOTA);
+		check.start();
 	}
 
 	class ScreenReceiver extends BroadcastReceiver {
@@ -57,7 +58,8 @@ public class updateChecker extends Service {
 				// DO WHATEVER YOU NEED TO DO HERE
 				wasScreenOn = false;
 			} else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
-				checkOTA.start();
+				Thread check = new Thread(checkOTA);
+				check.start();
 				wasScreenOn = true;
 			}
 		}
