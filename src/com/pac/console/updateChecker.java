@@ -8,6 +8,8 @@ import java.util.Date;
 import com.pac.console.util.LocalTools;
 import com.pac.console.util.RemoteTools;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -20,6 +22,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.provider.Settings;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -45,6 +48,29 @@ public class updateChecker extends Service {
 		registerReceiver(mReceiver, filter);
 		Thread check = new Thread(checkOTA);
 		check.start();
+	}
+	
+	private void notifyUser(){
+		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+		
+		// TODO Stringify these and make / steal a icon
+		mBuilder.setSmallIcon(R.drawable.ic_launcher);
+		mBuilder.setContentTitle("PAC Updates!");
+		mBuilder.setContentText("New Update Available!");
+		
+		//launch into OTA straight away when clicking
+		Intent notifyIntent = new Intent(this, PacConsole.class);
+		notifyIntent.putExtra("flag", 0);
+		notifyIntent.putExtra("store", true);
+
+		PendingIntent resultIntent = PendingIntent.getActivity(this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT );
+		mBuilder.setContentIntent(resultIntent);
+		
+		NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		// only ever 1 noteification so id = 1
+		// and show
+		mNotificationManager.notify(1, mBuilder.build());
+
 	}
 
 	class ScreenReceiver extends BroadcastReceiver {
@@ -131,5 +157,5 @@ public class updateChecker extends Service {
 			}
 		}
 	}
-
+ 
 }
