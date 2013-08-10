@@ -70,7 +70,12 @@ public class PacConsole extends Activity {
         if (ofLove!=null){
 	        poss = ofLove.getInt("flag");
 	        state = ofLove.getBoolean("store");
+        } else {
+        	Intent intent = getIntent();
+	        poss = intent.getIntExtra("flag", 0);
+	        state = intent.getBooleanExtra("store", false);
         }
+        
         
         setContentView(R.layout.pac_console);
        

@@ -51,10 +51,11 @@ public class updateChecker extends Service {
 	}
 	
 	private void notifyUser(){
+		
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
 		
 		// TODO Stringify these and make / steal a icon
-		mBuilder.setSmallIcon(R.drawable.ic_launcher);
+		mBuilder.setSmallIcon(R.drawable.ico_pac_update);
 		mBuilder.setContentTitle("PAC Updates!");
 		mBuilder.setContentText("New Update Available!");
 		
@@ -63,10 +64,11 @@ public class updateChecker extends Service {
 		notifyIntent.putExtra("flag", 0);
 		notifyIntent.putExtra("store", true);
 
-		PendingIntent resultIntent = PendingIntent.getActivity(this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT );
+		PendingIntent resultIntent = PendingIntent.getActivity(this, 0, notifyIntent, PendingIntent.FLAG_CANCEL_CURRENT );
 		mBuilder.setContentIntent(resultIntent);
 		
 		NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		
 		// only ever 1 noteification so id = 1
 		// and show
 		mNotificationManager.notify(1, mBuilder.build());
@@ -107,17 +109,16 @@ public class updateChecker extends Service {
 			} catch (Exception e) {
 				finalDay = new Date(0);
 			}
-			int numberOfHours = (int) ((finalDay.getTime() - today.getTime()) / (3600 * 1000));
+			int numberOfHours = (int) ((finalDay.getTime() - today.getTime()) / (1000 * ( 3600 /* testing code (6 minutes not hours) */ / 60)));
 			
 			Log.d("SERVICE", "hours - " + numberOfHours);
 			//TODO 6 hours passed? 
-			if (numberOfHours+6 < 0){
+			if (numberOfHours+6 <= 0){	
 				Settings.System.putLong(getContentResolver(), "lastUpdate", today.getTime());
 				AsyncTask checkTast = new CheckRemote();
 				String[] dev = { " " };
 				dev[0] = (String) (LocalTools.getProp("ro.cm.device")!=null? LocalTools.getProp("ro.cm.device"): Build.DEVICE);
 				checkTast.execute(dev);
-
 			}
 			//check for update on server adn reset time oonce done
 			
@@ -130,6 +131,7 @@ public class updateChecker extends Service {
 		}
 		
 	});
+	
 	private class CheckRemote extends AsyncTask<String, Void, String> {
 
 		@Override
@@ -146,14 +148,18 @@ public class updateChecker extends Service {
 				Log.d("REMOTE", "got this: " + result);
 				String[] results = result.split(",");
 				
-				//data.putString("version", results[2]);
+				String version = results[2];
 				String[] dlurl = results[0].split("/");
+						
 				//data.putString("file", dlurl[dlurl.length - 1]);
 				//data.putString("url", results[0]);
 				//data.putString("md5", results[3]);
+				String localVer = LocalTools.getProp("ro.pacrom.version");
 				Settings.System.putString(getContentResolver(), "OTA_Update", result);
 				// NOTIFY!
-				
+				if (!localVer.equals(version)){
+					notifyUser();
+				}
 			}
 		}
 	}

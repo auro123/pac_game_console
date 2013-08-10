@@ -16,6 +16,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/likeboss" />
+
         <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
@@ -52,62 +60,62 @@
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:text="@string/ota_checking" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:divider="?android:attr/dividerHorizontal"
-        android:orientation="vertical"
-        android:paddingTop="16dip"
-        android:showDividers="beginning" >
 
         <LinearLayout
-            style="?android:attr/buttonBarStyle"
+            android:id="@+id/linearLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:measureWithLargestChild="true"
-            android:orientation="horizontal" >
+            android:layout_alignParentBottom="true"
+            android:divider="?android:attr/dividerHorizontal"
+            android:orientation="vertical"
+            android:paddingTop="16dip"
+            android:showDividers="beginning" >
 
             <LinearLayout
-                android:id="@+id/leftSpacer"
-                android:layout_width="0dip"
+                style="?android:attr/buttonBarStyle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
-                android:orientation="horizontal"
-                android:visibility="gone" />
+                android:measureWithLargestChild="true"
+                android:orientation="horizontal" >
 
-            <Button
-                android:id="@+id/down_button"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_weight="1"
-                android:maxLines="2"
-                android:text="@string/ota_download" />
+                <LinearLayout
+                    android:id="@+id/leftSpacer"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:orientation="horizontal"
+                    android:visibility="gone" />
 
-            <Button
-                android:id="@+id/flash_button"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_weight="1"
-                android:filterTouchesWhenObscured="true"
-                android:maxLines="2"
-                android:text="@string/ota_flash" />
+                <Button
+                    android:id="@+id/down_button"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_weight="1"
+                    android:maxLines="2"
+                    android:text="@string/ota_download" />
 
-            <LinearLayout
-                android:id="@+id/rightSpacer"
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.25"
-                android:orientation="horizontal"
-                android:visibility="gone" />
+                <Button
+                    android:id="@+id/flash_button"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_weight="1"
+                    android:filterTouchesWhenObscured="true"
+                    android:maxLines="2"
+                    android:text="@string/ota_flash" />
+
+                <LinearLayout
+                    android:id="@+id/rightSpacer"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:orientation="horizontal"
+                    android:visibility="gone" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-
-        
     </RelativeLayout>
 
 </LinearLayout>
