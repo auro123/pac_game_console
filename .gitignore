@@ -1,0 +1,10 @@
+/gen
+/bin
+/bin/*
+/proguard-project.txt
+/project.properties
+/.settings
+/obj
+/.cproject
+/.classpath
+/.project
