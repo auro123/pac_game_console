@@ -109,7 +109,7 @@ public class updateChecker extends Service {
 			} catch (Exception e) {
 				finalDay = new Date(0);
 			}
-			int numberOfHours = (int) ((finalDay.getTime() - today.getTime()) / (1000 * ( 3600 /* testing code (6 minutes not hours) */ / 10)));
+			int numberOfHours = (int) ((finalDay.getTime() - today.getTime()) / (1000 * ( 3600 /* testing code (6 minutes not hours) / 10*/) ));
 			
 			Log.d("SERVICE", "hours - " + numberOfHours);
 			//TODO 6 hours passed? 
@@ -121,9 +121,7 @@ public class updateChecker extends Service {
 				checkTast.execute(dev);
 			}
 			//check for update on server adn reset time oonce done
-			
-			//Settings.System.putString(getContentResolver(), "lastUpdate", "hhmmddyymmdd");
-			
+						
 			//else do nothing
 			today = null;
 			finalDay = null;
