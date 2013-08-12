@@ -24,8 +24,7 @@ public class RemoteTools {
 	
 	public static void downloadFile(Context context, String url, String fileName){
 		Uri URL = Uri.parse(url);
-		final String[] fname = fileName.split(".");
-		if(!fname[fname.length-1].contains("zip")){
+		if(!fileName.contains("zip")){
 			fileName += ".zip";
 		}
 		DownloadManager.Request r = new DownloadManager.Request(URL);
