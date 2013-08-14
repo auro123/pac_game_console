@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.pac.console.adapters.drawerItemAdapter;
 import com.pac.console.adapters.drawerItemType;
 import com.pac.console.ui.About_frag;
+import com.pac.console.ui.Changes_frag;
 import com.pac.console.ui.Contrib_frag;
 import com.pac.console.ui.OTA_frag;
 
@@ -156,6 +157,8 @@ public class PacConsole extends Activity {
 		        	fragment = new About_frag();
 		        } else if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("stats")){
 		        	fragment = new PACStats();
+		        } else if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("changes")){
+		        	fragment = new Changes_frag();
 		        }
 
 	        // Insert the fragment by replacing any existing fragment
@@ -207,6 +210,15 @@ public class PacConsole extends Activity {
         holder.caption = this.getResources().getString(R.string.contrib_menu_cap);
         holder.caption_display = true;
         holder.FLAG = "contributors";
+       
+        mGameTitles.add(holder);
+        
+        //Changes
+        holder = new drawerItemType();
+        holder.title = this.getResources().getString(R.string.change_menu_lbl);
+        holder.caption = this.getResources().getString(R.string.change_menu_cap);
+        holder.caption_display = true;
+        holder.FLAG = "changes";
        
         mGameTitles.add(holder);
 

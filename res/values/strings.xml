@@ -13,6 +13,8 @@
     <string name="ota_menu_cap">Toggle OTA Update Options</string>
     <string name="contrib_menu_lbl">PAC Contributors</string>
     <string name="contrib_menu_cap">Who Makes this Possible?</string>
+    <string name="change_menu_lbl">PAC Changelogs</string>
+    <string name="change_menu_cap">Notable Version Changes!</string>
     <string name="about_menu_lbl">About PAC</string>
     <string name="stat_menu_lbl">PAC Stats</string>
     <string name="stat_menu_cap">Help make this ROM better by opting into anonymous statistics reporting</string>
