@@ -126,7 +126,9 @@ public class Contrib_frag extends Fragment {
 					Settings.System.putString(Contrib_frag.this.getActivity().getContentResolver(), "contribs", result);
 				}
 			} else {
-				data.putString("contribs", "Or Tyler Broke Something!");
+				if (Contrib_frag.this.contribs==null){
+					data.putString("contribs", "Or Tyler Broke Something!");
+				}
 			}
 			msg.setData(data);
 			updateRemote.sendMessage(msg);

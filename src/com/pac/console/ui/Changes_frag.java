@@ -126,7 +126,9 @@ public class Changes_frag extends Fragment {
 					Settings.System.putString(Changes_frag.this.getActivity().getContentResolver(), "changes", result);
 				}
 			} else {
-				data.putString("changes", "Or Tyler Broke Something!");
+				if (Changes_frag.this.changes==null){
+					data.putString("changes", "Server Down\nOr Tyler Broke Something!");
+				}
 			}
 			msg.setData(data);
 			updateRemote.sendMessage(msg);
