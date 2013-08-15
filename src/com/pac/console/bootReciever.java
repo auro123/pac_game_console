@@ -32,7 +32,7 @@ public class bootReciever extends BroadcastReceiver {
 				i.setClass(context, updateChecker.class);
 				context.startService(i);
 			} else {
-				Log.d("PACCON", "NOT STARTING OTA SERVER");
+				Log.d("PACCON", "NOT STARTING OTA SERVER"); 
 			}
 		}
 	}
