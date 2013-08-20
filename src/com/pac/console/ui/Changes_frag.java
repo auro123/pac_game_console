@@ -93,7 +93,11 @@ public class Changes_frag extends Fragment {
 				CharSequence string = bypass.markdownToSpannable(markdownString);
 				Log.d("MARKUP", ""+string);
 				change.setText(string);
-			} catch (UnsatisfiedLinkError e){
+			} catch (Error e){
+				e.printStackTrace();
+				change.setText(markdownString);
+			} catch (Exception e){
+				e.printStackTrace();
 				change.setText(markdownString);
 			}
 

@@ -95,8 +95,12 @@ public class Contrib_frag extends Fragment {
 					CharSequence string = bypass.markdownToSpannable(markdownString);
 					Log.d("MARKUP", ""+string);
 					contrib.setText(string);
-			} catch (UnsatisfiedLinkError e){
-					contrib.setText(markdownString);
+			} catch (Error e){
+				e.printStackTrace();
+				contrib.setText(markdownString);
+			} catch (Exception e){
+				e.printStackTrace();
+				contrib.setText(markdownString);
 			}
 			//contrib.setMovementMethod(LinkMovementMethod.getInstance());
 
