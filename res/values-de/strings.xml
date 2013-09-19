@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+ 
+    <!-- German translation file -->
+    <string name="app_name">PAC Console</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="hello_world">Hallo Welt!</string>
+    <string name="ota_cur_lbl">Derzeitige Rom Details</string>
+    <string name="ota_avail_lbl">Neue Version verfügbar</string>
+    <string name="ota_non_pac">Dies ist keine PAC Rom</string>
+    <string name="ota_download">Download Zip</string>
+    <string name="ota_flash">Flash Update</string>
+    <string name="ota_menu_lbl">OTA Rom Updates</string>
+    <string name="ota_menu_cap">Toggle OTA Update Einstellungen</string>
+    <string name="contrib_menu_lbl">PAC Contributors</string>
+    <string name="contrib_menu_cap">Wer macht was möglich?</string>
+    <string name="change_menu_lbl">PAC Changelogs</string>
+    <string name="change_menu_cap">Notable Version Changes!</string>
+    <string name="about_menu_lbl">Über PAC</string>
+    <string name="stat_menu_lbl">PAC Statistiken</string>
+    <string name="stat_menu_cap">Helfe mit diese ROM besser zu machen in dem anonyme Statistigen übertragen werden</string>
+    <string name="help_menu_lbl">Über PAC</string>
+    <string name="help_menu_cap">Kontaktiere die Entwickler und hole mehr Informationen ein!</string>
+    <string name="no_data">Keine Datenverbindung verfügbar!\nBitte später versuchen!</string>
+    <string name="mobile_data">Du bist nur mit einem mobilen Netzwerk verbunden</string>
+    <string name="wifi_rec">W-Lan ist Vorraussetzung!</string>
+    <string name="carges">Es könnte Extrakosten durch deinen Provider verursachen! Weiter?</string>
+        <string name="error">Oder Tyler ist schuld!</string>
+        <string name="error_serv">Server ist überlastet</string>
+        <string name="error_dev">Keine Updates auf dem Server</string>
+       
+    <!-- Notification -->
+    <string name="main_link">&lt;a href=&quot;http://www.cyanogenmod.org/blog/cmstats-what-it-is-and-why-you-should-opt-in&quot;&gt;Erfahre mehr&lt;/a&gt;</string>
+   
+    <!-- PAC Statistics #CM -->
+    <!-- About device screen, list item title. Takes the user to the screen about opting in or out of pac statistics. -->
+    <string name="pac_stats_title">PAC Statistiken</string>
+    <string name="pac_stats_summary">Helfe mit diese ROM besser zu machen in dem anonyme Statistigen übertragen werden</string>
+    <string name="pac_stats_warning_title">Über</string>
+    <string name="pac_stats_warning">Es werden keine personenbezogene Daten zu PAC Stats übertragen. Die übertragenen Daten enthalten eindeutige Informationen die aber zu keinem Zeitpunkt ihre privaten Daten gefährden. Die Daten werden bei jedem Start übertragen\n\nFür eine Vorschau klicke auf Vorschau.</string>
+    <string name="enable_reporting_title">Berichte einschalten</string>
+    <string name="preview_data_title">Vorschau</string>
+    <string name="preview_data_summary">%s</string>
+    <string name="view_stats_title">Betrachte Statistiken</string>
+    <string name="pac_learn_more">Erfahre mehr</string>
+   
+    <string name="btn_yes">Ja</string>
+    <string name="btn_no">Nein</string>
+ 
+    <!-- Pac Statistics - Preview -->
+    <string name="preview_id_title">Unique ID</string>
+    <string name="preview_device_title">Gerät</string>
+    <string name="preview_version_title">Version</string>
+    <string name="preview_country_title">Land</string>
+    <string name="preview_carrier_title">Anbieter</string>    
+    <string name="preview_romname_title">ROM Name</string>    
+    <string name="preview_romversion_title">ROM Version</string>    
+   
+    <!-- Pac info -->
+    <string name="pref_abt_head">"PAC-MAN Rom "</string>    
+    <string name="pref_abt_web">Besuche uns online</string>
+    <string name="pref_abt_web_cap">auf pac-rom.com</string>    
+    <string name="pref_abt_web_link">http://pac-rom.com</string>    
+    <string name="pref_abt_irc">Kontaktiere uns im IRC</string>
+    <string name="pref_abt_irc_cap">Freenode #pac-rom</string>    
+    <string name="pref_abt_irc_link">irc://irc.freenode.net:6667/pac-rom</string>    
+    <string name="pref_abt_google">Besuche uns auf Google+</string>
+    <string name="pref_abt_google_cap">PAC-man : The AIO Rom @ google+</string>    
+    <string name="pref_abt_google_link">https://plus.google.com/102557242936341392082/</string>
+    <string name="pref_abt_facebook">Besuche uns auf Facebook</string>
+    <string name="pref_abt_facebook_cap">PacManTheAioRom @ facebook</string>    
+    <string name="pref_abt_facebook_link">https://www.facebook.com/PacManTheAioRom/</string>    
+    <string name="ota_checking">Jetzt prüfen!</string>
+</resources>
