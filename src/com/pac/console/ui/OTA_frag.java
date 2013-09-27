@@ -1,6 +1,7 @@
 package com.pac.console.ui;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -11,12 +12,18 @@ import com.pac.console.util.RemoteTools;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DownloadManager;
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -28,6 +35,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class OTA_frag extends Fragment {
 
@@ -41,7 +49,9 @@ public class OTA_frag extends Fragment {
 	String FileName = "";
 	String DlVersion = "";
 	AlertDialog.Builder alert;
-
+	
+	DownLoadComplte mDownload;
+	
 	// RemoteTools.downloadFile(OTA_frag.this.getActivity(), DlUrl, FileName);
 
 	Handler updateRemote = new Handler() {
@@ -50,9 +60,10 @@ public class OTA_frag extends Fragment {
 			update.setText(msg.getData().getString("version") + "\n"
 					+ msg.getData().getString("file"));
 			DlUrl = msg.getData().getString("url");
+			boolean fileExist = new File(Environment.DIRECTORY_DOWNLOADS+"/PAC/"+msg.getData().getString("file")).exists();
 			if (DlUrl != null){
-				download.setClickable(true);
-				download.setActivated(true);
+				download.setClickable(!fileExist);
+				download.setActivated(!fileExist);
 				download.setTextColor(Color.WHITE);
 
 			}
@@ -67,17 +78,23 @@ public class OTA_frag extends Fragment {
 		OTA_frag fragment = new OTA_frag();
 		return fragment;
 	}
-
+    
 	@Override
 	public void onResume() {
 		super.onResume();
 		mOTAEnabler.resume();
+        mDownload = new DownLoadComplte();
+        this.getActivity().registerReceiver(mDownload, new IntentFilter(
+                DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		mOTAEnabler.pause();
+        this.getActivity().unregisterReceiver(mDownload);
+
 	}
 
 	@Override
@@ -126,6 +143,7 @@ public class OTA_frag extends Fragment {
 					} else if (con == RemoteTools.WIFI) {
 						RemoteTools.downloadFile(OTA_frag.this.getActivity(),
 								DlUrl, FileName);
+						
 					}
 				}
 			}
@@ -240,5 +258,17 @@ public class OTA_frag extends Fragment {
 		}
 
 	}
+	
+	private class DownLoadComplte extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase(
+                    DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
+                Toast.makeText(context, "Download Complte", Toast.LENGTH_LONG)
+                        .show();
+            }
+        }
+}
 
 }

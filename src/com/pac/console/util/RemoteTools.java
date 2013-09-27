@@ -9,19 +9,36 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
-import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.pac.console.config;
 
 public class RemoteTools {
 	
+	/** DownLoadComplte mDownload;
+
+
+	private class DownLoadComplte extends BroadcastReceiver {
+
+	        @Override
+	        public void onReceive(Context context, Intent intent) {
+	            if (intent.getAction().equalsIgnoreCase(
+	                    DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
+	                Toast.makeText(context, "Download Complte", Toast.LENGTH_LONG)
+	                        .show();
+	            }
+	        }
+	}	**/
+	    
 	public static void downloadFile(Context context, String url, String fileName){
 		Uri URL = Uri.parse(url);
 		if(!fileName.contains("zip")){
@@ -42,8 +59,12 @@ public class RemoteTools {
 
 		// Start download
 		DownloadManager dm = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-		dm.enqueue(r);
-
+		long idDownload = dm.enqueue(r);
+		// save id
+		SharedPreferences prefs =PreferenceManager.getDefaultSharedPreferences(context);
+		Editor editor=prefs.edit();
+		editor.putLong("DLID", idDownload);
+		editor.commit();
 	}
 	public static String getContrib(){
 		String URL = config.PAC_CONTRIB;
