@@ -118,12 +118,13 @@ public class RemoteTools {
 		return DISCONNECTED;
 	}
 
-	public static String checkRom(String device){
+	public static String checkRom(String device, String Type){
 		String URL = config.OTA_SCRIPT;
 		URL += "?device=";
 		URL += device;
-		URL += "&type=check";
-		
+		URL += "&type=";
+		URL += Type;
+
 		DefaultHttpClient mClient = new DefaultHttpClient();
 		HttpGet getRequest = new HttpGet(URL);
 		try {

@@ -15,6 +15,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -135,7 +137,9 @@ public class updateChecker extends Service {
 		@Override
 		protected String doInBackground(String... arg0) {
 			// TODO Auto-generated method stub
-			String out = RemoteTools.checkRom(arg0[0]);
+			SharedPreferences Settings = getSharedPreferences("OTAPrefs", Context.MODE_PRIVATE);
+
+			String out = RemoteTools.checkRom(arg0[0], Settings.getString("OTAType", "checks"));
 			return out;
 		}
 
