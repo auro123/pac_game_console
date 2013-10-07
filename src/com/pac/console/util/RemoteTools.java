@@ -47,7 +47,7 @@ public class RemoteTools {
 		DownloadManager.Request r = new DownloadManager.Request(URL);
 
 		// This put the download in the same Download dir the browser uses
-		r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS+"/PAC/", fileName);
+		r.setDestinationInExternalPublicDir(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Download/PAC/", fileName);
 
 		// When downloading music and videos they will be listed in the player
 		// (Seems to be available since Honeycomb only)
@@ -57,14 +57,19 @@ public class RemoteTools {
 
 		r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 
+		//TODO Notification click goes to download manager.
+		
 		// Start download
 		DownloadManager dm = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
 		long idDownload = dm.enqueue(r);
+		
 		// save id
 		SharedPreferences prefs =PreferenceManager.getDefaultSharedPreferences(context);
 		Editor editor=prefs.edit();
 		editor.putLong("DLID", idDownload);
 		editor.commit();
+		
+		//TODO attach a listener to get updates in app
 	}
 	public static String getContrib(){
 		String URL = config.PAC_CONTRIB;

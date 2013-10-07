@@ -41,6 +41,7 @@
         android:spinnerMode="dropdown" />
     
 </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
@@ -91,6 +92,7 @@
             android:text="@string/ota_checking" />
 
         <LinearLayout
+            android:id="@+id/linearLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -144,6 +146,17 @@
                     android:visibility="gone" />
             </LinearLayout>
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_ota_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_ota_update"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:text="TextView" />
+
     </RelativeLayout>
 
 </LinearLayout>

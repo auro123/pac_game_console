@@ -112,6 +112,8 @@ public class OTA_frag extends Fragment {
 
 		View layout = inflater.inflate(R.layout.ota_frag_layout, null);
 		TextView device = (TextView) layout.findViewById(R.id.tv_ota_device);
+		TextView location = (TextView) layout.findViewById(R.id.tv_ota_location);
+		location.setText(this.getActivity().getResources().getString(R.string.ota_loc) + "\n" + Environment.getExternalStorageDirectory().getAbsolutePath()+"/Download/PAC/");
 		update = (TextView) layout.findViewById(R.id.tv_ota_update);
 		download = (Button) layout.findViewById(R.id.bt_ota_down);
 		flash = (Button) layout.findViewById(R.id.bt_ota_flash);
