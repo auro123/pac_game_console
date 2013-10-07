@@ -115,11 +115,11 @@ public class OTA_frag extends Fragment {
 		SettingsEditor = Settings.edit();
 
 		View layout = inflater.inflate(R.layout.ota_frag_layout, null);
-		TextView device = (TextView) layout.findViewById(R.id.ota_device);
-		update = (TextView) layout.findViewById(R.id.ota_update);
-		download = (Button) layout.findViewById(R.id.down_button);
-		flash = (Button) layout.findViewById(R.id.flash_button);
-		Spinner type = (Spinner) layout.findViewById(R.id.spinner1);
+		TextView device = (TextView) layout.findViewById(R.id.tv_ota_device);
+		update = (TextView) layout.findViewById(R.id.tv_ota_update);
+		download = (Button) layout.findViewById(R.id.bt_ota_down);
+		flash = (Button) layout.findViewById(R.id.bt_ota_flash);
+		Spinner type = (Spinner) layout.findViewById(R.id.sp_ota_type);
 		
 		type.setOnItemSelectedListener(new OnItemSelectedListener(){
 
@@ -148,6 +148,16 @@ public class OTA_frag extends Fragment {
 			}
 			
 		});
+		String strtemp = Settings.getString("OTAType", "checks");
+		int typeint = 0;
+		if (strtemp.contains("checks")){
+			typeint = 2;
+		} else if (strtemp.contains("checkn")){
+			typeint = 1;
+		} else if (strtemp.contains("checku")){
+			typeint = 0;
+		} 
+		type.setSelection(typeint);
 		download.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
@@ -248,6 +258,8 @@ public class OTA_frag extends Fragment {
 	private void searchForOTA(String deviceName){
 		// TODO Long term push updates direct from dibs
 		int con = RemoteTools.checkConnection(OTA_frag.this.getActivity());
+		update.setText(this.getActivity().getString(R.string.ota_checking));
+
 		if (con > RemoteTools.DISCONNECTED) {
 			AsyncTask checkTast = new CheckRemote();
 			String[] dev = { " " };
@@ -292,8 +304,9 @@ public class OTA_frag extends Fragment {
 						data.putString("version", getString(R.string.error_dev));
 					} else if (results[1].contains("NO_UNOFFICIAL_CONFIG_FOUND")) {
 						data.putString("version", getString(R.string.error_dev));
+					} else {
+						data.putString("version", getString(R.string.error_serv));
 					}
-					//data.putString("version", getString(R.string.error_serv));
 					data.putString("file", getString(R.string.error));
 				}
 			} else {
