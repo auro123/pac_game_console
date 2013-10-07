@@ -61,8 +61,6 @@ public class OTA_frag extends Fragment {
 	
 	DownLoadComplte mDownload;
 	
-	// RemoteTools.downloadFile(OTA_frag.this.getActivity(), DlUrl, FileName);
-
 	Handler updateRemote = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -71,17 +69,17 @@ public class OTA_frag extends Fragment {
 					+ msg.getData().getString("file"));
 			DlUrl = msg.getData().getString("url");
 			boolean fileExist = new File(Environment.DIRECTORY_DOWNLOADS+"/PAC/"+msg.getData().getString("file")).exists();
+			
 			if (DlUrl != null){
 				download.setClickable(!fileExist);
 				download.setActivated(!fileExist);
 				download.setTextColor(Color.WHITE);
-
 			}
+			
 			DlMd5 = msg.getData().getString("md5");
 			DlVersion = msg.getData().getString("version");
 			FileName = msg.getData().getString("file");
 		}
-
 	};
 
 	public static OTA_frag newInstance(String content) {
@@ -96,7 +94,6 @@ public class OTA_frag extends Fragment {
         mDownload = new DownLoadComplte();
         this.getActivity().registerReceiver(mDownload, new IntentFilter(
                 DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-
 	}
 
 	@Override
@@ -104,7 +101,6 @@ public class OTA_frag extends Fragment {
 		super.onPause();
 		mOTAEnabler.pause();
         this.getActivity().unregisterReceiver(mDownload);
-
 	}
 
 	@Override
@@ -143,10 +139,7 @@ public class OTA_frag extends Fragment {
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-				
 			}
-			
 		});
 		String strtemp = Settings.getString("OTAType", "checks");
 		int typeint = 0;
@@ -190,7 +183,7 @@ public class OTA_frag extends Fragment {
 								});
 						alert.show();
 					} else if (con == RemoteTools.DISCONNECTED) {
-						// POPUP no connection
+						// POPUP no connection // should not ever get here
 					} else if (con == RemoteTools.WIFI) {
 						RemoteTools.downloadFile(OTA_frag.this.getActivity(),
 								DlUrl, FileName);
@@ -220,7 +213,6 @@ public class OTA_frag extends Fragment {
 		flash.setActivated(false);
 		flash.setTextColor(Color.GRAY);
 		
-		// TODO enable this guy
 		download.setClickable(false);
 		download.setActivated(false);
 		download.setTextColor(Color.GRAY);
@@ -242,15 +234,6 @@ public class OTA_frag extends Fragment {
 
 		mOTAEnabler = new OTA_enabler(getActivity(), actionBarSwitch);
 
-		// TODO check online for latest zippity zip
-
-		// Compare zippy to current build
-
-		// display options
-
-		// TODO add nightly option.
-
-		// ADD service to catch updates ( only polling 6 hours ATM )
 		searchForOTA(deviceName);
 		
 		return layout;
