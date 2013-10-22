@@ -58,7 +58,7 @@ public class updateChecker extends Service {
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
 		
 		// TODO Stringify these and make / steal a icon
-		mBuilder.setSmallIcon(R.drawable.ico_pac_update);
+		mBuilder.setSmallIcon(R.drawable.ico_venum_update);
 		mBuilder.setContentTitle("PAC Updates!");
 		mBuilder.setContentText("New Update Available!");
 		
