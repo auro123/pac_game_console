@@ -32,9 +32,9 @@
              
             </intent-filter>
         </activity>
-        <service android:name="updateChecker" android:label="PAC Updates Service">
+        <service android:name="updateChecker" android:label="Venum Updates Service">
             <intent-filter>
-					<action android:name="com.pac.console.updateChecker" android:label="AppMan Updates Service"/>            
+					<action android:name="com.pac.console.updateChecker" android:label="Venum Updates Service"/>            
 			</intent-filter>
         </service>
         <receiver android:name="bootReciever">
