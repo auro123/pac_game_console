@@ -1,6 +1,7 @@
 package com.pac.console.ui;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -11,12 +12,20 @@ import com.pac.console.util.RemoteTools;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DownloadManager;
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -25,9 +34,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class OTA_frag extends Fragment {
 
@@ -36,60 +50,109 @@ public class OTA_frag extends Fragment {
 	Button download;
 	Button flash;
 	
+	private SharedPreferences Settings;
+	private Editor SettingsEditor;
+
 	String DlUrl = "";
 	String DlMd5 = "";
 	String FileName = "";
 	String DlVersion = "";
 	AlertDialog.Builder alert;
-
-	// RemoteTools.downloadFile(OTA_frag.this.getActivity(), DlUrl, FileName);
-
+	
+	DownLoadComplte mDownload;
+	
 	Handler updateRemote = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
+			
 			update.setText(msg.getData().getString("version") + "\n"
 					+ msg.getData().getString("file"));
 			DlUrl = msg.getData().getString("url");
+			boolean fileExist = new File(Environment.DIRECTORY_DOWNLOADS+"/PAC/"+msg.getData().getString("file")).exists();
+			
 			if (DlUrl != null){
-				download.setClickable(true);
-				download.setActivated(true);
+				download.setClickable(!fileExist);
+				download.setActivated(!fileExist);
 				download.setTextColor(Color.WHITE);
-
 			}
+			
 			DlMd5 = msg.getData().getString("md5");
 			DlVersion = msg.getData().getString("version");
 			FileName = msg.getData().getString("file");
 		}
-
 	};
 
 	public static OTA_frag newInstance(String content) {
 		OTA_frag fragment = new OTA_frag();
 		return fragment;
 	}
-
+    
 	@Override
 	public void onResume() {
 		super.onResume();
 		mOTAEnabler.resume();
+        mDownload = new DownLoadComplte();
+        this.getActivity().registerReceiver(mDownload, new IntentFilter(
+                DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		mOTAEnabler.pause();
+        this.getActivity().unregisterReceiver(mDownload);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle ofjoy) {
+		
+		Settings = this.getActivity().getSharedPreferences("OTAPrefs", Context.MODE_PRIVATE);
+		SettingsEditor = Settings.edit();
 
 		View layout = inflater.inflate(R.layout.ota_frag_layout, null);
-		TextView device = (TextView) layout.findViewById(R.id.ota_device);
-		update = (TextView) layout.findViewById(R.id.ota_update);
-		download = (Button) layout.findViewById(R.id.down_button);
-		flash = (Button) layout.findViewById(R.id.flash_button);
+		TextView device = (TextView) layout.findViewById(R.id.tv_ota_device);
+		TextView location = (TextView) layout.findViewById(R.id.tv_ota_location);
+		location.setText(this.getActivity().getResources().getString(R.string.ota_loc) + "\n" + Environment.getExternalStorageDirectory().getAbsolutePath()+"/Download/PAC/");
+		update = (TextView) layout.findViewById(R.id.tv_ota_update);
+		download = (Button) layout.findViewById(R.id.bt_ota_down);
+		flash = (Button) layout.findViewById(R.id.bt_ota_flash);
+		Spinner type = (Spinner) layout.findViewById(R.id.sp_ota_type);
+		
+		type.setOnItemSelectedListener(new OnItemSelectedListener(){
 
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				if (arg2==0){
+					// unofficial
+					SettingsEditor.putString("OTAType", "checku");
+				} else if (arg2==1){
+					// nightly
+					SettingsEditor.putString("OTAType", "checkn");
+				} else if (arg2==2){
+					// stable
+					SettingsEditor.putString("OTAType", "checks");
+				}  
+				SettingsEditor.commit();
+				String deviceName = LocalTools.getProp("ro.cm.device").equals("")? Build.PRODUCT : LocalTools.getProp("ro.cm.device");
+				searchForOTA(deviceName);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
+		});
+		String strtemp = Settings.getString("OTAType", "checks");
+		int typeint = 0;
+		if (strtemp.contains("checks")){
+			typeint = 2;
+		} else if (strtemp.contains("checkn")){
+			typeint = 1;
+		} else if (strtemp.contains("checku")){
+			typeint = 0;
+		} 
+		type.setSelection(typeint);
 		download.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
@@ -122,10 +185,11 @@ public class OTA_frag extends Fragment {
 								});
 						alert.show();
 					} else if (con == RemoteTools.DISCONNECTED) {
-						// POPUP no connection
+						// POPUP no connection // should not ever get here
 					} else if (con == RemoteTools.WIFI) {
 						RemoteTools.downloadFile(OTA_frag.this.getActivity(),
 								DlUrl, FileName);
+						
 					}
 				}
 			}
@@ -151,7 +215,6 @@ public class OTA_frag extends Fragment {
 		flash.setActivated(false);
 		flash.setTextColor(Color.GRAY);
 		
-		// TODO enable this guy
 		download.setClickable(false);
 		download.setActivated(false);
 		download.setTextColor(Color.GRAY);
@@ -173,18 +236,15 @@ public class OTA_frag extends Fragment {
 
 		mOTAEnabler = new OTA_enabler(getActivity(), actionBarSwitch);
 
-		// TODO check online for latest zippity zip
-
-		// Compare zippy to current build
-
-		// display options
-
-		// TODO add nightly option.
-
-		// ADD service to catch updates ( only polling 6 hours ATM )
-
+		searchForOTA(deviceName);
+		
+		return layout;
+	}
+	private void searchForOTA(String deviceName){
 		// TODO Long term push updates direct from dibs
 		int con = RemoteTools.checkConnection(OTA_frag.this.getActivity());
+		update.setText(this.getActivity().getString(R.string.ota_checking));
+
 		if (con > RemoteTools.DISCONNECTED) {
 			AsyncTask checkTast = new CheckRemote();
 			String[] dev = { " " };
@@ -194,15 +254,15 @@ public class OTA_frag extends Fragment {
 			update.setText(this.getActivity().getString(R.string.no_data));
 		}
 
-		return layout;
 	}
-
 	private class CheckRemote extends AsyncTask<String, Void, String> {
 
 		@Override
 		protected String doInBackground(String... arg0) {
 			// TODO Auto-generated method stub
-			String out = RemoteTools.checkRom(arg0[0]);
+			SharedPreferences Settings = OTA_frag.this.getActivity().getSharedPreferences("OTAPrefs", Context.MODE_PRIVATE);
+
+			String out = RemoteTools.checkRom(arg0[0], Settings.getString("OTAType", "checks"));
 			return out;
 		}
 
@@ -215,7 +275,7 @@ public class OTA_frag extends Fragment {
 			if (result != null) {
 				Log.d("REMOTE", "got this: " + result);
 				String[] results = result.split(",");
-				if (!results[0].contains("#BLAMETYLER")) {
+				if (!results[0].contains("#BLAME")) {
 					data.putString("version", results[2]);
 					String[] dlurl = results[0].split("/");
 					data.putString("file", dlurl[dlurl.length - 1]);
@@ -223,9 +283,13 @@ public class OTA_frag extends Fragment {
 					data.putString("md5", results[3]);
 				} else {
 					// error device not on server records!
-					if (results[1].contains("NO_CONFIG_FOUND")) {
+					if (results[1].contains("NO_STABLE_CONFIG_FOUND")) {
 						data.putString("version", getString(R.string.error_dev));
-					} else if (results[1].contains("NO_PARAMS")) {
+					} else if (results[1].contains("NO_NIGHTLY_CONFIG_FOUND")) {
+						data.putString("version", getString(R.string.error_dev));
+					} else if (results[1].contains("NO_UNOFFICIAL_CONFIG_FOUND")) {
+						data.putString("version", getString(R.string.error_dev));
+					} else {
 						data.putString("version", getString(R.string.error_serv));
 					}
 					data.putString("file", getString(R.string.error));
@@ -240,5 +304,17 @@ public class OTA_frag extends Fragment {
 		}
 
 	}
+	
+	private class DownLoadComplte extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equalsIgnoreCase(
+                    DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
+                Toast.makeText(context, "Download Complte", Toast.LENGTH_LONG)
+                        .show();
+            }
+        }
+}
 
 }

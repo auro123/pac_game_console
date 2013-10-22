@@ -54,7 +54,7 @@ public class Changes_frag extends Fragment {
 
         changes = Settings.System.getString(this.getActivity().getContentResolver(), "changes");
 		View layout = inflater.inflate(R.layout.contrib_frag_layout, null);
-		change = (TextView) layout.findViewById(R.id.textView1);
+		change = (TextView) layout.findViewById(R.id.tv_ota_rom_header);
 
 		//restore old state if needed
 			int con = RemoteTools.checkConnection(Changes_frag.this.getActivity());
