@@ -2,8 +2,8 @@ package com.venum.ota.adapters;
 
 import java.util.ArrayList;
 
-import com.pac.console.R;
-import com.pac.console.R.id;
+import com.venum.ota.R;
+import com.venum.ota.R.id;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import com.pac.console.R;
+import com.venum.ota.R;
 import com.venum.ota.util.LocalTools;
 import com.venum.ota.util.RemoteTools;
 

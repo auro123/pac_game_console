@@ -2,7 +2,7 @@ package com.venum.ota;
 
 import java.util.ArrayList;
 
-import com.pac.console.R;
+import com.venum.ota.R;
 import com.venum.ota.adapters.drawerItemAdapter;
 import com.venum.ota.adapters.drawerItemType;
 import com.venum.ota.ui.OTA_frag;

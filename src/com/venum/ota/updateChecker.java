@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.pac.console.R;
+import com.venum.ota.R;
 import com.venum.ota.util.LocalTools;
 import com.venum.ota.util.RemoteTools;
 

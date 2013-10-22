@@ -1,6 +1,6 @@
 package com.venum.ota.ui;
 
-import com.pac.console.R;
+import com.venum.ota.R;
 import com.venum.ota.config;
 import com.venum.ota.updateChecker;
 import com.venum.ota.util.LocalTools;
