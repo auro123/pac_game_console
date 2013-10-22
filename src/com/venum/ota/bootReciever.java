@@ -1,6 +1,6 @@
-package com.pac.console;
+package com.venum.ota;
 
-import com.pac.console.util.LocalTools;
+import com.venum.ota.util.LocalTools;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;

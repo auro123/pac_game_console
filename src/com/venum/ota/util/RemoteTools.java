@@ -1,4 +1,4 @@
-package com.pac.console.util;
+package com.venum.ota.util;
 
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.pac.console.config;
+import com.venum.ota.config;
 
 public class RemoteTools {
 	

@@ -1,12 +1,13 @@
-package com.pac.console;
+package com.venum.ota;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.pac.console.util.LocalTools;
-import com.pac.console.util.RemoteTools;
+import com.pac.console.R;
+import com.venum.ota.util.LocalTools;
+import com.venum.ota.util.RemoteTools;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;

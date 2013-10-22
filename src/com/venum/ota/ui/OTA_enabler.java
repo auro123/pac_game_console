@@ -1,9 +1,9 @@
-package com.pac.console.ui;
+package com.venum.ota.ui;
 
 import com.pac.console.R;
-import com.pac.console.config;
-import com.pac.console.updateChecker;
-import com.pac.console.util.LocalTools;
+import com.venum.ota.config;
+import com.venum.ota.updateChecker;
+import com.venum.ota.util.LocalTools;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
@@ -58,7 +58,7 @@ public class OTA_enabler implements OnCheckedChangeListener {
 			} else if (!isChecked && isMyServiceRunning()){
 				Log.d("PACCON", "ENDING OTA SERVER");
 	
-				mContext.stopService(new Intent(mContext, com.pac.console.updateChecker.class));
+				mContext.stopService(new Intent(mContext, com.venum.ota.updateChecker.class));
 			}
 		} else {
 			Toast.makeText(mContext, mContext.getString(R.string.ota_non_pac), Toast.LENGTH_LONG).show();

@@ -1,4 +1,4 @@
-package com.pac.console.adapters;
+package com.venum.ota.adapters;
 
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
