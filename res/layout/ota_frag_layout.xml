@@ -11,7 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/pacman_header" />
+        android:layout_margin="10dp"
+        android:src="@drawable/venumlogo" />
 
     <RelativeLayout
         android:layout_width="wrap_content"

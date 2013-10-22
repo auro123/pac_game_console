@@ -65,7 +65,7 @@ public class drawerItemAdapter extends ArrayAdapter<drawerItemType>{
 			// show the Image
 			if (false){
 				ImageView tvCap = (ImageView) view.findViewById(id.dli_caption);
-				tvCap.setBackgroundResource(R.drawable.pacman_header);
+				tvCap.setBackgroundResource(R.drawable.venumlogo);
 			} else {
 				//TextView tvCap = (TextView) view.findViewById(id.dli_caption);
 				//tvCap.setVisibility(View.GONE);

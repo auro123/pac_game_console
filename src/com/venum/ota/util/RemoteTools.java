@@ -47,7 +47,7 @@ public class RemoteTools {
 		DownloadManager.Request r = new DownloadManager.Request(URL);
 
 		// This put the download in the same Download dir the browser uses
-		r.setDestinationInExternalPublicDir(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Download/PAC/", fileName);
+		r.setDestinationInExternalPublicDir(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Download/venum/", fileName);
 
 		// When downloading music and videos they will be listed in the player
 		// (Seems to be available since Honeycomb only)
@@ -70,35 +70,6 @@ public class RemoteTools {
 		editor.commit();
 		
 		//TODO attach a listener to get updates in app
-	}
-	public static String getContrib(){
-		String URL = config.PAC_CONTRIB;
-		
-		DefaultHttpClient mClient = new DefaultHttpClient();
-		HttpGet getRequest = new HttpGet(URL);
-		try {
-			HttpResponse getResponse = mClient.execute(getRequest);
-			final int statusCode = getResponse.getStatusLine().getStatusCode();
-
-			if (statusCode != HttpStatus.SC_OK) {
-				Log.e("OTA_TOOLS", "#BLAMETYLER " + statusCode
-						+ " for URL " + URL);
-				return null;
-			}
-			Log.d("OTA_TOOLS", "Got Connection " + URL);
-			HttpEntity getResponseEntity = getResponse.getEntity();
-
-			if (getResponseEntity != null) {
-				return EntityUtils.toString(getResponseEntity);
-			}
-
-		} catch (IOException e) {
-			getRequest.abort();
-			Log.e("OTA_TOOLS", "#BLAMETYLER Error for URL " + URL, e);
-		}
-
-		return null;
-		
 	}
 	
 	public static final int DISCONNECTED = 0;
@@ -156,33 +127,5 @@ public class RemoteTools {
 		
 		return null;
 		
-	}
-	public static String getChanges() {
-		String URL = config.PAC_CHANGES;
-		
-		DefaultHttpClient mClient = new DefaultHttpClient();
-		HttpGet getRequest = new HttpGet(URL);
-		try {
-			HttpResponse getResponse = mClient.execute(getRequest);
-			final int statusCode = getResponse.getStatusLine().getStatusCode();
-
-			if (statusCode != HttpStatus.SC_OK) {
-				Log.e("OTA_TOOLS", "#BLAMETYLER " + statusCode
-						+ " for URL " + URL);
-				return null;
-			}
-			Log.d("OTA_TOOLS", "Got Connection " + URL);
-			HttpEntity getResponseEntity = getResponse.getEntity();
-
-			if (getResponseEntity != null) {
-				return EntityUtils.toString(getResponseEntity);
-			}
-
-		} catch (IOException e) {
-			getRequest.abort();
-			Log.e("OTA_TOOLS", "#BLAMETYLER Error for URL " + URL, e);
-		}
-
-		return null;
 	}
 }
