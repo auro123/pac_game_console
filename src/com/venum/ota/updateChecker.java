@@ -63,7 +63,7 @@ public class updateChecker extends Service {
 		mBuilder.setContentText("New Update Available!");
 		
 		//launch into OTA straight away when clicking
-		Intent notifyIntent = new Intent(this, PacConsole.class);
+		Intent notifyIntent = new Intent(this, venumOTA.class);
 		notifyIntent.putExtra("flag", 0);
 		notifyIntent.putExtra("store", true);
 

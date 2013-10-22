@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pac.console"
+    package="com.venum.ota"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="17"
         android:targetSdkVersion="17" />
+    
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -21,7 +22,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.venum.ota.PacConsole"
+            android:name="com.venum.ota.venumOTA"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,26 +43,6 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 </intent-filter>
         </receiver>
-        
-        <activity android:name="android.pacstats.PreviewActivity" />
-
-        <receiver
-            android:name="android.pacstats.ReportingServiceManager"
-            android:enabled="true"
-            android:exported="false"
-            android:label="ReportingServiceManager" >
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
-
-        <service
-            android:name="android.pacstats.ReportingService"
-            android:enabled="true"
-            android:exported="false"
-            android:label="ReportingService" >
-        </service>
     </application>
 
 </manifest>

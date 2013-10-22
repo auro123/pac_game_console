@@ -21,7 +21,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 //4.3 branch
-public class PacConsole extends Activity {
+public class venumOTA extends Activity {
 
     private ArrayList<drawerItemType> mGameTitles;
     private ListView mDrawerList;
@@ -92,7 +92,7 @@ public class PacConsole extends Activity {
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
             	//TODO Update the actionbar title
-            	getActionBar().setTitle(PacConsole.this.getResources().getString(R.string.app_name));
+            	getActionBar().setTitle(venumOTA.this.getResources().getString(R.string.app_name));
 
             }
         };
