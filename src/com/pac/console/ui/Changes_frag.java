@@ -1,11 +1,13 @@
 package com.pac.console.ui;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
 
-import in.uncod.android.bypass.Bypass;
+import org.json.JSONException;
 
 import com.pac.console.R;
+import com.pac.console.adapters.changeItemAdapter;
+import com.pac.console.adapters.changeItemType;
+import com.pac.console.parser.ChangeLogParser;
 import com.pac.console.util.RemoteTools;
 
 import android.app.Fragment;
@@ -15,16 +17,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
-import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ListView;
 
 public class Changes_frag extends Fragment {
 	
-	TextView change;
+	ListView change;
+	ArrayList<changeItemType> changeList;
+	changeItemAdapter changeAdapter;
 	public String changes = "";
 	boolean store = false;
 	
@@ -53,9 +55,11 @@ public class Changes_frag extends Fragment {
         }
 
         changes = Settings.System.getString(this.getActivity().getContentResolver(), "changes");
-		View layout = inflater.inflate(R.layout.contrib_frag_layout, null);
-		change = (TextView) layout.findViewById(R.id.tv_ota_rom_header);
-
+		View layout = inflater.inflate(R.layout.change_frag_layout, null);
+		change = (ListView) layout.findViewById(R.id.cfl_list);
+		changeList = new ArrayList<changeItemType>();
+		changeAdapter = new changeItemAdapter(this.getActivity(),R.layout.drawer_list_item, changeList);
+		change.setAdapter(changeAdapter);
 		//restore old state if needed
 			int con = RemoteTools.checkConnection(Changes_frag.this.getActivity());
 			if (con > RemoteTools.DISCONNECTED){
@@ -64,9 +68,6 @@ public class Changes_frag extends Fragment {
 				dev[0] = (String)Build.DEVICE;
 				checkTast.execute(dev);
 			} else {
-				if (changes==null){
-					change.setText(Changes_frag.this.getActivity().getString(R.string.no_data));
-				}
 			}
 		return layout;
 	}
@@ -75,40 +76,17 @@ public class Changes_frag extends Fragment {
 
 	    @Override
 	    public void handleMessage(Message msg){
-	    	//msg.getData().getString("file");
-			String markdownString = msg.getData().getString("changes");
-			changes = markdownString;
-			try{
-				Bypass bypass = new Bypass();
-				String[] formater = markdownString.split("\n");
-				markdownString = "";
-				Pattern pattern = Pattern.compile("[^\\S\\r\\n]{2,}");
-	
-				for (int i = 0; i< formater.length; i++){
-					Matcher matcher = pattern.matcher(formater[i]);
-						//formater[i].replaceAll("\\s{2,}+||\\t", " ");
-					String str = matcher.replaceAll(" ");
-					markdownString+=str+"\n";	
-				}
-				CharSequence string = bypass.markdownToSpannable(markdownString);
-				Log.d("MARKUP", ""+string);
-				change.setText(string);
-			} catch (Error e){
-				e.printStackTrace();
-				change.setText(markdownString);
-			} catch (Exception e){
-				e.printStackTrace();
-				change.setText(markdownString);
-			}
-
+			changeAdapter = new changeItemAdapter(Changes_frag.this.getActivity(),R.layout.drawer_list_item, changeList);
+			change.setAdapter(changeAdapter);
+			change.postInvalidate();
 	    }
 
 	};
 	private class CheckRemote extends
-	AsyncTask<String, Void, String> {
+	AsyncTask<String, Void, ArrayList<changeItemType>> {
 
 		@Override
-		protected String doInBackground(String... arg0) {
+		protected ArrayList<changeItemType> doInBackground(String... arg0) {
 			
 			// TODO Auto-generated method stub
 			if (Changes_frag.this.changes != null){
@@ -120,23 +98,30 @@ public class Changes_frag extends Fragment {
 			}
 			
 			String out = RemoteTools.getChanges();
-			return out;
+			try {
+				return ChangeLogParser.ChangeLogParser(out);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
 		}
 		
 		@Override
-		protected void onPostExecute(final String result) {
+		protected void onPostExecute(final ArrayList<changeItemType> result) {
 			Message msg = new Message();
 			Bundle data = new Bundle();
 			if (result != null){
-				data.putString("changes", result);
+				data.putString("changes", "UPDATE");
 				if (Changes_frag.this.getActivity()!=null){
-					Settings.System.putString(Changes_frag.this.getActivity().getContentResolver(), "changes", result);
+					//Settings.System.putString(Changes_frag.this.getActivity().getContentResolver(), "changes", result);
 				}
 			} else {
 				if (Changes_frag.this.changes==null){
 					data.putString("changes", "Server Down\nOr Tyler Broke Something!");
 				}
 			}
+			changeList = result;
 			msg.setData(data);
 			updateRemote.sendMessage(msg);
 		}
