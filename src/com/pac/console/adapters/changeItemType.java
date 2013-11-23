@@ -6,6 +6,7 @@ public class changeItemType {
 	public String title;
 	public String caption;
 	public String date;
+	public String author;
 	public String URL;
 	public boolean header = false;
 	

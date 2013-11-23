@@ -14,10 +14,10 @@
   limitations under the License.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cli_back"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="?android:attr/listPreferredItemHeight"
-    >
+    android:minHeight="?android:attr/listPreferredItemHeight" >
 
     <LinearLayout
         android:id="@+id/cli_data_holder"
@@ -49,16 +49,6 @@
             android:textAppearance="?android:attr/textAppearanceSmallInverse"
             android:textColor="#ffc2c2c2" />
         
-        <TextView
-            android:id="@+id/cli_sha"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:maxLines="5"
-            android:text="This is some crap in said object (optional)"
-            android:textAppearance="?android:attr/textAppearanceSmallInverse"
-            android:textColor="#ffc2c2c2" />
-        
     </LinearLayout>
 
     <LinearLayout
@@ -68,7 +58,7 @@
         android:layout_centerInParent="true"
         android:layout_marginBottom="3dp"
         android:layout_marginTop="3dp"
-        android:orientation="vertical">
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/cli_date"
@@ -77,8 +67,7 @@
             android:gravity="center"
             android:text="Date"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/holo_blue_light"
-            android:textColorHint="@android:color/holo_blue_light" />
+            android:textStyle="bold" />
 
     </LinearLayout>
 

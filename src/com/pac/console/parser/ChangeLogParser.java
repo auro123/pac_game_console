@@ -20,6 +20,8 @@ public class ChangeLogParser {
 			hold.title = json_data.getString("Repository");
 			hold.caption = json_data.getString("Message");
 			hold.date = json_data.getString("CommitDate");
+			hold.author = json_data.getString("GitUsername");
+
 			JSONArray.add(hold);
 		}
 		ArrayList<changeItemType> formatedArray = new ArrayList<changeItemType>();
@@ -37,6 +39,8 @@ public class ChangeLogParser {
 			hold2.title = JSONArray.get(i).title;
 			hold2.caption = JSONArray.get(i).caption;
 			hold2.date = JSONArray.get(i).date;
+			hold2.author = JSONArray.get(i).author;
+
 			formatedArray.add(hold2);
 		}
 		return formatedArray;

@@ -11,6 +11,8 @@ import com.pac.console.parser.ChangeLogParser;
 import com.pac.console.util.RemoteTools;
 
 import android.app.Fragment;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,7 +22,9 @@ import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class Changes_frag extends Fragment {
 	
@@ -61,14 +65,30 @@ public class Changes_frag extends Fragment {
 		changeAdapter = new changeItemAdapter(this.getActivity(),R.layout.drawer_list_item, changeList);
 		change.setAdapter(changeAdapter);
 		//restore old state if needed
-			int con = RemoteTools.checkConnection(Changes_frag.this.getActivity());
-			if (con > RemoteTools.DISCONNECTED){
-				AsyncTask checkTast = new CheckRemote();
-				String[] dev = {" "};
-				dev[0] = (String)Build.DEVICE;
-				checkTast.execute(dev);
-			} else {
+		int con = RemoteTools.checkConnection(Changes_frag.this.getActivity());
+		if (con > RemoteTools.DISCONNECTED){
+			AsyncTask checkTast = new CheckRemote();
+			String[] dev = {" "};
+			dev[0] = (String)Build.DEVICE;
+			checkTast.execute(dev);
+		} else {
+		}
+		change.setOnItemClickListener(new OnItemClickListener(){
+//			     http://github.com/" .$commit['GitUsername']. "/" . $commit['Repository'] . "/commit/" . $commit['SHA'] 
+
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// ATTACH req fragment to content view
+				if (!changeList.get(arg2).header){
+					String url = "http://github.com/"+changeList.get(arg2).author+"/"+changeList.get(arg2).title+"/commit/"+changeList.get(arg2).SHA;
+					Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+					startActivity(browserIntent);
+				}
 			}
+
+        	
+        });
+
 		return layout;
 	}
 
