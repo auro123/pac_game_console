@@ -107,18 +107,18 @@ public class RemoteTools {
 
 	public static int checkConnection(Context context){
 		ConnectivityManager conMgr =  (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-	
-		if ( conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE) != null){
-			if ( conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() ==  NetworkInfo.State.CONNECTED){
+		NetworkInfo mobileCon = conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		NetworkInfo wifiCon = conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+		if ( mobileCon != null){
+			if ( mobileCon.getState() ==  NetworkInfo.State.CONNECTED){
 				return MOBILE;
 			}
 		}
-		if ( conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED  ) {
-			return WIFI;
-		}
-		else if ( conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.DISCONNECTED 
-		    ||  conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.DISCONNECTED) {
-			return DISCONNECTED;	
+		if ( wifiCon != null){
+			if ( wifiCon.getState() == NetworkInfo.State.CONNECTED  ) {
+				return WIFI;
+			}
 		}
 		return DISCONNECTED;
 	}
