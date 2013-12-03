@@ -77,7 +77,7 @@ public class changeItemAdapter extends ArrayAdapter<changeItemType>{
 				tvTit.setText(mItem.caption);
 				// show the caption
 				TextView tvCap = (TextView) view.findViewById(id.cli_caption);
-				tvCap.setText(mItem.title);
+				tvCap.setText(mItem.title+" - "+mItem.author);
 			}
 		}
 		
