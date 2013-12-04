@@ -79,8 +79,8 @@ public class Changes_frag extends Fragment {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// ATTACH req fragment to content view
-				if (!changeList.get(arg2).header){
-					String url = "http://github.com/"+changeList.get(arg2).author+"/"+changeList.get(arg2).title+"/commit/"+changeList.get(arg2).SHA;
+				if (!changeList.get(arg2).getIsHeader()){
+					String url = "http://github.com/"+changeList.get(arg2).getAuthor()+"/"+changeList.get(arg2).getTittle()+"/commit/"+changeList.get(arg2).getSHA();
 					Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 					startActivity(browserIntent);
 				}

@@ -53,11 +53,11 @@ public class drawerItemAdapter extends ArrayAdapter<drawerItemType>{
 		if (mItem != null){
 			// set the title
 			TextView tvTit = (TextView) view.findViewById(id.dli_title);
-			tvTit.setText(mItem.title);
+			tvTit.setText(mItem.getTittle());
 			// show the caption
-			if (mItem.caption_display){
+			if (mItem.getCaptionDisplay()){
 				TextView tvCap = (TextView) view.findViewById(id.dli_caption);
-				tvCap.setText(mItem.caption);
+				tvCap.setText(mItem.getCaption());
 			} else {
 				TextView tvCap = (TextView) view.findViewById(id.dli_caption);
 				tvCap.setVisibility(View.GONE);
@@ -71,7 +71,7 @@ public class drawerItemAdapter extends ArrayAdapter<drawerItemType>{
 				//tvCap.setVisibility(View.GONE);
 			}
 			//show the toggler
-			if (mItem.toggle_display){
+			if (mItem.getToggleDisplay()){
 				Switch swTog = (Switch) view.findViewById(id.dli_toggle);
 				// TODO COMMENT OUT WHILE TESTING
 				//swTog.setOnCheckedChangeListener(mItem.ontoggle);
@@ -81,14 +81,14 @@ public class drawerItemAdapter extends ArrayAdapter<drawerItemType>{
 			}
 			
 			// are we doing a external launch?
-			if (mItem.package_launch){
+			if (mItem.getPackageLaunch()){
 				// TODO do a package intent
 			} else {
 				// TODO do notihng?
 			}
 			
 			// are we doing a web launch?
-			if (mItem.URL_launch){
+			if (mItem.getURLLaunch()){
 				// TODO do a url intent
 			} else {
 				// TODO do notihng?

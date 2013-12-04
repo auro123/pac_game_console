@@ -16,30 +16,30 @@ public class ChangeLogParser {
 		for (int i = 0; i < jsonArray.length(); i++) {
 			changeItemType hold = new changeItemType();
 			JSONObject json_data = jsonArray.getJSONObject(i);
-			hold.SHA = json_data.getString("SHA");
-			hold.title = json_data.getString("Repository");
-			hold.caption = json_data.getString("Message");
-			hold.date = json_data.getString("CommitDate");
-			hold.author = json_data.getString("GitUsername");
+			hold.setSHA(json_data.getString("SHA"));
+			hold.setTitle(json_data.getString("Repository"));
+			hold.setCaption(json_data.getString("Message"));
+			hold.setDate(json_data.getString("CommitDate"));
+			hold.setAuthor(json_data.getString("GitUsername"));
 
 			JSONArray.add(hold);
 		}
 		ArrayList<changeItemType> formatedArray = new ArrayList<changeItemType>();
 		String str_date = "";
 		for (int i = 0; i < JSONArray.size(); i++){
-			if (!str_date.equals(JSONArray.get(i).date.substring(0, 10))){
-				str_date = JSONArray.get(i).date.substring(0, 10);
+			if (!str_date.equals(JSONArray.get(i).getDate().substring(0, 10))){
+				str_date = JSONArray.get(i).getDate().substring(0, 10);
 				changeItemType hold = new changeItemType();
-				hold.date = JSONArray.get(i).date.substring(0, 10);
-				hold.header = true;
+				hold.setDate(JSONArray.get(i).getDate().substring(0, 10));
+				hold.setIsHeader(true);
 				formatedArray.add(hold);				
 			}
 			changeItemType hold2 = new changeItemType();
-			hold2.SHA = JSONArray.get(i).SHA;
-			hold2.title = JSONArray.get(i).title;
-			hold2.caption = JSONArray.get(i).caption;
-			hold2.date = JSONArray.get(i).date;
-			hold2.author = JSONArray.get(i).author;
+			hold2.setSHA(JSONArray.get(i).getSHA());
+			hold2.setTitle(JSONArray.get(i).getTittle());
+			hold2.setCaption(JSONArray.get(i).getCaption());
+			hold2.setDate(JSONArray.get(i).getDate());
+			hold2.setAuthor(JSONArray.get(i).getAuthor());
 
 			formatedArray.add(hold2);
 		}

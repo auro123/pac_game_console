@@ -54,7 +54,7 @@ public class changeItemAdapter extends ArrayAdapter<changeItemType>{
 		 **/
 //     http://github.com/" .$commit['GitUsername']. "/" . $commit['Repository'] . "/commit/" . $commit['SHA'] 
 		if (mItem != null){
-			if (mItem.header){
+			if (mItem.getIsHeader()){
 				LinearLayout llHolder = (LinearLayout) view.findViewById(id.cli_data_holder);
 				llHolder.setVisibility(View.GONE);
 
@@ -63,7 +63,7 @@ public class changeItemAdapter extends ArrayAdapter<changeItemType>{
 				RelativeLayout rlHolder = (RelativeLayout) view.findViewById(id.cli_back);
 				rlHolder.setBackgroundColor(Color.parseColor("#33B5E5"));
 				TextView tvDate = (TextView) view.findViewById(id.cli_date);
-				tvDate.setText("Changes From\n"+mItem.date);
+				tvDate.setText("Changes From\n"+mItem.getDate());
 			} else {
 				LinearLayout llHolder = (LinearLayout) view.findViewById(id.cli_data_holder);
 				llHolder.setVisibility(View.VISIBLE);
@@ -74,10 +74,10 @@ public class changeItemAdapter extends ArrayAdapter<changeItemType>{
 
 				// set the title
 				TextView tvTit = (TextView) view.findViewById(id.cli_title);
-				tvTit.setText(mItem.caption);
+				tvTit.setText(mItem.getCaption());
 				// show the caption
 				TextView tvCap = (TextView) view.findViewById(id.cli_caption);
-				tvCap.setText(mItem.title+" - "+mItem.author);
+				tvCap.setText(mItem.getTittle()+" - "+mItem.getAuthor());
 			}
 		}
 		
