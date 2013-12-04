@@ -1,5 +1,10 @@
 package com.pac.console.adapters;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import com.pac.console.R;
 import com.pac.console.adapters.changeItemAdapter.RowType;
 
@@ -42,7 +47,19 @@ public class Header implements Item {
         }
 
         TextView text = (TextView) view.findViewById(R.id.hli_date);
-        text.setText(title);
+        
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String titleText = title;
+        try {
+			Date result =  df.parse(title);
+			((SimpleDateFormat) df).applyPattern("d MMMM yyyy");
+			titleText = df.format(result);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+
+        text.setText(titleText);
         
         RelativeLayout rlHolder = (RelativeLayout) view.findViewById(R.id.hli_back);
 		rlHolder.setBackgroundColor(Color.parseColor("#33B5E5"));
