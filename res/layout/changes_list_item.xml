@@ -27,8 +27,7 @@
         android:layout_centerVertical="true"
         android:layout_marginBottom="3dp"
         android:layout_marginTop="3dp"
-        android:orientation="horizontal"
-        android:paddingLeft="16dp" >
+        android:orientation="horizontal" >
 
         <LinearLayout
             android:id="@+id/cli_data_new_change"
@@ -37,7 +36,7 @@
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/textView1"
+                android:id="@+id/cli_tb_data_new"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -67,33 +66,12 @@
                 android:id="@+id/cli_caption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
                 android:maxLines="5"
                 android:text="This is some crap in said object (optional)"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:textColor="#ffc2c2c2" />
         </LinearLayout>
         
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/cli_date_holder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="3dp"
-        android:layout_marginTop="3dp"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/cli_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Date"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textStyle="bold" />
-
     </LinearLayout>
 
 </RelativeLayout>

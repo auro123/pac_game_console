@@ -13,10 +13,12 @@ import org.json.JSONObject;
 import android.os.Build;
 import android.text.format.DateFormat;
 
+import com.pac.console.adapters.Header;
 import com.pac.console.adapters.changeItemType;
+import com.pac.console.adapters.Item;
 
 public class ChangeLogParser {
-	public static ArrayList<changeItemType> ChangeLogParser(String JsonData)
+	public static ArrayList<Item> ChangeLogParser(String JsonData)
 			throws JSONException {
 		
 		JSONArray jsonArray = new JSONArray(JsonData);
@@ -46,14 +48,12 @@ public class ChangeLogParser {
 
 			JSONArray.add(hold);
 		}
-		ArrayList<changeItemType> formatedArray = new ArrayList<changeItemType>();
+		ArrayList<Item> formatedArray = new ArrayList<Item>();
 		String str_date = "";
 		for (int i = 0; i < JSONArray.size(); i++){
 			if (!str_date.equals(JSONArray.get(i).getDate().substring(0, 10))){
 				str_date = JSONArray.get(i).getDate().substring(0, 10);
-				changeItemType hold = new changeItemType();
-				hold.setDate(JSONArray.get(i).getDate().substring(0, 10));
-				hold.setIsHeader(true);
+				Header hold = new Header(JSONArray.get(i).getDate().substring(0, 10));
 				formatedArray.add(hold);				
 			}
 			changeItemType hold2 = new changeItemType();

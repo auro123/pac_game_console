@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import org.json.JSONException;
 
 import com.pac.console.R;
+import com.pac.console.adapters.Header;
+import com.pac.console.adapters.Item;
 import com.pac.console.adapters.changeItemAdapter;
 import com.pac.console.adapters.changeItemType;
+import com.pac.console.adapters.changeItemAdapter.RowType;
 import com.pac.console.parser.ChangeLogParser;
 import com.pac.console.util.RemoteTools;
 
@@ -29,7 +32,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class Changes_frag extends Fragment {
 	
 	ListView change;
-	ArrayList<changeItemType> changeList;
+	ArrayList<Item> changeList;
 	changeItemAdapter changeAdapter;
 	public String changes = "";
 	boolean store = false;
@@ -61,7 +64,7 @@ public class Changes_frag extends Fragment {
         changes = Settings.System.getString(this.getActivity().getContentResolver(), "changes");
 		View layout = inflater.inflate(R.layout.change_frag_layout, null);
 		change = (ListView) layout.findViewById(R.id.cfl_list);
-		changeList = new ArrayList<changeItemType>();
+		changeList = new ArrayList<Item>();
 		changeAdapter = new changeItemAdapter(this.getActivity(),R.layout.drawer_list_item, changeList);
 		change.setAdapter(changeAdapter);
 		//restore old state if needed
@@ -72,6 +75,7 @@ public class Changes_frag extends Fragment {
 			dev[0] = (String)Build.DEVICE;
 			checkTast.execute(dev);
 		} else {
+			
 		}
 		change.setOnItemClickListener(new OnItemClickListener(){
 //			     http://github.com/" .$commit['GitUsername']. "/" . $commit['Repository'] . "/commit/" . $commit['SHA'] 
@@ -79,8 +83,8 @@ public class Changes_frag extends Fragment {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// ATTACH req fragment to content view
-				if (!changeList.get(arg2).getIsHeader()){
-					String url = "http://github.com/"+changeList.get(arg2).getAuthor()+"/"+changeList.get(arg2).getTittle()+"/commit/"+changeList.get(arg2).getSHA();
+				if (changeList.get(arg2).getViewType() == RowType.HEADER_ITEM.ordinal()){
+					String url = "http://github.com/"+((changeItemType) changeList.get(arg2)).getAuthor()+"/"+((changeItemType) changeList.get(arg2)).getTittle()+"/commit/"+((changeItemType) changeList.get(arg2)).getSHA();
 					Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 					startActivity(browserIntent);
 				}
@@ -103,10 +107,10 @@ public class Changes_frag extends Fragment {
 
 	};
 	private class CheckRemote extends
-	AsyncTask<String, Void, ArrayList<changeItemType>> {
+	AsyncTask<String, Void, ArrayList<Item>> {
 
 		@Override
-		protected ArrayList<changeItemType> doInBackground(String... arg0) {
+		protected ArrayList<Item> doInBackground(String... arg0) {
 			
 			// TODO Auto-generated method stub
 			if (Changes_frag.this.changes != null){
@@ -128,7 +132,7 @@ public class Changes_frag extends Fragment {
 		}
 		
 		@Override
-		protected void onPostExecute(final ArrayList<changeItemType> result) {
+		protected void onPostExecute(final ArrayList<Item> result) {
 			Message msg = new Message();
 			Bundle data = new Bundle();
 			if (result != null){

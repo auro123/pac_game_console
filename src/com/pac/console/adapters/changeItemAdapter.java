@@ -17,16 +17,22 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
-public class changeItemAdapter extends ArrayAdapter<changeItemType>{
+public class changeItemAdapter extends ArrayAdapter<Item>{
 	
-	private ArrayList<changeItemType> mList;
+	private ArrayList<Item> mList;
 	private Context mContext;
-	
+    private LayoutInflater mInflater;
+
+    public enum RowType {
+        LIST_ITEM, HEADER_ITEM
+    }
+
 	public changeItemAdapter(Context context, int textViewResourceId,
-			ArrayList<changeItemType> drawList) {
+			ArrayList<Item> drawList) {
 		super(context, textViewResourceId, drawList);
-		// TODO Auto-generated constructor stub
 		
+        mInflater = LayoutInflater.from(context);
+
 		//get the list for the adapter
 		this.mList = drawList;
 		
@@ -34,58 +40,21 @@ public class changeItemAdapter extends ArrayAdapter<changeItemType>{
 		this.mContext = context;
 		
 	}
-	
+
+	@Override
+    public int getViewTypeCount() {
+        return RowType.values().length;
+
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return getItem(position).getViewType();
+    }
+
 	@Override
     public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO logic for view
-		
-		//no cahced view then make one
-        View view = convertView;
-        if (view == null) {
-            LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = vi.inflate(R.layout.changes_list_item, null);
-        }
-        
-        changeItemType mItem = mList.get(position);
-        
-		/** 
-		 * Only show the required parts of the view as long as there is a item to show
-		 * default is just a title
-		 **/
-//     http://github.com/" .$commit['GitUsername']. "/" . $commit['Repository'] . "/commit/" . $commit['SHA'] 
-		if (mItem != null){
-			if (mItem.getIsHeader()){
-				LinearLayout llHolder = (LinearLayout) view.findViewById(id.cli_data_holder);
-				llHolder.setVisibility(View.GONE);
-
-				LinearLayout lldHolder = (LinearLayout) view.findViewById(id.cli_date_holder);
-				lldHolder.setVisibility(View.VISIBLE);
-				RelativeLayout rlHolder = (RelativeLayout) view.findViewById(id.cli_back);
-				rlHolder.setBackgroundColor(Color.parseColor("#33B5E5"));
-				TextView tvDate = (TextView) view.findViewById(id.cli_date);
-				tvDate.setText("Changes From\n"+mItem.getDate());
-			} else {
-				LinearLayout llHolder = (LinearLayout) view.findViewById(id.cli_data_holder);
-				llHolder.setVisibility(View.VISIBLE);
-				LinearLayout lldHolder = (LinearLayout) view.findViewById(id.cli_date_holder);
-				lldHolder.setVisibility(View.GONE);
-				RelativeLayout rlHolder = (RelativeLayout) view.findViewById(id.cli_back);
-				rlHolder.setBackgroundColor(Color.TRANSPARENT);
-				LinearLayout llNew = (LinearLayout) view.findViewById(id.cli_data_new_change);
-				if (mItem.getNew()){
-					llNew.setVisibility(View.VISIBLE);
-				} else {
-					llNew.setVisibility(View.GONE);
-				}
-				// set the title
-				TextView tvTit = (TextView) view.findViewById(id.cli_title);
-				tvTit.setText(mItem.getCaption());
-				// show the caption
-				TextView tvCap = (TextView) view.findViewById(id.cli_caption);
-				tvCap.setText(mItem.getTittle()+" - "+mItem.getAuthor());
-			}
-		}
-		
-		return view;
+		return getItem(position).getView(mInflater, convertView);
 	}
 }
