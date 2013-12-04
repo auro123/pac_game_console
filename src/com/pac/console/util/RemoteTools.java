@@ -16,6 +16,7 @@ import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -159,6 +160,8 @@ public class RemoteTools {
 	}
 	public static String getChanges() {
 		String URL = config.PAC_CHANGES;
+		String dev = "&device="+ (LocalTools.getProp("ro.cm.device").equals("")? Build.PRODUCT : LocalTools.getProp("ro.cm.device"));
+		URL += dev;
 		
 		DefaultHttpClient mClient = new DefaultHttpClient();
 		HttpGet getRequest = new HttpGet(URL);

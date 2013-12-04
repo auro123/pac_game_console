@@ -27,27 +27,43 @@
         android:layout_centerVertical="true"
         android:layout_marginBottom="3dp"
         android:layout_marginTop="3dp"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:paddingLeft="16dp" >
 
-        <TextView
-            android:id="@+id/cli_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:text="This is an Object"
-            android:textAppearance="?android:attr/textAppearanceMediumInverse"
-            android:textColor="#fff2f2f2" />
+        <LinearLayout
+            android:id="@+id/cli_data_new_change"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
+            android:orientation="vertical"
+            android:paddingRight="5dip" >
 
-        <TextView
-            android:id="@+id/cli_caption"
-            android:layout_width="wrap_content"
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:maxLines="5"
-            android:text="This is some crap in said object (optional)"
-            android:textAppearance="?android:attr/textAppearanceSmallInverse"
-            android:textColor="#ffc2c2c2" />
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/cli_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="This is an Object"
+                android:textAppearance="?android:attr/textAppearanceMediumInverse"
+                android:textColor="#fff2f2f2" />
+
+            <TextView
+                android:id="@+id/cli_caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:maxLines="5"
+                android:text="This is some crap in said object (optional)"
+                android:textAppearance="?android:attr/textAppearanceSmallInverse"
+                android:textColor="#ffc2c2c2" />
+        </LinearLayout>
         
     </LinearLayout>
 

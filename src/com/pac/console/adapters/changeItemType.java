@@ -9,7 +9,12 @@ public class changeItemType {
 	private String author;
 	private String URL;
 	private boolean header = false;
+	private boolean newChange = false;
 	
+	public boolean getNew(){
+		return this.newChange;
+	}
+
 	public String getSHA(){
 		return this.SHA;
 	}
@@ -53,5 +58,9 @@ public class changeItemType {
 	public void setIsHeader(boolean in){
 		this.header = in;
 	}
+	public void setNewChange(boolean in){
+		this.newChange = in;
+	}
+
 
 }
