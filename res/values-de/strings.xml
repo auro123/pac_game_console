@@ -28,7 +28,11 @@
         <string name="error">Oder Tyler ist schuld!</string>
         <string name="error_serv">Server ist überlastet</string>
         <string name="error_dev">Keine Updates auf dem Server</string>
-       
+        	<string name="ota_un">Unofficial</string>
+ 	<string name="ota_ni">Nightly</string>
+  	<string name="ota_st">Stable</string>
+  	<string name="ota_loc">OTA Will Be Downloaded To:</string>
+        
     <!-- Notification -->
     <string name="main_link">&lt;a href=&quot;http://www.cyanogenmod.org/blog/cmstats-what-it-is-and-why-you-should-opt-in&quot;&gt;Erfahre mehr&lt;/a&gt;</string>
    
@@ -71,4 +75,6 @@
     <string name="pref_abt_facebook_cap">PacManTheAioRom @ facebook</string>    
     <string name="pref_abt_facebook_link">https://www.facebook.com/PacManTheAioRom/</string>    
     <string name="ota_checking">Jetzt prüfen!</string>
+        <string name="tv_type_tittle">Desired OTA Type</string>
+    
 </resources>
