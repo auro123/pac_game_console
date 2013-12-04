@@ -73,9 +73,9 @@ public class changeItemAdapter extends ArrayAdapter<changeItemType>{
 				rlHolder.setBackgroundColor(Color.TRANSPARENT);
 				LinearLayout llNew = (LinearLayout) view.findViewById(id.cli_data_new_change);
 				if (mItem.getNew()){
-					llNew.setBackgroundColor(Color.GREEN);
+					llNew.setVisibility(View.VISIBLE);
 				} else {
-					llNew.setBackgroundColor(Color.TRANSPARENT);
+					llNew.setVisibility(View.GONE);
 				}
 				// set the title
 				TextView tvTit = (TextView) view.findViewById(id.cli_title);
