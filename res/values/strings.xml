@@ -31,7 +31,8 @@
  	<string name="ota_ni">Nightly</string>
   	<string name="ota_st">Stable</string>
   	<string name="ota_loc">OTA Will Be Downloaded To:</string>
-  		
+  	<string name="change_load">Tyler Broke Some Stuff!\nSomeone Fixed Some Stuff!\nSomeone Else Added Some New Stuff!</string>
+   		
     <!-- Notification -->
     <string name="main_link">&lt;a href=&quot;http://www.cyanogenmod.org/blog/cmstats-what-it-is-and-why-you-should-opt-in&quot;&gt;Learn More&lt;/a&gt;</string>
     

@@ -64,6 +64,7 @@ public class Changes_frag extends Fragment {
         changes = Settings.System.getString(this.getActivity().getContentResolver(), "changes");
 		View layout = inflater.inflate(R.layout.change_frag_layout, null);
 		change = (ListView) layout.findViewById(R.id.cfl_list);
+		change.setEmptyView(layout.findViewById(R.id.emptyList));
 		changeList = new ArrayList<Item>();
 		changeAdapter = new changeItemAdapter(this.getActivity(),R.layout.drawer_list_item, changeList);
 		change.setAdapter(changeAdapter);
