@@ -94,7 +94,7 @@ public class PacConsole extends Activity {
             public void onDrawerClosed(View view) {
             	//TODO Update the actionbar title
             	if(mSelectedItem != null){
-            		getActionBar().setTitle(mSelectedItem.title);
+            		getActionBar().setTitle(mSelectedItem.getTittle());
             	}
             	
             }
@@ -149,21 +149,21 @@ public class PacConsole extends Activity {
 	        Fragment fragment = null;
 	        android.app.FragmentManager fragmentManager = getFragmentManager();
 	        if (fragment == null){
-		        if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("ota")){
+		        if (mGameTitles.get(possition).getFlag().equalsIgnoreCase("ota")){
 		        	fragment = new OTA_frag();
-		        } else if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("contributors")){
+		        } else if (mGameTitles.get(possition).getFlag().equalsIgnoreCase("contributors")){
 		        	fragment = new Contrib_frag();
-		        } else if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("about")){
+		        } else if (mGameTitles.get(possition).getFlag().equalsIgnoreCase("about")){
 		        	fragment = new About_frag();
-		        } else if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("stats")){
+		        } else if (mGameTitles.get(possition).getFlag().equalsIgnoreCase("stats")){
 		        	fragment = new PACStats();
-		        } else if (mGameTitles.get(possition).FLAG.equalsIgnoreCase("changes")){
+		        } else if (mGameTitles.get(possition).getFlag().equalsIgnoreCase("changes")){
 		        	fragment = new Changes_frag();
 		        }
 
 	        // Insert the fragment by replacing any existing fragment
 	        fragmentManager.beginTransaction()
-	                       .replace(R.id.content_frame, fragment, mGameTitles.get(possition).FLAG)
+	                       .replace(R.id.content_frame, fragment, mGameTitles.get(possition).getFlag())
 	                       .commit();
 	    }
 
@@ -197,37 +197,37 @@ public class PacConsole extends Activity {
          */
         // OTA Frag
         drawerItemType holder = new drawerItemType();
-        holder.title = this.getResources().getString(R.string.ota_menu_lbl);
-        holder.caption = this.getResources().getString(R.string.ota_menu_cap);
-        holder.caption_display = true;
-        holder.FLAG = "ota";
+        holder.setTittle(this.getResources().getString(R.string.ota_menu_lbl));
+        holder.setCaption(this.getResources().getString(R.string.ota_menu_cap));
+        holder.setCaptionDisplay(true);
+        holder.setFlag("ota");
        
         mGameTitles.add(holder);
         
         //Contributers
         holder = new drawerItemType();
-        holder.title = this.getResources().getString(R.string.contrib_menu_lbl);
-        holder.caption = this.getResources().getString(R.string.contrib_menu_cap);
-        holder.caption_display = true;
-        holder.FLAG = "contributors";
+        holder.setTittle(this.getResources().getString(R.string.contrib_menu_lbl));
+        holder.setCaption(this.getResources().getString(R.string.contrib_menu_cap));
+        holder.setCaptionDisplay(true);
+        holder.setFlag("contributors");
        
         mGameTitles.add(holder);
         
         //Changes
         holder = new drawerItemType();
-        holder.title = this.getResources().getString(R.string.change_menu_lbl);
-        holder.caption = this.getResources().getString(R.string.change_menu_cap);
-        holder.caption_display = true;
-        holder.FLAG = "changes";
+        holder.setTittle(this.getResources().getString(R.string.change_menu_lbl));
+        holder.setCaption(this.getResources().getString(R.string.change_menu_cap));
+        holder.setCaptionDisplay(true);
+        holder.setFlag("changes");
        
         mGameTitles.add(holder);
 
         // About PAC Frag and set as default.
         holder = new drawerItemType();
-        holder.title = this.getResources().getString(R.string.stat_menu_lbl);
-        holder.caption = this.getResources().getString(R.string.stat_menu_cap);
-        holder.caption_display = true;
-        holder.FLAG = "stats";
+        holder.setTittle(this.getResources().getString(R.string.stat_menu_lbl));
+        holder.setCaption(this.getResources().getString(R.string.stat_menu_cap));
+        holder.setCaptionDisplay(true);
+        holder.setFlag("stats");
        
         mGameTitles.add(holder);
         
@@ -242,10 +242,10 @@ public class PacConsole extends Activity {
         
         // Help Frag
         holder = new drawerItemType();
-        holder.title = this.getResources().getString(R.string.help_menu_lbl);
-        holder.caption = this.getResources().getString(R.string.help_menu_cap);
-        holder.caption_display = true;
-        holder.FLAG = "about";
+        holder.setTittle(this.getResources().getString(R.string.help_menu_lbl));
+        holder.setCaption(this.getResources().getString(R.string.help_menu_cap));
+        holder.setCaptionDisplay(true);
+        holder.setFlag("about");
        
         mGameTitles.add(holder);
 
