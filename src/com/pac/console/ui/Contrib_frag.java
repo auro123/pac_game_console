@@ -55,7 +55,7 @@ public class Contrib_frag extends Fragment {
         contribs = Settings.System.getString(this.getActivity().getContentResolver(), "contribs");
 		View layout = inflater.inflate(R.layout.contrib_frag_layout, null);
 		contrib = (TextView) layout.findViewById(R.id.tv_ota_rom_header);
-
+		contrib.setText("Loading");
 		//restore old state if needed
 			int con = RemoteTools.checkConnection(Contrib_frag.this.getActivity());
 			if (con > RemoteTools.DISCONNECTED){

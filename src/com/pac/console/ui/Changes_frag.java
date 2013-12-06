@@ -28,13 +28,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView;
 
 public class Changes_frag extends Fragment {
 	
+	TextView totals;
 	ListView change;
 	ArrayList<Item> changeList;
 	changeItemAdapter changeAdapter;
-	public String changes = "";
 	boolean store = false;
 	
 	public static Changes_frag newInstance(String content) {
@@ -50,21 +51,19 @@ public class Changes_frag extends Fragment {
       // This bundle will be passed to onCreate if the process is
       // killed and restarted.
       ofLove.putBoolean("store", true);
-      ofLove.putString("changes", changes);
     }
     
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle ofLove) {
 		
         if (ofLove!=null){
-        	changes = ofLove.getString("changes");
 	        store = ofLove.getBoolean("store");
         }
 
-        changes = Settings.System.getString(this.getActivity().getContentResolver(), "changes");
 		View layout = inflater.inflate(R.layout.change_frag_layout, null);
+		totals = (TextView) layout.findViewById(R.id.cfl_totals);
 		change = (ListView) layout.findViewById(R.id.cfl_list);
-		change.setEmptyView(layout.findViewById(R.id.emptyList));
+		change.setEmptyView(layout.findViewById(R.id.cfl_empty));
 		changeList = new ArrayList<Item>();
 		changeAdapter = new changeItemAdapter(this.getActivity(),R.layout.drawer_list_item, changeList);
 		change.setAdapter(changeAdapter);
@@ -84,7 +83,7 @@ public class Changes_frag extends Fragment {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// ATTACH req fragment to content view
-				if (changeList.get(arg2).getViewType() == RowType.HEADER_ITEM.ordinal()){
+				if (changeList.get(arg2).getViewType() != RowType.HEADER_ITEM.ordinal()){
 					String url = "http://github.com/"+((changeItemType) changeList.get(arg2)).getAuthor()+"/"+((changeItemType) changeList.get(arg2)).getTittle()+"/commit/"+((changeItemType) changeList.get(arg2)).getSHA();
 					Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 					startActivity(browserIntent);
@@ -101,6 +100,10 @@ public class Changes_frag extends Fragment {
 
 	    @Override
 	    public void handleMessage(Message msg){
+	    	String changeNote = msg.getData().getString("changes");
+	    	if(changeNote != null){
+	    		totals.setText(changeNote);
+	    	}
 			changeAdapter = new changeItemAdapter(Changes_frag.this.getActivity(),R.layout.drawer_list_item, changeList);
 			change.setAdapter(changeAdapter);
 			change.postInvalidate();
@@ -112,16 +115,7 @@ public class Changes_frag extends Fragment {
 
 		@Override
 		protected ArrayList<Item> doInBackground(String... arg0) {
-			
-			// TODO Auto-generated method stub
-			if (Changes_frag.this.changes != null){
-				Message msg = new Message();
-				Bundle data = new Bundle();
-				data.putString("changes", changes);
-				msg.setData(data);
-				updateRemote.sendMessage(msg);
-			}
-			
+						
 			String out = RemoteTools.getChanges();
 			try {
 				return ChangeLogParser.ChangeLogParser(out);
@@ -137,14 +131,24 @@ public class Changes_frag extends Fragment {
 			Message msg = new Message();
 			Bundle data = new Bundle();
 			if (result != null){
-				data.putString("changes", "UPDATE");
+				boolean found = false;
+				int behind = 0;
+				for (int i = 0 ;i<result.size();i++){
+					if(result.get(i).getViewType() != RowType.HEADER_ITEM.ordinal()){
+						if (((changeItemType)result.get(i)).getNew()){
+							behind++;
+						} else {
+							break;
+						}
+					}
+					
+				}
+				data.putString("changes", "Your build is "+behind+" Commits Behind");
 				if (Changes_frag.this.getActivity()!=null){
 					//Settings.System.putString(Changes_frag.this.getActivity().getContentResolver(), "changes", result);
 				}
 			} else {
-				if (Changes_frag.this.changes==null){
-					data.putString("changes", "Server Down\nOr Tyler Broke Something!");
-				}
+				data.putString("changes", "Server Down\nOr Tyler Broke Something!");
 			}
 			changeList = result;
 			msg.setData(data);
