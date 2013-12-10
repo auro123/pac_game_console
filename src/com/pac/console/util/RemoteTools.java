@@ -48,7 +48,7 @@ public class RemoteTools {
 		DownloadManager.Request r = new DownloadManager.Request(URL);
 
 		// This put the download in the same Download dir the browser uses
-		r.setDestinationInExternalPublicDir(Environment.getExternalStorageDirectory()+"/Download/PAC/", fileName);
+		r.setDestinationInExternalPublicDir("/Download/PAC/", fileName);
 
 		// When downloading music and videos they will be listed in the player
 		// (Seems to be available since Honeycomb only)
