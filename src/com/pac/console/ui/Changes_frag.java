@@ -44,6 +44,7 @@ public class Changes_frag extends Fragment {
 	changeItemAdapter changeAdapter;
 	boolean store = false;
 	
+	boolean mScrolling = false;
 	private Animation mSlideSelInAnimation;
 	private Animation mSlideSelOutAnimation;
 
@@ -84,13 +85,22 @@ public class Changes_frag extends Fragment {
 				// TODO Auto-generated method stub
 				switch (scrollState){
 				case 0: // idle
-					totals.startAnimation(mSlideSelInAnimation);
+						totals.startAnimation(mSlideSelInAnimation);
+						mScrolling = false;
 					break;
 				case 1: // touch
-					totals.startAnimation(mSlideSelOutAnimation);
+					if (!mScrolling){
+						totals.startAnimation(mSlideSelOutAnimation);
+						mScrolling = true;
+
+					}
 					break;
 				case 2: // fling
-					totals.startAnimation(mSlideSelOutAnimation);
+					if (!mScrolling){
+						totals.startAnimation(mSlideSelOutAnimation);
+						mScrolling = true;
+
+					}
 					break;
 				}
 			}
@@ -205,7 +215,6 @@ public class Changes_frag extends Fragment {
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
-
 			}
 		};
 
@@ -222,6 +231,7 @@ public class Changes_frag extends Fragment {
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				totals.setVisibility(View.GONE);
+
 			}
 		};
 
