@@ -6,25 +6,23 @@
     android:layout_gravity="center_horizontal"
     android:orientation="vertical" >
 
+    <ListView
+        android:id="@+id/cfl_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" >
+    </ListView>
+
     <TextView
         android:id="@+id/cfl_totals"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:background="#33B5E5"
+        android:background="#aa33B5E5"
         android:gravity="center"
         android:text=""
         android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <ListView
-        android:id="@+id/cfl_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/cfl_totals"
-        android:visibility="gone" >
-
-    </ListView>
 
     <LinearLayout
         android:id="@+id/cfl_empty"

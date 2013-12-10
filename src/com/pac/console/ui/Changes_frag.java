@@ -25,9 +25,15 @@ import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.view.animation.Animation.AnimationListener;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class Changes_frag extends Fragment {
@@ -38,6 +44,9 @@ public class Changes_frag extends Fragment {
 	changeItemAdapter changeAdapter;
 	boolean store = false;
 	
+	private Animation mSlideSelInAnimation;
+	private Animation mSlideSelOutAnimation;
+
 	public static Changes_frag newInstance(String content) {
 		Changes_frag fragment = new Changes_frag();		
 		return fragment;
@@ -64,6 +73,31 @@ public class Changes_frag extends Fragment {
 		totals = (TextView) layout.findViewById(R.id.cfl_totals);
 		change = (ListView) layout.findViewById(R.id.cfl_list);
 		change.setEmptyView(layout.findViewById(R.id.cfl_empty));
+		change.setOnScrollListener(new OnScrollListener(){
+			@Override
+			public void onScroll(AbsListView arg0, int arg1, int arg2, int arg3) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				// TODO Auto-generated method stub
+				switch (scrollState){
+				case 0: // idle
+					totals.startAnimation(mSlideSelInAnimation);
+					break;
+				case 1: // touch
+					totals.startAnimation(mSlideSelOutAnimation);
+					break;
+				case 2: // fling
+					totals.startAnimation(mSlideSelOutAnimation);
+					break;
+				}
+			}
+		});
+		initAnim();
+		totals.startAnimation(mSlideSelOutAnimation);
+
 		changeList = new ArrayList<Item>();
 		changeAdapter = new changeItemAdapter(this.getActivity(),R.layout.drawer_list_item, changeList);
 		change.setAdapter(changeAdapter);
@@ -103,6 +137,8 @@ public class Changes_frag extends Fragment {
 	    	String changeNote = msg.getData().getString("changes");
 	    	if(changeNote != null){
 	    		totals.setText(changeNote);
+	    		totals.startAnimation(mSlideSelInAnimation);
+
 	    	}
 			changeAdapter = new changeItemAdapter(Changes_frag.this.getActivity(),R.layout.drawer_list_item, changeList);
 			change.setAdapter(changeAdapter);
@@ -155,4 +191,57 @@ public class Changes_frag extends Fragment {
 			updateRemote.sendMessage(msg);
 		}
 	};
+	private void initAnim() {
+		final AnimationListener makeSelVis = new AnimationListener() {
+
+			@Override
+			public void onAnimationStart(Animation animation) {
+				totals.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+
+			}
+		};
+
+		final AnimationListener makeSelHide = new AnimationListener() {
+
+			@Override
+			public void onAnimationStart(Animation animation) {
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				totals.setVisibility(View.GONE);
+			}
+		};
+
+		mSlideSelInAnimation = new TranslateAnimation(
+				TranslateAnimation.RELATIVE_TO_SELF, 0f,
+				TranslateAnimation.RELATIVE_TO_SELF, 0f,
+				TranslateAnimation.RELATIVE_TO_SELF, -1f,
+				TranslateAnimation.RELATIVE_TO_SELF, 0f);
+		mSlideSelOutAnimation = new TranslateAnimation(
+				TranslateAnimation.RELATIVE_TO_SELF, 0f,
+				TranslateAnimation.RELATIVE_TO_SELF, 0f,
+				TranslateAnimation.RELATIVE_TO_SELF, 0f,
+				TranslateAnimation.RELATIVE_TO_SELF, -1f);
+		mSlideSelInAnimation.setDuration(500);
+		mSlideSelOutAnimation.setDuration(500);
+		mSlideSelInAnimation
+				.setInterpolator(new AccelerateDecelerateInterpolator());
+		mSlideSelOutAnimation
+				.setInterpolator(new AccelerateDecelerateInterpolator());
+		mSlideSelInAnimation.setAnimationListener(makeSelVis);
+		mSlideSelOutAnimation.setAnimationListener(makeSelHide);
+	}
 }
