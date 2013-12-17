@@ -3,107 +3,184 @@ package com.pac.console.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
+import android.widget.Switch;
+import android.widget.TextView;
 
-import com.pac.console.adapters.Item;
+import com.pac.console.R;
+import com.pac.console.R.id;
+import com.pac.console.adapters.ListArrayItem;
+import com.pac.console.adapters.changeItemAdapter.RowType;
 
-public class drawerItemType implements Item{
+public class drawerItemType implements ListArrayItem {
 
 	private String FLAG;
 	private String title;
-	
+
 	private boolean caption_display = false;
 	private String caption;
-	
+
 	private boolean URL_launch = false;
 	private String URL;
-	
+
 	private boolean package_launch = false;
 	private String package_name;
 	private String package_path;
-	
+
 	private boolean toggle_display = false;
 	private OnCheckedChangeListener ontoggle;
-	
-	public String getFlag(){
+
+	public String getFlag() {
 		return this.FLAG;
 	}
-	public String getTittle(){
+
+	public String getTittle() {
 		return this.title;
 	}
-	public boolean getCaptionDisplay(){
+
+	public boolean getCaptionDisplay() {
 		return this.caption_display;
 	}
-	public String getCaption(){
+
+	public String getCaption() {
 		return this.caption;
 	}
-	public boolean getURLLaunch(){
+
+	public boolean getURLLaunch() {
 		return this.URL_launch;
 	}
-	public String getURL(){
+
+	public String getURL() {
 		return this.URL;
 	}
-	public String getPackageName(){
+
+	public String getPackageName() {
 		return this.package_name;
 	}
-	public boolean getPackageLaunch(){
+
+	public boolean getPackageLaunch() {
 		return this.package_launch;
 	}
-	public String getPackagePath(){
+
+	public String getPackagePath() {
 		return this.package_path;
 	}
-	public boolean getToggleDisplay(){
+
+	public boolean getToggleDisplay() {
 		return this.toggle_display;
 	}
-	public OnCheckedChangeListener getOnToggleListener(){
+
+	public OnCheckedChangeListener getOnToggleListener() {
 		return this.ontoggle;
 	}
 
-	public void setFlag(String in){
+	public void setFlag(String in) {
 		this.FLAG = in;
 	}
-	public void setTittle(String in){
+
+	public void setTittle(String in) {
 		this.title = in;
 	}
-	public void setCaptionDisplay(boolean in){
+
+	public void setCaptionDisplay(boolean in) {
 		this.caption_display = in;
 	}
-	public void setCaption(String in){
+
+	public void setCaption(String in) {
 		this.caption = in;
 	}
-	public void setURLLaunch(boolean in){
+
+	public void setURLLaunch(boolean in) {
 		this.URL_launch = in;
 	}
-	public void setURL(String in){
+
+	public void setURL(String in) {
 		this.URL = in;
 	}
-	public void setPackageName(String in){
+
+	public void setPackageName(String in) {
 		this.package_name = in;
 	}
-	public void setPackageLaunch(boolean in){
+
+	public void setPackageLaunch(boolean in) {
 		this.package_launch = in;
 	}
-	public void setPackagePath(String in){
+
+	public void setPackagePath(String in) {
 		this.package_path = in;
 	}
-	public void setToggleDisplay(boolean in){
+
+	public void setToggleDisplay(boolean in) {
 		this.toggle_display = in;
 	}
-	public void setOnToggleListener(OnCheckedChangeListener in){
+
+	public void setOnToggleListener(OnCheckedChangeListener in) {
 		this.ontoggle = in;
 	}
-	
-	
-	
+
 	@Override
 	public int getViewType() {
 		// TODO Auto-generated method stub
-		return 0;
+		return RowType.LIST_ITEM.ordinal();
 	}
-	
+
 	@Override
 	public View getView(LayoutInflater inflater, View convertView) {
-		// TODO MOVE ADAPTER CODE VIEW HERE
-		return null;
+		View view = convertView;
+		if (view == null) {
+			view = inflater.inflate(R.layout.drawer_list_item, null);
+		}
+
+		/*
+		 * Only show the required parts of the view as long as there is a item
+		 * to show default is just a title
+		 */
+
+		// set the title
+		TextView tvTit = (TextView) view.findViewById(id.dli_title);
+		tvTit.setText(this.getTittle());
+		// show the caption
+		if (this.getCaptionDisplay()) {
+			TextView tvCap = (TextView) view.findViewById(id.dli_summary);
+			tvCap.setText(this.getCaption());
+		} else {
+			TextView tvCap = (TextView) view.findViewById(id.dli_summary);
+			tvCap.setVisibility(View.GONE);
+		}
+		// show the Image
+		if (false) {
+			ImageView tvCap = (ImageView) view.findViewById(id.dli_summary);
+			tvCap.setBackgroundResource(R.drawable.pacman_header);
+		} else {
+			// TextView tvCap = (TextView) view.findViewById(id.dli_caption);
+			// tvCap.setVisibility(View.GONE);
+		}
+		/*/ show the toggler
+		if (this.getToggleDisplay()) {
+			Switch swTog = (Switch) view.findViewById(id.dli_toggle);
+			// TODO COMMENT OUT WHILE TESTING
+			// swTog.setOnCheckedChangeListener(mItem.ontoggle);
+		} else {
+			Switch swTog = (Switch) view.findViewById(id.dli_toggle);
+			swTog.setVisibility(View.GONE);
+		}*/
+
+		// are we doing a external launch?
+		if (this.getPackageLaunch()) {
+			// TODO do a package intent
+		} else {
+			// TODO do notihng?
+		}
+
+		// are we doing a web launch?
+		if (this.getURLLaunch()) {
+			// TODO do a url intent
+		} else {
+			// TODO do notihng?
+		}
+
+		return view;
+
 	}
 
 }

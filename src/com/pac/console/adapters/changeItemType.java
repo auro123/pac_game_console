@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-public class changeItemType implements Item {
+public class changeItemType implements ListArrayItem {
 
 	private String SHA;
 	private String title;

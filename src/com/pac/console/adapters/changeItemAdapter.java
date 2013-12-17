@@ -2,24 +2,15 @@ package com.pac.console.adapters;
 
 import java.util.ArrayList;
 
-import com.pac.console.R;
-import com.pac.console.R.id;
-
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.Switch;
-import android.widget.TextView;
 
-public class changeItemAdapter extends ArrayAdapter<Item>{
+public class changeItemAdapter extends ArrayAdapter<ListArrayItem>{
 	
-	private ArrayList<Item> mList;
+	private ArrayList<ListArrayItem> mList;
 	private Context mContext;
     private LayoutInflater mInflater;
 
@@ -28,7 +19,7 @@ public class changeItemAdapter extends ArrayAdapter<Item>{
     }
 
 	public changeItemAdapter(Context context, int textViewResourceId,
-			ArrayList<Item> drawList) {
+			ArrayList<ListArrayItem> drawList) {
 		super(context, textViewResourceId, drawList);
 		
         mInflater = LayoutInflater.from(context);

@@ -13,51 +13,59 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="?android:attr/listPreferredItemHeight"
-    android:paddingRight="16dp"
-    >
+    android:gravity="center_vertical"
+    android:paddingStart="16dip"
+    android:paddingEnd="?android:attr/scrollbarSize">
 
     <LinearLayout
-        android:id="@+id/dli_holder"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="3dp"
-        android:layout_marginTop="3dp"
-        android:layout_toLeftOf="@+id/dli_toggle"
-        android:orientation="vertical" 
-        android:paddingLeft="16dp">
-
-        <TextView
-            android:id="@+id/dli_title"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/dli_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="This is an Object"
-            android:textAppearance="?android:attr/textAppearanceMediumInverse"
-            android:textColor="#fff2f2f2" />
-
-        <TextView
-            android:id="@+id/dli_caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:maxLines="5"
-            android:text="This is some crap in said object (optional)"
-            android:textAppearance="?android:attr/textAppearanceSmallInverse"
-            android:textColor="#ffc2c2c2" />
-
+            android:layout_gravity="center"
+            />
     </LinearLayout>
 
-    <Switch
-        android:id="@+id/dli_toggle"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerVertical="true" />
+        android:layout_marginEnd="6dip"
+        android:layout_marginTop="6dip"
+        android:layout_marginBottom="6dip"
+        android:layout_weight="1">
 
-</RelativeLayout>
+        <TextView android:id="@+id/dli_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal" />
+            
+        <TextView android:id="@+id/dli_summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dli_title"
+            android:layout_alignStart="@+id/dli_title"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="?android:attr/textColorSecondary"
+            android:maxLines="4" />
+
+    </RelativeLayout>
+
+    <!-- Preference should place its actual preference widget here. -->
+    <LinearLayout android:id="@+id/dli_widget_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical" />
+
+</LinearLayout>

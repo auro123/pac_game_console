@@ -13,11 +13,11 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class Header implements Item {
+public class changeHeader implements ListArrayItem {
 
 	private String title;
 
-    public Header(String title) {
+    public changeHeader(String title) {
         this.title = title;
     }
     

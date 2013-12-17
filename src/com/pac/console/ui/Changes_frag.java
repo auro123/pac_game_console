@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import org.json.JSONException;
 
 import com.pac.console.R;
-import com.pac.console.adapters.Header;
-import com.pac.console.adapters.Item;
+import com.pac.console.adapters.changeHeader;
+import com.pac.console.adapters.ListArrayItem;
 import com.pac.console.adapters.changeItemAdapter;
 import com.pac.console.adapters.changeItemType;
 import com.pac.console.adapters.changeItemAdapter.RowType;
@@ -40,7 +40,7 @@ public class Changes_frag extends Fragment {
 	
 	TextView totals;
 	ListView change;
-	ArrayList<Item> changeList;
+	ArrayList<ListArrayItem> changeList;
 	changeItemAdapter changeAdapter;
 	boolean store = false;
 	
@@ -108,7 +108,7 @@ public class Changes_frag extends Fragment {
 		initAnim();
 		totals.startAnimation(mSlideSelOutAnimation);
 
-		changeList = new ArrayList<Item>();
+		changeList = new ArrayList<ListArrayItem>();
 		changeAdapter = new changeItemAdapter(this.getActivity(),R.layout.drawer_list_item, changeList);
 		change.setAdapter(changeAdapter);
 		//restore old state if needed
@@ -157,10 +157,10 @@ public class Changes_frag extends Fragment {
 
 	};
 	private class CheckRemote extends
-	AsyncTask<String, Void, ArrayList<Item>> {
+	AsyncTask<String, Void, ArrayList<ListArrayItem>> {
 
 		@Override
-		protected ArrayList<Item> doInBackground(String... arg0) {
+		protected ArrayList<ListArrayItem> doInBackground(String... arg0) {
 						
 			String out = RemoteTools.getChanges();
 			try {
@@ -173,7 +173,7 @@ public class Changes_frag extends Fragment {
 		}
 		
 		@Override
-		protected void onPostExecute(final ArrayList<Item> result) {
+		protected void onPostExecute(final ArrayList<ListArrayItem> result) {
 			Message msg = new Message();
 			Bundle data = new Bundle();
 			if (result != null){

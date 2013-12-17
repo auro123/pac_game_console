@@ -2,6 +2,8 @@ package com.pac.console;
 
 import java.util.ArrayList;
 
+import com.pac.console.adapters.ListArrayItem;
+import com.pac.console.adapters.aospHeader;
 import com.pac.console.adapters.drawerItemAdapter;
 import com.pac.console.adapters.drawerItemType;
 import com.pac.console.ui.About_frag;
@@ -33,7 +35,7 @@ import android.widget.Toast;
 //4.3 branch
 public class PacConsole extends Activity {
 
-    private ArrayList<drawerItemType> mGameTitles;
+    private ArrayList<ListArrayItem> mGameTitles;
     private ListView mDrawerList;
     
     private drawerItemType mSelectedItem;
@@ -150,28 +152,28 @@ public class PacConsole extends Activity {
 	        Fragment fragment = null;
 	        android.app.FragmentManager fragmentManager = getFragmentManager();
 	        if (fragment == null){
-		        if (mGameTitles.get(possition).getFlag().equalsIgnoreCase("ota")){
+		        if (((drawerItemType) mGameTitles.get(possition)).getFlag().equalsIgnoreCase("ota")){
 		        	fragment = new OTA_frag();
-		        } else if (mGameTitles.get(possition).getFlag().equalsIgnoreCase("contributors")){
+		        } else if (((drawerItemType) mGameTitles.get(possition)).getFlag().equalsIgnoreCase("contributors")){
 		        	fragment = new Contrib_frag();
-		        } else if (mGameTitles.get(possition).getFlag().equalsIgnoreCase("about")){
+		        } else if (((drawerItemType) mGameTitles.get(possition)).getFlag().equalsIgnoreCase("about")){
 		        	fragment = new About_frag();
-		        } else if (mGameTitles.get(possition).getFlag().equalsIgnoreCase("stats")){
+		        } else if (((drawerItemType) mGameTitles.get(possition)).getFlag().equalsIgnoreCase("stats")){
 		        	fragment = new PACStats();
-		        } else if (mGameTitles.get(possition).getFlag().equalsIgnoreCase("changes")){
+		        } else if (((drawerItemType) mGameTitles.get(possition)).getFlag().equalsIgnoreCase("changes")){
 		        	fragment = new Changes_frag();
 		        }
 
 	        // Insert the fragment by replacing any existing fragment
 	        fragmentManager.beginTransaction()
-	                       .replace(R.id.content_frame, fragment, mGameTitles.get(possition).getFlag())
+	                       .replace(R.id.content_frame, fragment, ((drawerItemType) mGameTitles.get(possition)).getFlag())
 	                       .commit();
 	    }
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(possition, true);
         
-        mSelectedItem = mGameTitles.get(possition);
+        mSelectedItem = (drawerItemType) mGameTitles.get(possition);
         
         mDrawerLayout.closeDrawer(mDrawerList);
 		
@@ -179,65 +181,110 @@ public class PacConsole extends Activity {
 
     private void createDrawList(){
     	
-        mGameTitles = new ArrayList<drawerItemType>();
+        mGameTitles = new ArrayList<ListArrayItem>();
 
         // ok here we go!
         
         // UPDATE THIS !!!!
         
-        
-        
         // OTA Frag
-        drawerItemType holder = new drawerItemType();
-        holder.setTittle(this.getResources().getString(R.string.ota_menu_lbl));
-        holder.setCaption(this.getResources().getString(R.string.ota_menu_cap));
-        holder.setCaptionDisplay(true);
-        holder.setFlag("ota");
+        ListArrayItem holder;
+        holder = new aospHeader("Updates");
+        
+        mGameTitles.add(holder);
+        
+        holder = new drawerItemType();
+        ((drawerItemType) holder).setTittle(this.getResources().getString(R.string.ota_menu_lbl));
+        ((drawerItemType) holder).setCaption(this.getResources().getString(R.string.ota_menu_cap));
+        ((drawerItemType) holder).setCaptionDisplay(true);
+        ((drawerItemType) holder).setFlag("ota");
        
+        mGameTitles.add(holder);
+        //Changes
+        holder = new drawerItemType();
+        ((drawerItemType) holder).setTittle(this.getResources().getString(R.string.change_menu_lbl));
+        ((drawerItemType) holder).setCaption(this.getResources().getString(R.string.change_menu_cap));
+        ((drawerItemType) holder).setCaptionDisplay(true);
+        ((drawerItemType) holder).setFlag("changes");
+
+        mGameTitles.add(holder);
+        
+        holder = new aospHeader("Interface");
+        
+        mGameTitles.add(holder);
+        
+        holder = new drawerItemType();
+        ((drawerItemType) holder).setTittle("Active Display");
+        ((drawerItemType) holder).setCaption("Moto X Active Display");
+        ((drawerItemType) holder).setCaptionDisplay(true);
+        ((drawerItemType) holder).setFlag("activedisplay");
+
+        mGameTitles.add(holder);
+
+        holder = new drawerItemType();
+        ((drawerItemType) holder).setTittle("Battery");
+        ((drawerItemType) holder).setCaption("Battery Icon and Notification Options");
+        ((drawerItemType) holder).setCaptionDisplay(true);
+        ((drawerItemType) holder).setFlag("battery");
+
+        mGameTitles.add(holder);
+        
+        holder = new drawerItemType();
+        ((drawerItemType) holder).setTittle("Signal");
+        ((drawerItemType) holder).setCaption("Signal Icon and Notification Options");
+        ((drawerItemType) holder).setCaptionDisplay(true);
+        ((drawerItemType) holder).setFlag("signal");
+
+        mGameTitles.add(holder);
+
+        holder = new aospHeader("Hybrid");
+        
+        mGameTitles.add(holder);
+
+        holder = new drawerItemType();
+        ((drawerItemType) holder).setTittle("Global");
+        ((drawerItemType) holder).setCaption("Set Global Hybrid Options");
+        ((drawerItemType) holder).setCaptionDisplay(true);
+        ((drawerItemType) holder).setFlag("hyb_global");
+
+        mGameTitles.add(holder);
+
+        holder = new drawerItemType();
+        ((drawerItemType) holder).setTittle("App Specific");
+        ((drawerItemType) holder).setCaption("Set Per App Hybrid Options");
+        ((drawerItemType) holder).setCaptionDisplay(true);
+        ((drawerItemType) holder).setFlag("hyb_apps");
+
+        mGameTitles.add(holder);
+
+        holder = new aospHeader("ROM Info");
+        
         mGameTitles.add(holder);
         
         //Contributers
         holder = new drawerItemType();
-        holder.setTittle(this.getResources().getString(R.string.contrib_menu_lbl));
-        holder.setCaption(this.getResources().getString(R.string.contrib_menu_cap));
-        holder.setCaptionDisplay(true);
-        holder.setFlag("contributors");
-       
-        mGameTitles.add(holder);
-        
-        //Changes
-        holder = new drawerItemType();
-        holder.setTittle(this.getResources().getString(R.string.change_menu_lbl));
-        holder.setCaption(this.getResources().getString(R.string.change_menu_cap));
-        holder.setCaptionDisplay(true);
-        holder.setFlag("changes");
-       
+        ((drawerItemType) holder).setTittle(this.getResources().getString(R.string.contrib_menu_lbl));
+        ((drawerItemType) holder).setCaption(this.getResources().getString(R.string.contrib_menu_cap));
+        ((drawerItemType) holder).setCaptionDisplay(true);
+        ((drawerItemType) holder).setFlag("contributors");
+
         mGameTitles.add(holder);
 
         // About PAC Frag and set as default.
         holder = new drawerItemType();
-        holder.setTittle(this.getResources().getString(R.string.stat_menu_lbl));
-        holder.setCaption(this.getResources().getString(R.string.stat_menu_cap));
-        holder.setCaptionDisplay(true);
-        holder.setFlag("stats");
+        ((drawerItemType) holder).setTittle(this.getResources().getString(R.string.stat_menu_lbl));
+        ((drawerItemType) holder).setCaption(this.getResources().getString(R.string.stat_menu_cap));
+        ((drawerItemType) holder).setCaptionDisplay(false);
+        ((drawerItemType) holder).setFlag("stats");
        
         mGameTitles.add(holder);
-        
-        Fragment fragment = new About_frag();
-        android.app.FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                       .replace(R.id.content_frame, fragment)
-                       .commit();
-
-        mDrawerList.setItemChecked(mGameTitles.size()-1, true);       
-        mSelectedItem = mGameTitles.get(mGameTitles.size()-1);
-        
+                
         // Help Frag
         holder = new drawerItemType();
-        holder.setTittle(this.getResources().getString(R.string.help_menu_lbl));
-        holder.setCaption(this.getResources().getString(R.string.help_menu_cap));
-        holder.setCaptionDisplay(true);
-        holder.setFlag("about");
+        ((drawerItemType) holder).setTittle(this.getResources().getString(R.string.help_menu_lbl));
+        ((drawerItemType) holder).setCaption(this.getResources().getString(R.string.help_menu_cap));
+        ((drawerItemType) holder).setCaptionDisplay(true);
+        ((drawerItemType) holder).setFlag("about");
        
         mGameTitles.add(holder);
 
