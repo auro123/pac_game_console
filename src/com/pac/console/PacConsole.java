@@ -114,6 +114,7 @@ public class PacConsole extends Activity {
         //make our list for the drawer
         createDrawList();
         
+        //TODO FIX THIS!!!!!!!
         mDrawerList.setAdapter(new drawerItemAdapter(this,R.layout.drawer_list_item, mGameTitles));
         
         mDrawerList.setOnItemClickListener(new OnItemClickListener(){
@@ -182,19 +183,10 @@ public class PacConsole extends Activity {
 
         // ok here we go!
         
-        /**
-         * list is as follows
-         * 
-         * Update ROM
-         * PA Stuff		|
-         * CM Stuff		|-- All grouped by type 
-         * AOKP Stuff	|		eg. all display options together, all sound options together.
-         * PAC Stuff	|
-         * 
-         * About us
-         * Contributors
-         * Help
-         */
+        // UPDATE THIS !!!!
+        
+        
+        
         // OTA Frag
         drawerItemType holder = new drawerItemType();
         holder.setTittle(this.getResources().getString(R.string.ota_menu_lbl));

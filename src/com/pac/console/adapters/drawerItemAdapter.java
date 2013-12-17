@@ -14,13 +14,13 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
-public class drawerItemAdapter extends ArrayAdapter<drawerItemType>{
+public class drawerItemAdapter extends ArrayAdapter<Item>{
 	
-	private ArrayList<drawerItemType> mList;
+	private ArrayList<Item> mList;
 	private Context mContext;
 	
 	public drawerItemAdapter(Context context, int textViewResourceId,
-			ArrayList<drawerItemType> drawList) {
+			ArrayList<Item> drawList) {
 		super(context, textViewResourceId, drawList);
 		// TODO Auto-generated constructor stub
 		
@@ -42,13 +42,14 @@ public class drawerItemAdapter extends ArrayAdapter<drawerItemType>{
             LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = vi.inflate(R.layout.drawer_list_item, null);
         }
-        
+        //TODO FIX THIS!!!!!
+        /**
         drawerItemType mItem = mList.get(position);
         
-		/** 
+		 
 		 * Only show the required parts of the view as long as there is a item to show
 		 * default is just a title
-		 **/
+		 
 
 		if (mItem != null){
 			// set the title
@@ -94,7 +95,7 @@ public class drawerItemAdapter extends ArrayAdapter<drawerItemType>{
 				// TODO do notihng?
 			}
 		}
-		
+		**/
 		return view;
 	}
 }

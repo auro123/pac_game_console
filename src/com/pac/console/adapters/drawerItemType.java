@@ -1,8 +1,12 @@
 package com.pac.console.adapters;
 
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
-public class drawerItemType {
+import com.pac.console.adapters.Item;
+
+public class drawerItemType implements Item{
 
 	private String FLAG;
 	private String title;
@@ -86,6 +90,20 @@ public class drawerItemType {
 	}
 	public void setOnToggleListener(OnCheckedChangeListener in){
 		this.ontoggle = in;
+	}
+	
+	
+	
+	@Override
+	public int getViewType() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	@Override
+	public View getView(LayoutInflater inflater, View convertView) {
+		// TODO MOVE ADAPTER CODE VIEW HERE
+		return null;
 	}
 
 }
