@@ -1,7 +1,7 @@
-package com.pac.console.adapters;
+package com.pac.settigns.adapters;
 
 import com.pac.console.R;
-import com.pac.console.adapters.changeItemAdapter.RowType;
+import com.pac.settigns.adapters.changeItemAdapter.RowType;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;

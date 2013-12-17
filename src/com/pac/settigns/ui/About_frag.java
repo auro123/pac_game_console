@@ -1,4 +1,4 @@
-package com.pac.console.ui;
+package com.pac.settigns.ui;
 
 import com.pac.console.R;
 

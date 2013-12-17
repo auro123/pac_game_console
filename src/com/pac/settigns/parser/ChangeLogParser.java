@@ -1,4 +1,4 @@
-package com.pac.console.parser;
+package com.pac.settigns.parser;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,9 +13,9 @@ import org.json.JSONObject;
 import android.os.Build;
 import android.text.format.DateFormat;
 
-import com.pac.console.adapters.Header;
-import com.pac.console.adapters.changeItemType;
-import com.pac.console.adapters.Item;
+import com.pac.settigns.adapters.Header;
+import com.pac.settigns.adapters.Item;
+import com.pac.settigns.adapters.changeItemType;
 
 public class ChangeLogParser {
 	public static ArrayList<Item> ChangeLogParser(String JsonData)

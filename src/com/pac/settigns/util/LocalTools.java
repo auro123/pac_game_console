@@ -1,4 +1,4 @@
-package com.pac.console.util;
+package com.pac.settigns.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;

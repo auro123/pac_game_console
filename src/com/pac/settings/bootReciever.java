@@ -1,6 +1,6 @@
 package com.pac.settings;
 
-import com.pac.console.util.LocalTools;
+import com.pac.settigns.util.LocalTools;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;

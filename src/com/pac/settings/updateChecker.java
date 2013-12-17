@@ -6,8 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.pac.console.R;
-import com.pac.console.util.LocalTools;
-import com.pac.console.util.RemoteTools;
+import com.pac.settigns.util.LocalTools;
+import com.pac.settigns.util.RemoteTools;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;

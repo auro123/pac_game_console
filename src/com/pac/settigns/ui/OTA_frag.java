@@ -1,4 +1,4 @@
-package com.pac.console.ui;
+package com.pac.settigns.ui;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import com.pac.console.R;
-import com.pac.console.util.LocalTools;
-import com.pac.console.util.RemoteTools;
+import com.pac.settigns.util.LocalTools;
+import com.pac.settigns.util.RemoteTools;
 
 import android.app.ActionBar;
 import android.app.Activity;

@@ -3,9 +3,9 @@ package com.pac.settings;
 import java.util.ArrayList;
 
 import com.pac.console.R;
-import com.pac.console.adapters.drawerItemAdapter;
-import com.pac.console.adapters.drawerItemType;
-import com.pac.console.ui.OTA_frag;
+import com.pac.settigns.adapters.drawerItemAdapter;
+import com.pac.settigns.adapters.drawerItemType;
+import com.pac.settigns.ui.OTA_frag;
 
 import android.os.Bundle;
 import android.app.Activity;

@@ -1,11 +1,11 @@
-package com.pac.console.adapters;
+package com.pac.settigns.adapters;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.pac.console.R;
-import com.pac.console.adapters.changeItemAdapter.RowType;
+import com.pac.settigns.adapters.changeItemAdapter.RowType;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
