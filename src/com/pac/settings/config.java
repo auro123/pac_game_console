@@ -1,4 +1,4 @@
-package com.pac.console;
+package com.pac.settings;
 
 public class config {
 	public static final String OTA_SCRIPT = "http://www.pac-rom.com/ota/ota_PAC.php";

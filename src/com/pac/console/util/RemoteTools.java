@@ -21,7 +21,7 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.pac.console.config;
+import com.pac.settings.config;
 
 public class RemoteTools {
 	

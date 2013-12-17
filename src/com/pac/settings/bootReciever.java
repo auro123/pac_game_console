@@ -1,4 +1,4 @@
-package com.pac.console;
+package com.pac.settings;
 
 import com.pac.console.util.LocalTools;
 

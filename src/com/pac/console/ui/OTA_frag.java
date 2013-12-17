@@ -45,7 +45,7 @@ import android.widget.Toast;
 
 public class OTA_frag extends Fragment {
 
-	private OTA_enabler mOTAEnabler;
+	//private OTA_enabler mOTAEnabler;
 	TextView update;
 	Button download;
 	Button flash;
@@ -90,7 +90,7 @@ public class OTA_frag extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		mOTAEnabler.resume();
+		//mOTAEnabler.resume();
         mDownload = new DownLoadComplte();
         this.getActivity().registerReceiver(mDownload, new IntentFilter(
                 DownloadManager.ACTION_DOWNLOAD_COMPLETE));
@@ -99,7 +99,7 @@ public class OTA_frag extends Fragment {
 	@Override
 	public void onPause() {
 		super.onPause();
-		mOTAEnabler.pause();
+		//mOTAEnabler.pause();
         this.getActivity().unregisterReceiver(mDownload);
 	}
 
@@ -234,7 +234,7 @@ public class OTA_frag extends Fragment {
 				ActionBar.LayoutParams.WRAP_CONTENT, Gravity.CENTER_VERTICAL
 						| Gravity.RIGHT));
 
-		mOTAEnabler = new OTA_enabler(getActivity(), actionBarSwitch);
+		//mOTAEnabler = new OTA_enabler(getActivity(), actionBarSwitch);
 
 		searchForOTA(deviceName);
 		
