@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import com.pac.console.adapters.ListArrayItem;
 import com.pac.console.adapters.aospHeader;
 import com.pac.console.adapters.drawerItemAdapter;
+import com.pac.console.adapters.drawerItemAdapter.RowType;
 import com.pac.console.adapters.drawerItemType;
 import com.pac.console.ui.About_frag;
 import com.pac.console.ui.Changes_frag;
 import com.pac.console.ui.Contrib_frag;
 import com.pac.console.ui.OTA_frag;
+import com.pac.console.ui.text_frag;
 
 import android.media.audiofx.BassBoost.Settings;
 import android.net.Uri;
@@ -45,6 +47,7 @@ public class PacConsole extends Activity {
     private int poss = 0;
     private boolean state = false;
     Fragment mContent = null;
+    
     @Override
     public void onSaveInstanceState(Bundle ofLove) {
       super.onSaveInstanceState(ofLove);
@@ -124,9 +127,11 @@ public class PacConsole extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// ATTACH req fragment to content view
-				attachFrag(arg2);
-				mDrawerList.setSelection(arg2);
-				poss = arg2;
+				if (mGameTitles.get(arg2).getViewType() == RowType.LIST_ITEM.ordinal()){
+					attachFrag(arg2);
+					mDrawerList.setSelection(arg2);
+					poss = arg2;
+				}
 			}
 
         	
@@ -163,7 +168,11 @@ public class PacConsole extends Activity {
 		        } else if (((drawerItemType) mGameTitles.get(possition)).getFlag().equalsIgnoreCase("changes")){
 		        	fragment = new Changes_frag();
 		        }
-
+		        if (fragment==null){
+		        	// bad bad bad !!!
+		        	fragment = text_frag.newInstance("The Devs Done F**ked Up!!!!\n\nI Blame Tyler!\n\nYou need to add and then attach the Fragment!");
+		        	
+		        }
 	        // Insert the fragment by replacing any existing fragment
 	        fragmentManager.beginTransaction()
 	                       .replace(R.id.content_frame, fragment, ((drawerItemType) mGameTitles.get(possition)).getFlag())

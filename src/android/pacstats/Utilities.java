@@ -22,8 +22,9 @@ import java.net.NetworkInterface;
 import java.security.MessageDigest;
 import java.util.Locale;
 
+import com.pac.console.util.LocalTools;
+
 import android.content.Context;
-import android.os.SystemProperties;
 import android.telephony.TelephonyManager;
 
 public class Utilities {
@@ -38,7 +39,7 @@ public class Utilities {
 
 		String device_id = digest(tm.getDeviceId());
 		if (device_id == null) {
-			String wifiInterface = SystemProperties.get("wifi.interface");
+			String wifiInterface = LocalTools.getProp("wifi.interface");
 			try {
 				String wifiMac = new String(NetworkInterface.getByName(wifiInterface).getHardwareAddress());
 				device_id = digest(wifiMac);
@@ -51,7 +52,7 @@ public class Utilities {
 	}
 
 	public static String getStatsUrl() {
-		String returnUrl = SystemProperties.get("ro.pacstats.url");
+		String returnUrl = LocalTools.getProp("ro.pacstats.url");
 
 		if (returnUrl.isEmpty()) {
 			return null;
@@ -93,23 +94,23 @@ public class Utilities {
 	}
 
 	public static String getDevice() {
-		return SystemProperties.get("ro.product.model");
+		return LocalTools.getProp("ro.product.model");
 	}
 
 	public static String getModVersion() {
-		return SystemProperties.get("ro.build.display.id");
+		return LocalTools.getProp("ro.build.display.id");
 	}
 
 	public static String getRomName() {
-		return SystemProperties.get("ro.pacstats.name");
+		return LocalTools.getProp("ro.pacstats.name");
 	}
 
 	public static String getRomVersion() {
-		return SystemProperties.get("ro.pacstats.version");
+		return LocalTools.getProp("ro.pacstats.version");
 	}
 
 	public static long getTimeFrame() {
-		String tFrameStr = SystemProperties.get("ro.pacstats.tframe", "7");
+		String tFrameStr = LocalTools.getProp("ro.pacstats.tframe");
 		return Long.valueOf(tFrameStr);
 	}
 
