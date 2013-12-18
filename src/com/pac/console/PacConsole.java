@@ -237,6 +237,22 @@ public class PacConsole extends Activity {
         ((drawerItemType) holder).setFlag("battery");
 
         mGameTitles.add(holder);
+
+        holder = new drawerItemType();
+        ((drawerItemType) holder).setTittle("Quick Tiles");
+        ((drawerItemType) holder).setCaption("Notification Quick Toggle Tile Options");
+        ((drawerItemType) holder).setCaptionDisplay(true);
+        ((drawerItemType) holder).setFlag("battery");
+
+        mGameTitles.add(holder);
+
+        holder = new drawerItemType();
+        ((drawerItemType) holder).setTittle("Lock Screen");
+        ((drawerItemType) holder).setCaption("Lock Screen Options");
+        ((drawerItemType) holder).setCaptionDisplay(true);
+        ((drawerItemType) holder).setFlag("battery");
+
+        mGameTitles.add(holder);
         
         holder = new drawerItemType();
         ((drawerItemType) holder).setTittle("Signal");
