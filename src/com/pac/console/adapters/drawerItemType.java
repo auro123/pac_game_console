@@ -143,40 +143,11 @@ public class drawerItemType implements ListArrayItem {
 		if (this.getCaptionDisplay()) {
 			TextView tvCap = (TextView) view.findViewById(id.dli_summary);
 			tvCap.setText(this.getCaption());
+			tvCap.setVisibility(View.VISIBLE);
+
 		} else {
 			TextView tvCap = (TextView) view.findViewById(id.dli_summary);
 			tvCap.setVisibility(View.GONE);
-		}
-		// show the Image
-		if (false) {
-			ImageView tvCap = (ImageView) view.findViewById(id.dli_summary);
-			tvCap.setBackgroundResource(R.drawable.pacman_header);
-		} else {
-			// TextView tvCap = (TextView) view.findViewById(id.dli_caption);
-			// tvCap.setVisibility(View.GONE);
-		}
-		/*/ show the toggler
-		if (this.getToggleDisplay()) {
-			Switch swTog = (Switch) view.findViewById(id.dli_toggle);
-			// TODO COMMENT OUT WHILE TESTING
-			// swTog.setOnCheckedChangeListener(mItem.ontoggle);
-		} else {
-			Switch swTog = (Switch) view.findViewById(id.dli_toggle);
-			swTog.setVisibility(View.GONE);
-		}*/
-
-		// are we doing a external launch?
-		if (this.getPackageLaunch()) {
-			// TODO do a package intent
-		} else {
-			// TODO do notihng?
-		}
-
-		// are we doing a web launch?
-		if (this.getURLLaunch()) {
-			// TODO do a url intent
-		} else {
-			// TODO do notihng?
 		}
 
 		return view;
