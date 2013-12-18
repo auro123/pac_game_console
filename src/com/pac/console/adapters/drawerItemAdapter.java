@@ -17,19 +17,13 @@ import android.widget.TextView;
 
 public class drawerItemAdapter extends ArrayAdapter<ListArrayItem>{
 	
-	private ArrayList<ListArrayItem> mList;
-	private Context mContext;
-    private LayoutInflater mInflater;
+	private LayoutInflater mInflater;
 
 	public drawerItemAdapter(Context context, int textViewResourceId,
 			ArrayList<ListArrayItem> drawList) {
 		super(context, textViewResourceId, drawList);
 
-		this.mList = drawList;
-		
 		this.mInflater = LayoutInflater.from(context);
-
-		this.mContext = context;
 		
 	}
 	

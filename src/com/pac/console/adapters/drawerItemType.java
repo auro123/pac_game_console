@@ -12,6 +12,12 @@ import com.pac.console.R.id;
 import com.pac.console.adapters.ListArrayItem;
 import com.pac.console.adapters.changeItemAdapter.RowType;
 
+/**
+ * Custom Draw List Type
+ *
+ * @author pvyParts
+ *
+ */
 public class drawerItemType implements ListArrayItem {
 
 	private String FLAG;

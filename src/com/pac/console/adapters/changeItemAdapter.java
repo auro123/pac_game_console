@@ -10,9 +10,7 @@ import android.widget.ArrayAdapter;
 
 public class changeItemAdapter extends ArrayAdapter<ListArrayItem>{
 	
-	private ArrayList<ListArrayItem> mList;
-	private Context mContext;
-    private LayoutInflater mInflater;
+	private LayoutInflater mInflater;
 
     public enum RowType {
         LIST_ITEM, HEADER_ITEM
@@ -23,13 +21,6 @@ public class changeItemAdapter extends ArrayAdapter<ListArrayItem>{
 		super(context, textViewResourceId, drawList);
 		
         mInflater = LayoutInflater.from(context);
-
-		//get the list for the adapter
-		this.mList = drawList;
-		
-		//get context for launch actions later
-		this.mContext = context;
-		
 	}
 
 	@Override
