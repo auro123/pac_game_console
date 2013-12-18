@@ -43,6 +43,14 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * OTA Frag
+ * 
+ * loads the OTA stuff allows selction of ota types etc etc etc...
+ * 
+ * @author pvyParts
+ *
+ */
 public class OTA_frag extends Fragment {
 
 	private OTA_enabler mOTAEnabler;

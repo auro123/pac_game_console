@@ -21,7 +21,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+/**
+ * contributors frag
+ * 
+ * loads from github raw
+ * 
+ * passes MKDN to text view
+ * using uncod Bypass Library
+ * 
+ * @author pvyParts
+ *
+ */
 public class Contrib_frag extends Fragment {
 	
 	TextView contrib;

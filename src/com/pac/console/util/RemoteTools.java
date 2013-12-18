@@ -23,6 +23,12 @@ import android.util.Log;
 
 import com.pac.console.config;
 
+/**
+ * all the remote grabbers / downloaders and what not
+ * 
+ * @author pvyParts
+ *
+ */
 public class RemoteTools {
 	
 	/** DownLoadComplte mDownload;

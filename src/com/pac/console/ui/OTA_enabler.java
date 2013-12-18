@@ -20,7 +20,14 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Switch;
 import android.widget.Toast;
-
+/**
+ * switch for the actionbar with interface 
+ * 
+ * TODO make a proper interface
+ * 
+ * @author pvyParts
+ *
+ */
 public class OTA_enabler implements OnCheckedChangeListener {
 
 	protected final Context mContext;

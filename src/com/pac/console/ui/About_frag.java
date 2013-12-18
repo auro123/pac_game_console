@@ -9,11 +9,13 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
-
+/**
+ * About Pac frag launch some links n shit
+ * 
+ * @author pvyParts
+ *
+ */
 public class About_frag extends PreferenceFragment {
 	
 	

@@ -34,7 +34,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-//4.3 branch
+
+/**
+ * PAC Console 
+ * 
+ *  Nav Draw
+ *  
+ *  Basic last item handing for rotations
+ *
+ * @author pvyParts
+ *
+ */
 public class PacConsole extends Activity {
 
     private ArrayList<ListArrayItem> mGameTitles;

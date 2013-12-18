@@ -7,6 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+/**
+ * AOSP'esc list catagory header type
+ *
+ * @author pvyParts
+ *
+ */
 public class aospHeader implements ListArrayItem {
 
 	private String title;

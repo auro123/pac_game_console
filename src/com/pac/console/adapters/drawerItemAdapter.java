@@ -2,19 +2,18 @@ package com.pac.console.adapters;
 
 import java.util.ArrayList;
 
-import com.pac.console.R;
-import com.pac.console.R.id;
-import com.pac.console.adapters.changeItemAdapter.RowType;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.Switch;
-import android.widget.TextView;
 
+/**
+ * Custom Draw List adapter
+ * 
+ * @author pvyParts
+ *
+ */
 public class drawerItemAdapter extends ArrayAdapter<ListArrayItem>{
 	
 	private LayoutInflater mInflater;

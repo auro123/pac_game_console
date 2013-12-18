@@ -12,6 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+/**
+ * Custom Changelog List header Type
+ *
+ * @author pvyParts
+ *
+ */
 
 public class changeHeader implements ListArrayItem {
 

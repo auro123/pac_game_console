@@ -17,6 +17,14 @@ import com.pac.console.adapters.changeHeader;
 import com.pac.console.adapters.changeItemType;
 import com.pac.console.adapters.ListArrayItem;
 
+/**
+ * Parser for the PAC changelog json generator!
+ * json -> ArrayList<ListArrayItem> 
+ * complete with day headers
+ * 
+ * @author pvyParts
+ *
+ */
 public class ChangeLogParser {
 	public static ArrayList<ListArrayItem> ChangeLogParser(String JsonData)
 			throws JSONException {

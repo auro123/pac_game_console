@@ -10,7 +10,12 @@ import android.content.Intent;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.util.Log;
-
+/**
+ * Boot reciever for the OTA recivers and shitz
+ *
+ * @author pvyParts
+ *
+ */
 public class bootReciever extends BroadcastReceiver {
 
 	@Override

@@ -8,6 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+/**
+ * Custom ChangeLog List Type
+ *
+ * @author pvyParts
+ *
+ */
 public class changeItemType implements ListArrayItem {
 
 	private String SHA;

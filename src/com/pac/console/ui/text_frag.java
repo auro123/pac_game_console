@@ -7,7 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+/**
+ * Error ERRRRRROOOOORRRRRR Frag
+ * 
+ * Shows some text
+ * 
+ * @author pvyParts
+ *
+ */
 public class text_frag extends Fragment {
 	
 	public static String mText = "";

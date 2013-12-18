@@ -35,9 +35,17 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
-
+/**
+ * Change Log Frag
+ * 
+ * simple list view with 2 types
+ * 
+ * onclick goes to github / gihub app if available.
+ * 
+ * @author pvyParts
+ *
+ */
 public class Changes_frag extends Fragment {
-	
 	TextView totals;
 	ListView change;
 	ArrayList<ListArrayItem> changeList;

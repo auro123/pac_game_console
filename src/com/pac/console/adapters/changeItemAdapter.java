@@ -7,6 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+/**
+ * Custom Changelog List Adapter
+ *
+ * @author pvyParts
+ *
+ */
 
 public class changeItemAdapter extends ArrayAdapter<ListArrayItem>{
 	

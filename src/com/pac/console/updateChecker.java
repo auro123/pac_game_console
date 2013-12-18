@@ -27,7 +27,14 @@ import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
-
+/**
+ * OTA service for PAC 
+ * 
+ * only a poler nothing special.
+ *
+ * @author pvyParts
+ *
+ */
 public class updateChecker extends Service {
 
 	Handler handler = new Handler();
