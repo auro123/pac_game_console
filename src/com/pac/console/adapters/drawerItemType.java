@@ -20,7 +20,7 @@ import com.pac.console.adapters.changeItemAdapter.RowType;
  */
 public class drawerItemType implements ListArrayItem {
 
-	private String FLAG;
+	private int FLAG;
 	private String title;
 
 	private boolean caption_display = false;
@@ -36,7 +36,7 @@ public class drawerItemType implements ListArrayItem {
 	private boolean toggle_display = false;
 	private OnCheckedChangeListener ontoggle;
 
-	public String getFlag() {
+	public int getFlag() {
 		return this.FLAG;
 	}
 
@@ -80,7 +80,7 @@ public class drawerItemType implements ListArrayItem {
 		return this.ontoggle;
 	}
 
-	public void setFlag(String in) {
+	public void setFlag(int in) {
 		this.FLAG = in;
 	}
 

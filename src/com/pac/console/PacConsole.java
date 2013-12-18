@@ -47,16 +47,22 @@ import android.widget.Toast;
  */
 public class PacConsole extends Activity {
 
+	// some variables...
     private ArrayList<ListArrayItem> mGameTitles;
     private ListView mDrawerList;
-    
     private drawerItemType mSelectedItem;
-    
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private int poss = 0;
     private boolean state = false;
     Fragment mContent = null;
+    
+    // *** setup the Flags for the Frags
+    private final int OTA_FLAG = 0;
+    private final int CHANGE_FLAG = 1;
+    private final int CONTRIB_FLAG = 2;
+    private final int ABOUT_FLAG = 3;
+    private final int STATS_FLAG = 4;
     
     @Override
     public void onSaveInstanceState(Bundle ofLove) {
@@ -66,7 +72,6 @@ public class PacConsole extends Activity {
       // killed and restarted.
       ofLove.putInt("flag", poss);
       ofLove.putBoolean("store", true);
-
     }
     
     @Override
@@ -76,13 +81,12 @@ public class PacConsole extends Activity {
       // This bundle has also been passed to onCreate. 
       poss = ofLove.getInt("flag");
       state = ofLove.getBoolean("store");
-
     }
 
     @Override
     protected void onCreate(Bundle ofLove) {
         super.onCreate(ofLove);
-        
+        // are we new or old?
         if (ofLove!=null){
 	        poss = ofLove.getInt("flag");
 	        state = ofLove.getBoolean("store");
@@ -92,11 +96,11 @@ public class PacConsole extends Activity {
 	        state = intent.getBooleanExtra("store", false);
         }
         
-        
+        // load the main XML
         setContentView(R.layout.pac_console);
-       
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         
+        // draw toggler listeners
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  
                 mDrawerLayout,         
@@ -123,20 +127,19 @@ public class PacConsole extends Activity {
         };
         
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-                
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         
-        //make our list for the drawer
+        // Setup the Menu List
         createDrawList();
         
-        //TODO FIX THIS!!!!!!!
         mDrawerList.setAdapter(new drawerItemAdapter(this,R.layout.drawer_list_item, mGameTitles));
         
         mDrawerList.setOnItemClickListener(new OnItemClickListener(){
 
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				// ATTACH req fragment to content view
+				
+				// handle clicks on the drawer
 				if (mGameTitles.get(arg2).getViewType() == RowType.LIST_ITEM.ordinal()){
 					attachFrag(arg2);
 					mDrawerList.setSelection(arg2);
@@ -151,6 +154,7 @@ public class PacConsole extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
         
+        // LOAD State
         if (!state){
         	mDrawerLayout.openDrawer(mDrawerList);
         } else {
@@ -158,36 +162,47 @@ public class PacConsole extends Activity {
         }
 
     }
+    
+    /**
+     * Attach the right Fragment
+     * @param possition
+     */
 	private void attachFrag(int possition) {
 		// TODO swap fragment out.
 		
 		/**
 		 * use tag to select the frag needed.
 		 */
-	        Fragment fragment = null;
-	        android.app.FragmentManager fragmentManager = getFragmentManager();
-	        if (fragment == null){
-		        if (((drawerItemType) mGameTitles.get(possition)).getFlag().equalsIgnoreCase("ota")){
-		        	fragment = new OTA_frag();
-		        } else if (((drawerItemType) mGameTitles.get(possition)).getFlag().equalsIgnoreCase("contributors")){
-		        	fragment = new Contrib_frag();
-		        } else if (((drawerItemType) mGameTitles.get(possition)).getFlag().equalsIgnoreCase("about")){
-		        	fragment = new About_frag();
-		        } else if (((drawerItemType) mGameTitles.get(possition)).getFlag().equalsIgnoreCase("stats")){
-		        	fragment = new PACStats();
-		        } else if (((drawerItemType) mGameTitles.get(possition)).getFlag().equalsIgnoreCase("changes")){
-		        	fragment = new Changes_frag();
-		        }
-		        if (fragment==null){
-		        	// bad bad bad !!!
-		        	fragment = text_frag.newInstance("The Devs Done F**ked Up!!!!\n\nI Blame Tyler!\n\nYou need to add and then attach the Fragment!");
-		        	
-		        }
+        Fragment fragment = null;
+        android.app.FragmentManager fragmentManager = getFragmentManager();
+        
+        if (mGameTitles.get(possition).getViewType() != RowType.HEADER_ITEM.ordinal() && fragment == null){
+        	switch (((drawerItemType) mGameTitles.get(possition)).getFlag()){
+        	case OTA_FLAG:
+        		fragment = new OTA_frag();
+        		break;
+        	case CHANGE_FLAG:
+        		fragment = new Changes_frag();
+        		break;
+        	case CONTRIB_FLAG:
+        		fragment = new Contrib_frag();
+        		break;
+        	case ABOUT_FLAG:
+        		fragment = new About_frag();
+        		break;
+        	case STATS_FLAG:
+        		fragment = new PACStats();
+        		break; 
+        	default:
+        		fragment = text_frag.newInstance("The Devs Done F**ked Up!!!!\n\nI Blame Tyler!\n\nYou need to add and then attach the Fragment!");
+        	}
+        	// TODO tag is miffed
+        	// TODO find out if thats a problem or not...
 	        // Insert the fragment by replacing any existing fragment
 	        fragmentManager.beginTransaction()
-	                       .replace(R.id.content_frame, fragment, ((drawerItemType) mGameTitles.get(possition)).getFlag())
+	                       .replace(R.id.content_frame, fragment, ""+((drawerItemType) mGameTitles.get(possition)).getFlag())
 	                       .commit();
-	    }
+        }
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(possition, true);
@@ -197,7 +212,12 @@ public class PacConsole extends Activity {
         mDrawerLayout.closeDrawer(mDrawerList);
 		
 	}
-
+	/**
+	 * Creates the Draw List
+	 * 
+	 * TODO add fragment handling here
+	 * 
+	 */
     private void createDrawList(){
     	
         mGameTitles = new ArrayList<ListArrayItem>();
@@ -216,7 +236,7 @@ public class PacConsole extends Activity {
         ((drawerItemType) holder).setTittle(this.getResources().getString(R.string.ota_menu_lbl));
         ((drawerItemType) holder).setCaption(this.getResources().getString(R.string.ota_menu_cap));
         ((drawerItemType) holder).setCaptionDisplay(true);
-        ((drawerItemType) holder).setFlag("ota");
+        ((drawerItemType) holder).setFlag(OTA_FLAG);
        
         mGameTitles.add(holder);
         //Changes
@@ -224,7 +244,7 @@ public class PacConsole extends Activity {
         ((drawerItemType) holder).setTittle(this.getResources().getString(R.string.change_menu_lbl));
         ((drawerItemType) holder).setCaption(this.getResources().getString(R.string.change_menu_cap));
         ((drawerItemType) holder).setCaptionDisplay(true);
-        ((drawerItemType) holder).setFlag("changes");
+        ((drawerItemType) holder).setFlag(CHANGE_FLAG);
 
         mGameTitles.add(holder);
         
@@ -236,7 +256,7 @@ public class PacConsole extends Activity {
         ((drawerItemType) holder).setTittle("Active Display");
         ((drawerItemType) holder).setCaption("Moto X Active Display");
         ((drawerItemType) holder).setCaptionDisplay(true);
-        ((drawerItemType) holder).setFlag("activedisplay");
+        ((drawerItemType) holder).setFlag(-1);
 
         mGameTitles.add(holder);
 
@@ -244,7 +264,7 @@ public class PacConsole extends Activity {
         ((drawerItemType) holder).setTittle("Battery");
         ((drawerItemType) holder).setCaption("Battery Icon and Notification Options");
         ((drawerItemType) holder).setCaptionDisplay(true);
-        ((drawerItemType) holder).setFlag("battery");
+        ((drawerItemType) holder).setFlag(-1);
 
         mGameTitles.add(holder);
 
@@ -252,7 +272,7 @@ public class PacConsole extends Activity {
         ((drawerItemType) holder).setTittle("Quick Tiles");
         ((drawerItemType) holder).setCaption("Notification Quick Toggle Tile Options");
         ((drawerItemType) holder).setCaptionDisplay(true);
-        ((drawerItemType) holder).setFlag("battery");
+        ((drawerItemType) holder).setFlag(-1);
 
         mGameTitles.add(holder);
 
@@ -260,7 +280,7 @@ public class PacConsole extends Activity {
         ((drawerItemType) holder).setTittle("Lock Screen");
         ((drawerItemType) holder).setCaption("Lock Screen Options");
         ((drawerItemType) holder).setCaptionDisplay(true);
-        ((drawerItemType) holder).setFlag("battery");
+        ((drawerItemType) holder).setFlag(-1);
 
         mGameTitles.add(holder);
         
@@ -268,7 +288,7 @@ public class PacConsole extends Activity {
         ((drawerItemType) holder).setTittle("Signal");
         ((drawerItemType) holder).setCaption("Signal Icon and Notification Options");
         ((drawerItemType) holder).setCaptionDisplay(true);
-        ((drawerItemType) holder).setFlag("signal");
+        ((drawerItemType) holder).setFlag(-1);
 
         mGameTitles.add(holder);
 
@@ -280,7 +300,7 @@ public class PacConsole extends Activity {
         ((drawerItemType) holder).setTittle("Global");
         ((drawerItemType) holder).setCaption("Set Global Hybrid Options");
         ((drawerItemType) holder).setCaptionDisplay(true);
-        ((drawerItemType) holder).setFlag("hyb_global");
+        ((drawerItemType) holder).setFlag(-1);
 
         mGameTitles.add(holder);
 
@@ -288,7 +308,7 @@ public class PacConsole extends Activity {
         ((drawerItemType) holder).setTittle("App Specific");
         ((drawerItemType) holder).setCaption("Set Per App Hybrid Options");
         ((drawerItemType) holder).setCaptionDisplay(true);
-        ((drawerItemType) holder).setFlag("hyb_apps");
+        ((drawerItemType) holder).setFlag(-1);
 
         mGameTitles.add(holder);
 
@@ -301,7 +321,7 @@ public class PacConsole extends Activity {
         ((drawerItemType) holder).setTittle(this.getResources().getString(R.string.contrib_menu_lbl));
         ((drawerItemType) holder).setCaption(this.getResources().getString(R.string.contrib_menu_cap));
         ((drawerItemType) holder).setCaptionDisplay(true);
-        ((drawerItemType) holder).setFlag("contributors");
+        ((drawerItemType) holder).setFlag(CONTRIB_FLAG);
 
         mGameTitles.add(holder);
 
@@ -310,7 +330,7 @@ public class PacConsole extends Activity {
         ((drawerItemType) holder).setTittle(this.getResources().getString(R.string.stat_menu_lbl));
         ((drawerItemType) holder).setCaption(this.getResources().getString(R.string.stat_menu_cap));
         ((drawerItemType) holder).setCaptionDisplay(false);
-        ((drawerItemType) holder).setFlag("stats");
+        ((drawerItemType) holder).setFlag(STATS_FLAG);
        
         mGameTitles.add(holder);
                 
@@ -319,13 +339,14 @@ public class PacConsole extends Activity {
         ((drawerItemType) holder).setTittle(this.getResources().getString(R.string.help_menu_lbl));
         ((drawerItemType) holder).setCaption(this.getResources().getString(R.string.help_menu_cap));
         ((drawerItemType) holder).setCaptionDisplay(true);
-        ((drawerItemType) holder).setFlag("about");
+        ((drawerItemType) holder).setFlag(ABOUT_FLAG);
        
         mGameTitles.add(holder);
 
 
     }
-
+    
+    // as of now there is no menu this will change
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
