@@ -194,7 +194,7 @@ public class PacConsole extends Activity {
         		fragment = new PACStats();
         		break; 
         	default:
-        		fragment = text_frag.newInstance("The Devs Done F**ked Up!!!!\n\nI Blame Tyler!\n\nYou need to add and then attach the Fragment!");
+        		fragment = text_frag.newInstance("\n\n\nThe Devs Done F**ked Up!!!!\n\nI Blame Tyler!\n\nYou need to add and then attach the Fragment!");
         	}
         	// TODO tag is miffed
         	// TODO find out if thats a problem or not...
@@ -215,7 +215,7 @@ public class PacConsole extends Activity {
 	/**
 	 * Creates the Draw List
 	 * 
-	 * TODO add fragment handling here
+	 * TODO maybe add fragment handling here and drop the switch case fragment thingo
 	 * 
 	 */
     private void createDrawList(){
