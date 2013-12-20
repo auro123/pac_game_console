@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.json.JSONException;
 
 import com.pac.console.R;
-import com.pac.console.adapters.changeHeader;
 import com.pac.console.adapters.ListArrayItem;
 import com.pac.console.adapters.changeItemAdapter;
 import com.pac.console.adapters.changeItemType;
@@ -13,17 +12,14 @@ import com.pac.console.adapters.changeItemAdapter.RowType;
 import com.pac.console.parser.ChangeLogParser;
 import com.pac.console.util.RemoteTools;
 
-import android.app.DownloadManager;
 import android.app.Fragment;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
