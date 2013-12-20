@@ -13,27 +13,19 @@ import com.pac.console.ui.Contrib_frag;
 import com.pac.console.ui.OTA_frag;
 import com.pac.console.ui.text_frag;
 
-import android.media.audiofx.BassBoost.Settings;
-import android.net.Uri;
 import android.os.Bundle;
 import android.pacstats.PACStats;
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 /**
  * PAC Console 

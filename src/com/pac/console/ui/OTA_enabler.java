@@ -1,7 +1,6 @@
 package com.pac.console.ui;
 
 import com.pac.console.R;
-import com.pac.console.config;
 import com.pac.console.updateChecker;
 import com.pac.console.util.LocalTools;
 
@@ -9,9 +8,6 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.util.Log;

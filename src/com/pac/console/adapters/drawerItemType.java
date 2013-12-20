@@ -3,8 +3,6 @@ package com.pac.console.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.pac.console.R;

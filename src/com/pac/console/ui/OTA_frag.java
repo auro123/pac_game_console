@@ -1,10 +1,6 @@
 package com.pac.console.ui;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 import com.pac.console.R;
 import com.pac.console.util.LocalTools;
 import com.pac.console.util.RemoteTools;
@@ -35,7 +31,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.Spinner;
