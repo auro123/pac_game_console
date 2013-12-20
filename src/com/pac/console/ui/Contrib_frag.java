@@ -34,6 +34,7 @@ import android.widget.TextView;
  */
 public class Contrib_frag extends Fragment {
 	
+	private boolean zomby = true;
 	TextView contrib;
 	public String contribs = "";
 	boolean store = false;
@@ -44,6 +45,19 @@ public class Contrib_frag extends Fragment {
 	
 	}
 	
+	@Override
+	public void onResume() {
+		super.onResume();
+        zomby = false;
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+        zomby = true;
+	}
+
+
     @Override
     public void onSaveInstanceState(Bundle ofLove) {
       super.onSaveInstanceState(ofLove);
@@ -56,7 +70,7 @@ public class Contrib_frag extends Fragment {
     
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle ofLove) {
-		
+		zomby = false;
         if (ofLove!=null){
         	contribs = ofLove.getString("contribs");
 	        store = ofLove.getBoolean("store");
@@ -85,35 +99,35 @@ public class Contrib_frag extends Fragment {
 
 	    @Override
 	    public void handleMessage(Message msg){
-	    	
-			String markdownString = msg.getData().getString("contribs");
-			contribs = markdownString;
-
-	    	//msg.getData().getString("file");
-			try{
-					Bypass bypass = new Bypass();
-					String[] formater = markdownString.split("\n");
-					markdownString = "";
-					Pattern pattern = Pattern.compile("[^\\S\\r\\n]{2,}");
-
-					for (int i = 0; i< formater.length; i++){
-						Matcher matcher = pattern.matcher(formater[i]);
-						//formater[i].replaceAll("\\s{2,}+||\\t", " ");
-						String str = matcher.replaceAll(" ");
-						markdownString+=str+"\n";	
-					}
-					CharSequence string = bypass.markdownToSpannable(markdownString);
-					Log.d("MARKUP", ""+string);
-					contrib.setText(string);
-			} catch (Error e){
-				e.printStackTrace();
-				contrib.setText(markdownString);
-			} catch (Exception e){
-				e.printStackTrace();
-				contrib.setText(markdownString);
-			}
-			//contrib.setMovementMethod(LinkMovementMethod.getInstance());
-
+	    	if (!zomby){
+				String markdownString = msg.getData().getString("contribs");
+				contribs = markdownString;
+	
+		    	//msg.getData().getString("file");
+				try{
+						Bypass bypass = new Bypass();
+						String[] formater = markdownString.split("\n");
+						markdownString = "";
+						Pattern pattern = Pattern.compile("[^\\S\\r\\n]{2,}");
+	
+						for (int i = 0; i< formater.length; i++){
+							Matcher matcher = pattern.matcher(formater[i]);
+							//formater[i].replaceAll("\\s{2,}+||\\t", " ");
+							String str = matcher.replaceAll(" ");
+							markdownString+=str+"\n";	
+						}
+						CharSequence string = bypass.markdownToSpannable(markdownString);
+						Log.d("MARKUP", ""+string);
+						contrib.setText(string);
+				} catch (Error e){
+					e.printStackTrace();
+					contrib.setText(markdownString);
+				} catch (Exception e){
+					e.printStackTrace();
+					contrib.setText(markdownString);
+				}
+				//contrib.setMovementMethod(LinkMovementMethod.getInstance());
+	    	}
 	    }
 
 	};
@@ -138,20 +152,22 @@ public class Contrib_frag extends Fragment {
 		
 		@Override
 		protected void onPostExecute(final String result) {
-			Message msg = new Message();
-			Bundle data = new Bundle();
-			if (result != null){
-				data.putString("contribs", result);
-				if (Contrib_frag.this.getActivity()!=null){
-					Settings.System.putString(Contrib_frag.this.getActivity().getContentResolver(), "contribs", result);
+			if (!zomby){
+				Message msg = new Message();
+				Bundle data = new Bundle();
+				if (result != null){
+					data.putString("contribs", result);
+					if (Contrib_frag.this.getActivity()!=null){
+						Settings.System.putString(Contrib_frag.this.getActivity().getContentResolver(), "contribs", result);
+					}
+				} else {
+					if (Contrib_frag.this.contribs==null){
+						data.putString("contribs", "Or Tyler Broke Something!");
+					}
 				}
-			} else {
-				if (Contrib_frag.this.contribs==null){
-					data.putString("contribs", "Or Tyler Broke Something!");
-				}
+				msg.setData(data);
+				updateRemote.sendMessage(msg);
 			}
-			msg.setData(data);
-			updateRemote.sendMessage(msg);
 		}
 	};
 }
