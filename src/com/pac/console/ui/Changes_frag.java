@@ -13,8 +13,10 @@ import com.pac.console.adapters.changeItemAdapter.RowType;
 import com.pac.console.parser.ChangeLogParser;
 import com.pac.console.util.RemoteTools;
 
+import android.app.DownloadManager;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -46,6 +48,8 @@ import android.widget.TextView;
  *
  */
 public class Changes_frag extends Fragment {
+	
+	private boolean zomby = true;
 	TextView totals;
 	ListView change;
 	ArrayList<ListArrayItem> changeList;
@@ -61,7 +65,18 @@ public class Changes_frag extends Fragment {
 		return fragment;
 	
 	}
-	
+	@Override
+	public void onResume() {
+		super.onResume();
+        zomby = false;
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+        zomby = true;
+	}
+
     @Override
     public void onSaveInstanceState(Bundle ofLove) {
       super.onSaveInstanceState(ofLove);
@@ -73,7 +88,7 @@ public class Changes_frag extends Fragment {
     
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle ofLove) {
-		
+		zomby = false;
         if (ofLove!=null){
 	        store = ofLove.getBoolean("store");
         }
@@ -152,15 +167,17 @@ public class Changes_frag extends Fragment {
 
 	    @Override
 	    public void handleMessage(Message msg){
-	    	String changeNote = msg.getData().getString("changes");
-	    	if(changeNote != null){
-	    		totals.setText(changeNote);
-	    		totals.startAnimation(mSlideSelInAnimation);
-
+	    	if (!zomby){
+		    	String changeNote = msg.getData().getString("changes");
+		    	if(changeNote != null){
+		    		totals.setText(changeNote);
+		    		totals.startAnimation(mSlideSelInAnimation);
+	
+		    	}
+				changeAdapter = new changeItemAdapter(Changes_frag.this.getActivity(),R.layout.drawer_list_item, changeList);
+				change.setAdapter(changeAdapter);
+				change.postInvalidate();
 	    	}
-			changeAdapter = new changeItemAdapter(Changes_frag.this.getActivity(),R.layout.drawer_list_item, changeList);
-			change.setAdapter(changeAdapter);
-			change.postInvalidate();
 	    }
 
 	};
@@ -182,31 +199,33 @@ public class Changes_frag extends Fragment {
 		
 		@Override
 		protected void onPostExecute(final ArrayList<ListArrayItem> result) {
-			Message msg = new Message();
-			Bundle data = new Bundle();
-			if (result != null){
-				boolean found = false;
-				int behind = 0;
-				for (int i = 0 ;i<result.size();i++){
-					if(result.get(i).getViewType() != RowType.HEADER_ITEM.ordinal()){
-						if (((changeItemType)result.get(i)).getNew()){
-							behind++;
-						} else {
-							break;
+			if (!zomby){
+				Message msg = new Message();
+				Bundle data = new Bundle();
+				if (result != null){
+					boolean found = false;
+					int behind = 0;
+					for (int i = 0 ;i<result.size();i++){
+						if(result.get(i).getViewType() != RowType.HEADER_ITEM.ordinal()){
+							if (((changeItemType)result.get(i)).getNew()){
+								behind++;
+							} else {
+								break;
+							}
 						}
+						
 					}
-					
+					data.putString("changes", "Your build is "+behind+" Commits Behind");
+					if (Changes_frag.this.getActivity()!=null){
+						//Settings.System.putString(Changes_frag.this.getActivity().getContentResolver(), "changes", result);
+					}
+				} else {
+					data.putString("changes", "Server Down\nOr Tyler Broke Something!");
 				}
-				data.putString("changes", "Your build is "+behind+" Commits Behind");
-				if (Changes_frag.this.getActivity()!=null){
-					//Settings.System.putString(Changes_frag.this.getActivity().getContentResolver(), "changes", result);
-				}
-			} else {
-				data.putString("changes", "Server Down\nOr Tyler Broke Something!");
+				changeList = result;
+				msg.setData(data);
+				updateRemote.sendMessage(msg);
 			}
-			changeList = result;
-			msg.setData(data);
-			updateRemote.sendMessage(msg);
 		}
 	};
 	private void initAnim() {

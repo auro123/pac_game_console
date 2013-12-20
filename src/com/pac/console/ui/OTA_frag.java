@@ -53,6 +53,7 @@ import android.widget.Toast;
  */
 public class OTA_frag extends Fragment {
 
+	private boolean zomby = true;
 	private OTA_enabler mOTAEnabler;
 	TextView update;
 	Button download;
@@ -72,21 +73,22 @@ public class OTA_frag extends Fragment {
 	Handler updateRemote = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			
-			update.setText(msg.getData().getString("version") + "\n"
-					+ msg.getData().getString("file"));
-			DlUrl = msg.getData().getString("url");
-			boolean fileExist = new File(Environment.DIRECTORY_DOWNLOADS+"/PAC/"+msg.getData().getString("file")).exists();
-			
-			if (DlUrl != null){
-				download.setClickable(!fileExist);
-				download.setActivated(!fileExist);
-				download.setTextColor(Color.WHITE);
+			if (!zomby){
+				update.setText(msg.getData().getString("version") + "\n"
+						+ msg.getData().getString("file"));
+				DlUrl = msg.getData().getString("url");
+				boolean fileExist = new File(Environment.DIRECTORY_DOWNLOADS+"/PAC/"+msg.getData().getString("file")).exists();
+				
+				if (DlUrl != null){
+					download.setClickable(!fileExist);
+					download.setActivated(!fileExist);
+					download.setTextColor(Color.WHITE);
+				}
+				
+				DlMd5 = msg.getData().getString("md5");
+				DlVersion = msg.getData().getString("version");
+				FileName = msg.getData().getString("file");
 			}
-			
-			DlMd5 = msg.getData().getString("md5");
-			DlVersion = msg.getData().getString("version");
-			FileName = msg.getData().getString("file");
 		}
 	};
 
@@ -102,6 +104,7 @@ public class OTA_frag extends Fragment {
         mDownload = new DownLoadComplte();
         this.getActivity().registerReceiver(mDownload, new IntentFilter(
                 DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        zomby = false;
 	}
 
 	@Override
@@ -109,12 +112,13 @@ public class OTA_frag extends Fragment {
 		super.onPause();
 		mOTAEnabler.pause();
         this.getActivity().unregisterReceiver(mDownload);
+        zomby = true;
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle ofjoy) {
-		
+		zomby = false;
 		Settings = this.getActivity().getSharedPreferences("OTAPrefs", Context.MODE_PRIVATE);
 		SettingsEditor = Settings.edit();
 
@@ -276,39 +280,40 @@ public class OTA_frag extends Fragment {
 
 		@Override
 		protected void onPostExecute(final String result) {
-
-			Message msg = new Message();
-			Bundle data = new Bundle();
-
-			if (result != null) {
-				Log.d("REMOTE", "got this: " + result);
-				String[] results = result.split(",");
-				if (!results[0].contains("#BLAME")) {
-					data.putString("version", results[2]);
-					String[] dlurl = results[0].split("/");
-					data.putString("file", dlurl[dlurl.length - 1]);
-					data.putString("url", results[0]);
-					data.putString("md5", results[3]);
-				} else {
-					// error device not on server records!
-					if (results[1].contains("NO_STABLE_CONFIG_FOUND")) {
-						data.putString("version", getString(R.string.error_dev));
-					} else if (results[1].contains("NO_NIGHTLY_CONFIG_FOUND")) {
-						data.putString("version", getString(R.string.error_dev));
-					} else if (results[1].contains("NO_UNOFFICIAL_CONFIG_FOUND")) {
-						data.putString("version", getString(R.string.error_dev));
+			if (!zomby){
+				Message msg = new Message();
+				Bundle data = new Bundle();
+	
+				if (result != null) {
+					Log.d("REMOTE", "got this: " + result);
+					String[] results = result.split(",");
+					if (!results[0].contains("#BLAME")) {
+						data.putString("version", results[2]);
+						String[] dlurl = results[0].split("/");
+						data.putString("file", dlurl[dlurl.length - 1]);
+						data.putString("url", results[0]);
+						data.putString("md5", results[3]);
 					} else {
-						data.putString("version", getString(R.string.error_serv));
+						// error device not on server records!
+						if (results[1].contains("NO_STABLE_CONFIG_FOUND")) {
+							data.putString("version", getString(R.string.error_dev));
+						} else if (results[1].contains("NO_NIGHTLY_CONFIG_FOUND")) {
+							data.putString("version", getString(R.string.error_dev));
+						} else if (results[1].contains("NO_UNOFFICIAL_CONFIG_FOUND")) {
+							data.putString("version", getString(R.string.error_dev));
+						} else {
+							data.putString("version", getString(R.string.error_serv));
+						}
+						data.putString("file", getString(R.string.error));
 					}
+				} else {
+					data.putString("version", getString(R.string.error_serv));
 					data.putString("file", getString(R.string.error));
 				}
-			} else {
-				data.putString("version", getString(R.string.error_serv));
-				data.putString("file", getString(R.string.error));
+	
+				msg.setData(data);
+				updateRemote.sendMessage(msg);
 			}
-
-			msg.setData(data);
-			updateRemote.sendMessage(msg);
 		}
 
 	}
@@ -317,11 +322,13 @@ public class OTA_frag extends Fragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equalsIgnoreCase(
-                    DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
-                Toast.makeText(context, "Download Complte", Toast.LENGTH_LONG)
-                        .show();
-            }
+        	if (!zomby){
+	            if (intent.getAction().equalsIgnoreCase(
+	                    DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
+	                Toast.makeText(context, "Download Complte", Toast.LENGTH_LONG)
+	                        .show();
+	            }
+        	}
         }
 }
 
