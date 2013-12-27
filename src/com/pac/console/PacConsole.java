@@ -231,11 +231,9 @@ public class PacConsole extends Activity {
     private void createDrawList(){
     	
         mGameTitles = new ArrayList<ListArrayItem>();
+        ListArrayItem holder;
 
-        // ok here we go!
-        
-        // UPDATE THIS !!!!
-        /**
+         /**
          *        THIS ADDS A HEADER
          *        			
          *                  holder = new aospHeader("Updates");
@@ -249,10 +247,12 @@ public class PacConsole extends Activity {
          * 					((drawerItemType) holder).setCaptionDisplay(true);
          * 					((drawerItemType) holder).setFlag(OTA_FLAG);
          * 					mGameTitles.add(holder);
+         * 	
+         * 		  THE SECOND PART IS IN THE 
+         * 					attachFrag(int possition) method above
          */
         
         // OTA Frag
-        ListArrayItem holder;
         holder = new aospHeader("Updates");
         
         mGameTitles.add(holder);
