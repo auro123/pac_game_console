@@ -69,8 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_ota_rom_header"
             android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:text="Galaxy Nexus - JOP40D" />
+            android:gravity="center" />
 
         <TextView
             android:id="@+id/tv_ota_remove_header"
@@ -154,8 +153,7 @@
             android:layout_below="@id/tv_ota_update"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            android:text="TextView" />
+            android:paddingTop="@dimen/activity_vertical_margin" />
 
     </RelativeLayout>
 

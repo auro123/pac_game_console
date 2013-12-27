@@ -52,7 +52,7 @@
     
     <string name="btn_yes">Yes</string>
     <string name="btn_no">No</string>
-
+	
     <!-- Pac Statistics - Preview -->
     <string name="preview_id_title">Unique ID</string>
     <string name="preview_device_title">Device</string>
@@ -78,4 +78,8 @@
     <string name="pref_abt_facebook_link">https://www.facebook.com/PacManTheAioRom/</string>    
     <string name="ota_checking">Checking Now!</string>    
     <string name="tv_type_tittle">Desired OTA Type</string>
+    
+    <!-- changes -->
+    <string name="chng_title">Changes:</string>
+    <string name="chng_new">NEW</string>
 </resources>

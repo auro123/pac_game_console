@@ -41,7 +41,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:rotation="270"
-                android:text="NEW"
+                android:text="@string/chng_new"
                 android:textColor="#ff00ff00"
                 android:textColorHint="#ff00ff00"
                 android:textColorLink="#ff00ff00" />
@@ -58,7 +58,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:text="This is an Object"
                 android:textAppearance="?android:attr/textAppearanceMediumInverse"
                 android:textColor="#fff2f2f2" />
 
@@ -67,7 +66,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="5"
-                android:text="This is some crap in said object (optional)"
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:textColor="#ffc2c2c2" />
         </LinearLayout>

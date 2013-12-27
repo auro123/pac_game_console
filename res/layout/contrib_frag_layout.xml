@@ -17,8 +17,7 @@
             android:gravity="center"
             android:scrollbarAlwaysDrawVerticalTrack="true"
             android:scrollbarStyle="insideInset"
-            android:scrollbars="vertical"
-            android:text="" />
+            android:scrollbars="vertical"/>
 
     </ScrollView>
 
