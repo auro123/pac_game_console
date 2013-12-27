@@ -235,6 +235,21 @@ public class PacConsole extends Activity {
         // ok here we go!
         
         // UPDATE THIS !!!!
+        /**
+         *        THIS ADDS A HEADER
+         *        			
+         *                  holder = new aospHeader("Updates");
+         *                  mGameTitles.add(holder);
+         * 
+         * 		  THIS ADDS A ITEM
+         * 			
+         * 					holder = new drawerItemType();
+         * 					((drawerItemType) holder).setTittle(this.getResources().getString(R.string.ota_menu_lbl));
+         * 					((drawerItemType) holder).setCaption(this.getResources().getString(R.string.ota_menu_cap));
+         * 					((drawerItemType) holder).setCaptionDisplay(true);
+         * 					((drawerItemType) holder).setFlag(OTA_FLAG);
+         * 					mGameTitles.add(holder);
+         */
         
         // OTA Frag
         ListArrayItem holder;
@@ -249,6 +264,7 @@ public class PacConsole extends Activity {
         ((drawerItemType) holder).setFlag(OTA_FLAG);
        
         mGameTitles.add(holder);
+        
         //Changes
         holder = new drawerItemType();
         ((drawerItemType) holder).setTittle(this.getResources().getString(R.string.change_menu_lbl));
@@ -266,7 +282,7 @@ public class PacConsole extends Activity {
         ((drawerItemType) holder).setTittle("Active Display");
         ((drawerItemType) holder).setCaption("Moto X Active Display");
         ((drawerItemType) holder).setCaptionDisplay(true);
-        ((drawerItemType) holder).setFlag(-1);
+        ((drawerItemType) holder).setFlag(-1); // TODO ADD FRAGS FOR THESE
 
         mGameTitles.add(holder);
 
@@ -274,7 +290,7 @@ public class PacConsole extends Activity {
         ((drawerItemType) holder).setTittle("Battery");
         ((drawerItemType) holder).setCaption("Battery Icon and Notification Options");
         ((drawerItemType) holder).setCaptionDisplay(true);
-        ((drawerItemType) holder).setFlag(-1);
+        ((drawerItemType) holder).setFlag(-1); // TODO ADD FRAGS FOR THESE
 
         mGameTitles.add(holder);
 
@@ -282,7 +298,7 @@ public class PacConsole extends Activity {
         ((drawerItemType) holder).setTittle("Quick Tiles");
         ((drawerItemType) holder).setCaption("Notification Quick Toggle Tile Options");
         ((drawerItemType) holder).setCaptionDisplay(true);
-        ((drawerItemType) holder).setFlag(-1);
+        ((drawerItemType) holder).setFlag(-1); // TODO ADD FRAGS FOR THESE
 
         mGameTitles.add(holder);
 
@@ -290,7 +306,7 @@ public class PacConsole extends Activity {
         ((drawerItemType) holder).setTittle("Lock Screen");
         ((drawerItemType) holder).setCaption("Lock Screen Options");
         ((drawerItemType) holder).setCaptionDisplay(true);
-        ((drawerItemType) holder).setFlag(-1);
+        ((drawerItemType) holder).setFlag(-1); // TODO ADD FRAGS FOR THESE
 
         mGameTitles.add(holder);
         
@@ -298,7 +314,7 @@ public class PacConsole extends Activity {
         ((drawerItemType) holder).setTittle("Signal");
         ((drawerItemType) holder).setCaption("Signal Icon and Notification Options");
         ((drawerItemType) holder).setCaptionDisplay(true);
-        ((drawerItemType) holder).setFlag(-1);
+        ((drawerItemType) holder).setFlag(-1); // TODO ADD FRAGS FOR THESE
 
         mGameTitles.add(holder);
 
@@ -306,11 +322,11 @@ public class PacConsole extends Activity {
         
         mGameTitles.add(holder);
 
-        holder = new drawerItemType();
+        /*holder = new drawerItemType();
         ((drawerItemType) holder).setTittle("Global");
         ((drawerItemType) holder).setCaption("Set Global Hybrid Options");
         ((drawerItemType) holder).setCaptionDisplay(true);
-        ((drawerItemType) holder).setFlag(-1);
+        ((drawerItemType) holder).setFlag(-1); // TODO ADD FRAGS FOR THESE
 
         mGameTitles.add(holder);
 
@@ -318,9 +334,9 @@ public class PacConsole extends Activity {
         ((drawerItemType) holder).setTittle("App Specific");
         ((drawerItemType) holder).setCaption("Set Per App Hybrid Options");
         ((drawerItemType) holder).setCaptionDisplay(true);
-        ((drawerItemType) holder).setFlag(-1);
+        ((drawerItemType) holder).setFlag(-1); // TODO ADD FRAGS FOR THESE
 
-        mGameTitles.add(holder);
+        mGameTitles.add(holder);*/
 
         holder = new aospHeader("ROM Info");
         
