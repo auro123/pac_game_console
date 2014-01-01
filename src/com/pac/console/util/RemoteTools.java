@@ -46,168 +46,171 @@ import com.pac.console.config;
  *
  */
 public class RemoteTools {
-	
-	/** DownLoadComplte mDownload;
+
+    /** DownLoadComplte mDownload;
 
 
-	private class DownLoadComplte extends BroadcastReceiver {
+    private class DownLoadComplte extends BroadcastReceiver {
 
-	        @Override
-	        public void onReceive(Context context, Intent intent) {
-	            if (intent.getAction().equalsIgnoreCase(
-	                    DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
-	                Toast.makeText(context, "Download Complte", Toast.LENGTH_LONG)
-	                        .show();
-	            }
-	        }
-	}	**/
-	    
-	public static void downloadFile(Context context, String url, String fileName){
-		Uri URL = Uri.parse(url);
-		if(!fileName.contains("zip")){
-			fileName += ".zip";
-		}
-		DownloadManager.Request r = new DownloadManager.Request(URL);
+    @Override
+    public void onReceive(Context context, Intent intent) {
+    if (intent.getAction().equalsIgnoreCase(
+    DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
+    Toast.makeText(context, "Download Complte", Toast.LENGTH_LONG)
+    .show();
+    }
+    }
+    }	**/
 
-		// This put the download in the same Download dir the browser uses
-		r.setDestinationInExternalPublicDir("/Download/PAC/", fileName);
+    public static void downloadFile(Context context, String url, String fileName){
+        Uri URL = Uri.parse(url);
+        if(!fileName.contains("zip")){
+            fileName += ".zip";
+        }
+        DownloadManager.Request r = new DownloadManager.Request(URL);
 
-		// When downloading music and videos they will be listed in the player
-		// (Seems to be available since Honeycomb only)
-		r.allowScanningByMediaScanner();
+        // This put the download in the same Download dir the browser uses
+        r.setDestinationInExternalPublicDir("/Download/PAC/", fileName);
 
-		// Notify user when download is completed
+        // When downloading music and videos they will be listed in the player
+        // (Seems to be available since Honeycomb only)
+        r.allowScanningByMediaScanner();
 
-		r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        // Notify user when download is completed
 
-		//TODO Notification click goes to download manager.
-		
-		// Start download
-		DownloadManager dm = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-		long idDownload = dm.enqueue(r);
-		
-		// save id
-		SharedPreferences prefs =PreferenceManager.getDefaultSharedPreferences(context);
-		Editor editor=prefs.edit();
-		editor.putLong("DLID", idDownload);
-		editor.commit();
-		
-		//TODO attach a listener to get updates in app
-	}
-	public static String getContrib(){
-		String URL = config.PAC_CONTRIB;
-		
-		DefaultHttpClient mClient = new DefaultHttpClient();
-		HttpGet getRequest = new HttpGet(URL);
-		try {
-			HttpResponse getResponse = mClient.execute(getRequest);
-			final int statusCode = getResponse.getStatusLine().getStatusCode();
+        r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 
-			if (statusCode != HttpStatus.SC_OK) {
-				Log.e("OTA_TOOLS", "#BLAMETYLER " + statusCode
-						+ " for URL " + URL);
-				return null;
-			}
-			Log.d("OTA_TOOLS", "Got Connection " + URL);
-			HttpEntity getResponseEntity = getResponse.getEntity();
+        //TODO Notification click goes to download manager.
 
-			if (getResponseEntity != null) {
-				return EntityUtils.toString(getResponseEntity);
-			}
+        // Start download
+        DownloadManager dm = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        long idDownload = dm.enqueue(r);
 
-		} catch (IOException e) {
-			getRequest.abort();
-			Log.e("OTA_TOOLS", "#BLAMETYLER Error for URL " + URL, e);
-		}
+        // save id
+        SharedPreferences prefs =PreferenceManager.getDefaultSharedPreferences(context);
+        Editor editor=prefs.edit();
+        editor.putLong("DLID", idDownload);
+        editor.commit();
 
-		return null;
-		
-	}
-	
-	public static final int DISCONNECTED = 0;
-	public static final int MOBILE = 1;
-	public static final int WIFI = 2;
+        //TODO attach a listener to get updates in app
+    }
 
-	public static int checkConnection(Context context){
-		ConnectivityManager conMgr =  (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo mobileCon = conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-		NetworkInfo wifiCon = conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+    public static String getContrib(){
+        String URL = config.PAC_CONTRIB;
 
-		if ( mobileCon != null){
-			if ( mobileCon.getState() ==  NetworkInfo.State.CONNECTED){
-				return MOBILE;
-			}
-		}
-		if ( wifiCon != null){
-			if ( wifiCon.getState() == NetworkInfo.State.CONNECTED  ) {
-				return WIFI;
-			}
-		}
-		return DISCONNECTED;
-	}
+        DefaultHttpClient mClient = new DefaultHttpClient();
+        HttpGet getRequest = new HttpGet(URL);
+        try {
+            HttpResponse getResponse = mClient.execute(getRequest);
+            final int statusCode = getResponse.getStatusLine().getStatusCode();
 
-	public static String checkRom(String device, String Type){
-		String URL = config.OTA_SCRIPT;
-		URL += "?device=";
-		URL += device;
-		URL += "&type=";
-		URL += Type;
+            if (statusCode != HttpStatus.SC_OK) {
+                Log.e("OTA_TOOLS", "#BLAMETYLER " + statusCode
+                        + " for URL " + URL);
+                return null;
+            }
+            Log.d("OTA_TOOLS", "Got Connection " + URL);
+            HttpEntity getResponseEntity = getResponse.getEntity();
 
-		DefaultHttpClient mClient = new DefaultHttpClient();
-		HttpGet getRequest = new HttpGet(URL);
-		try {
-			HttpResponse getResponse = mClient.execute(getRequest);
-			final int statusCode = getResponse.getStatusLine().getStatusCode();
+            if (getResponseEntity != null) {
+                return EntityUtils.toString(getResponseEntity);
+            }
 
-			if (statusCode != HttpStatus.SC_OK) {
-				Log.e("OTA_TOOLS", "#BLAMETYLER " + statusCode
-						+ " for URL " + URL);
-				return null;
-			}
-			Log.d("OTA_TOOLS", "Got Connection " + URL);
-			HttpEntity getResponseEntity = getResponse.getEntity();
+        } catch (IOException e) {
+            getRequest.abort();
+            Log.e("OTA_TOOLS", "#BLAMETYLER Error for URL " + URL, e);
+        }
 
-			if (getResponseEntity != null) {
-				return EntityUtils.toString(getResponseEntity);
-			}
+        return null;
 
-		} catch (IOException e) {
-			getRequest.abort();
-			Log.e("OTA_TOOLS", "#BLAMETYLER Error for URL " + URL, e);
-		}
+    }
 
-		
-		return null;
-		
-	}
-	public static String getChanges() {
-		String URL = config.PAC_CHANGES;
-		String dev = "&device="+ (LocalTools.getProp("ro.cm.device").equals("")? Build.PRODUCT : LocalTools.getProp("ro.cm.device"));
-		URL += dev;
-		
-		DefaultHttpClient mClient = new DefaultHttpClient();
-		HttpGet getRequest = new HttpGet(URL);
-		try {
-			HttpResponse getResponse = mClient.execute(getRequest);
-			final int statusCode = getResponse.getStatusLine().getStatusCode();
+    public static final int DISCONNECTED = 0;
+    public static final int MOBILE = 1;
+    public static final int WIFI = 2;
 
-			if (statusCode != HttpStatus.SC_OK) {
-				Log.e("OTA_TOOLS", "#BLAMETYLER " + statusCode
-						+ " for URL " + URL);
-				return null;
-			}
-			Log.d("OTA_TOOLS", "Got Connection " + URL);
-			HttpEntity getResponseEntity = getResponse.getEntity();
+    public static int checkConnection(Context context){
+        ConnectivityManager conMgr =  (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mobileCon = conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        NetworkInfo wifiCon = conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-			if (getResponseEntity != null) {
-				return EntityUtils.toString(getResponseEntity);
-			}
+        if ( mobileCon != null){
+            if ( mobileCon.getState() ==  NetworkInfo.State.CONNECTED){
+                return MOBILE;
+            }
+        }
+        if ( wifiCon != null){
+            if ( wifiCon.getState() == NetworkInfo.State.CONNECTED  ) {
+                return WIFI;
+            }
+        }
+        return DISCONNECTED;
+    }
 
-		} catch (IOException e) {
-			getRequest.abort();
-			Log.e("OTA_TOOLS", "#BLAMETYLER Error for URL " + URL, e);
-		}
+    public static String checkRom(String device, String Type){
+        String URL = config.OTA_SCRIPT;
+        URL += "?device=";
+        URL += device;
+        URL += "&type=";
+        URL += Type;
 
-		return null;
-	}
+        DefaultHttpClient mClient = new DefaultHttpClient();
+        HttpGet getRequest = new HttpGet(URL);
+        try {
+            HttpResponse getResponse = mClient.execute(getRequest);
+            final int statusCode = getResponse.getStatusLine().getStatusCode();
+
+            if (statusCode != HttpStatus.SC_OK) {
+                Log.e("OTA_TOOLS", "#BLAMETYLER " + statusCode
+                        + " for URL " + URL);
+                return null;
+            }
+
+            Log.d("OTA_TOOLS", "Got Connection " + URL);
+            HttpEntity getResponseEntity = getResponse.getEntity();
+
+            if (getResponseEntity != null) {
+                return EntityUtils.toString(getResponseEntity);
+            }
+
+        } catch (IOException e) {
+            getRequest.abort();
+            Log.e("OTA_TOOLS", "#BLAMETYLER Error for URL " + URL, e);
+        }
+
+        return null;
+    }
+
+    public static String getChanges() {
+        String URL = config.PAC_CHANGES;
+        String dev = "&device="+ (LocalTools.getProp("ro.cm.device").equals("")? Build.PRODUCT : LocalTools.getProp("ro.cm.device"));
+        URL += dev;
+
+        DefaultHttpClient mClient = new DefaultHttpClient();
+        HttpGet getRequest = new HttpGet(URL);
+
+        try {
+            HttpResponse getResponse = mClient.execute(getRequest);
+            final int statusCode = getResponse.getStatusLine().getStatusCode();
+
+            if (statusCode != HttpStatus.SC_OK) {
+                Log.e("OTA_TOOLS", "#BLAMETYLER " + statusCode
+                        + " for URL " + URL);
+                return null;
+            }
+
+            Log.d("OTA_TOOLS", "Got Connection " + URL);
+            HttpEntity getResponseEntity = getResponse.getEntity();
+
+            if (getResponseEntity != null) {
+                return EntityUtils.toString(getResponseEntity);
+            }
+
+        } catch (IOException e) {
+            getRequest.abort();
+            Log.e("OTA_TOOLS", "#BLAMETYLER Error for URL " + URL, e);
+        }
+
+        return null;
+    }
 }

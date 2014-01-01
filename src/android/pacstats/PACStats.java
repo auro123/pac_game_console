@@ -32,79 +32,79 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 
 public class PACStats extends PreferenceFragment
-        implements DialogInterface.OnClickListener, DialogInterface.OnDismissListener,
-        Preference.OnPreferenceChangeListener {
+implements DialogInterface.OnClickListener, DialogInterface.OnDismissListener,
+Preference.OnPreferenceChangeListener {
 
     private static final String VIEW_STATS = "pref_view_stats";
-        
+
     protected static final String PAC_OPT_IN = "pref_pac_opt_in";
     protected static final String PAC_LAST_CHECKED = "pref_pac_checked_in";
 
     private CheckBoxPreference mEnableReporting;
     private Preference mViewStats;
     private Preference btnUninstall;
-    
+
     private Dialog mOkDialog;
     private boolean mOkClicked;
-    
+
     private SharedPreferences mPrefs;
 
     public static SharedPreferences getPreferences(Context context) {
         return context.getSharedPreferences(Utilities.SETTINGS_PREF_NAME, 0);
     }
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-    	addPreferencesFromResource(R.xml.pac_stats);
-    	
-    	mPrefs = getPreferences(this.getActivity());
-        
-    	PreferenceScreen prefSet = getPreferenceScreen();
+
+        addPreferencesFromResource(R.xml.pac_stats);
+
+        mPrefs = getPreferences(this.getActivity());
+
+        PreferenceScreen prefSet = getPreferenceScreen();
         mEnableReporting = (CheckBoxPreference) prefSet.findPreference(PAC_OPT_IN);
         mViewStats = (Preference) prefSet.findPreference(VIEW_STATS);
-        
-            
+
+
     }
 
-	@Override
-	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
-		if (preference == mEnableReporting) {
-			if (mEnableReporting.isChecked()) {
-				// Display the confirmation dialog
-				mOkClicked = false;
-				if (mOkDialog != null) {
-					mOkDialog.dismiss();
-				}
-				mOkDialog = new AlertDialog.Builder(this.getActivity())
-						.setMessage(this.getResources().getString(R.string.pac_stats_warning))
-						.setTitle(R.string.pac_stats_warning_title)
-						.setPositiveButton(android.R.string.yes, this)
-						.setNeutralButton(getString(R.string.pac_learn_more), this)
-						.setNegativeButton(android.R.string.no, this)
-						.show();
-				mOkDialog.setOnDismissListener(this);
-			} else {
-				// Disable reporting
-				mPrefs.edit().putBoolean(PAC_OPT_IN, false).apply();
-			}
-		} else if (preference == mViewStats) {
-			// Display the stats page
-			Uri uri = Uri.parse(Utilities.getStatsUrl() + "stats");
-			startActivity(new Intent(Intent.ACTION_VIEW, uri));
-		} else {
-			// If we didn't handle it, let preferences handle it.
-			return super.onPreferenceTreeClick(preferenceScreen, preference);
-		}
-		return true;
-	}
+    @Override
+    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
+        if (preference == mEnableReporting) {
+            if (mEnableReporting.isChecked()) {
+                // Display the confirmation dialog
+                mOkClicked = false;
+                if (mOkDialog != null) {
+                    mOkDialog.dismiss();
+                }
+                mOkDialog = new AlertDialog.Builder(this.getActivity())
+                .setMessage(this.getResources().getString(R.string.pac_stats_warning))
+                .setTitle(R.string.pac_stats_warning_title)
+                .setPositiveButton(android.R.string.yes, this)
+                .setNeutralButton(getString(R.string.pac_learn_more), this)
+                .setNegativeButton(android.R.string.no, this)
+                .show();
+                mOkDialog.setOnDismissListener(this);
+            } else {
+                // Disable reporting
+                mPrefs.edit().putBoolean(PAC_OPT_IN, false).apply();
+            }
+        } else if (preference == mViewStats) {
+            // Display the stats page
+            Uri uri = Uri.parse(Utilities.getStatsUrl() + "stats");
+            startActivity(new Intent(Intent.ACTION_VIEW, uri));
+        } else {
+            // If we didn't handle it, let preferences handle it.
+            return super.onPreferenceTreeClick(preferenceScreen, preference);
+        }
+        return true;
+    }
 
-	public boolean onPreferenceChange(Preference arg0, Object arg1) {
-		return false;
-	}
+    public boolean onPreferenceChange(Preference arg0, Object arg1) {
+        return false;
+    }
 
-	public void onClick(DialogInterface arg0, int arg1) {
+    public void onClick(DialogInterface arg0, int arg1) {
         if (arg1 == DialogInterface.BUTTON_POSITIVE) {
             mOkClicked = true;
             mPrefs.edit().putBoolean(PAC_OPT_IN, true).apply();
@@ -115,14 +115,14 @@ public class PACStats extends PreferenceFragment
             Uri uri = Uri.parse("http://www.cyanogenmod.com/blog/cmstats-what-it-is-and-why-you-should-opt-in");
             startActivity(new Intent(Intent.ACTION_VIEW, uri));
         }
-		
-	}
 
-	public void onDismiss(DialogInterface arg0) {
+    }
+
+    public void onDismiss(DialogInterface arg0) {
         if (!mOkClicked) {
             mEnableReporting.setChecked(false);
         }
-		
-	}
+
+    }
 
 }

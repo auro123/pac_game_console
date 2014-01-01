@@ -35,144 +35,144 @@ import com.pac.console.adapters.changeItemAdapter.RowType;
  */
 public class drawerItemType implements ListArrayItem {
 
-	private int FLAG;
-	private String title;
+    private int FLAG;
+    private String title;
 
-	private boolean caption_display = false;
-	private String caption;
+    private boolean caption_display = false;
+    private String caption;
 
-	private boolean URL_launch = false;
-	private String URL;
+    private boolean URL_launch = false;
+    private String URL;
 
-	private boolean package_launch = false;
-	private String package_name;
-	private String package_path;
+    private boolean package_launch = false;
+    private String package_name;
+    private String package_path;
 
-	private boolean toggle_display = false;
-	private OnCheckedChangeListener ontoggle;
+    private boolean toggle_display = false;
+    private OnCheckedChangeListener ontoggle;
 
-	public int getFlag() {
-		return this.FLAG;
-	}
+    public int getFlag() {
+        return this.FLAG;
+    }
 
-	public String getTittle() {
-		return this.title;
-	}
+    public String getTittle() {
+        return this.title;
+    }
 
-	public boolean getCaptionDisplay() {
-		return this.caption_display;
-	}
+    public boolean getCaptionDisplay() {
+        return this.caption_display;
+    }
 
-	public String getCaption() {
-		return this.caption;
-	}
+    public String getCaption() {
+        return this.caption;
+    }
 
-	public boolean getURLLaunch() {
-		return this.URL_launch;
-	}
+    public boolean getURLLaunch() {
+        return this.URL_launch;
+    }
 
-	public String getURL() {
-		return this.URL;
-	}
+    public String getURL() {
+        return this.URL;
+    }
 
-	public String getPackageName() {
-		return this.package_name;
-	}
+    public String getPackageName() {
+        return this.package_name;
+    }
 
-	public boolean getPackageLaunch() {
-		return this.package_launch;
-	}
+    public boolean getPackageLaunch() {
+        return this.package_launch;
+    }
 
-	public String getPackagePath() {
-		return this.package_path;
-	}
+    public String getPackagePath() {
+        return this.package_path;
+    }
 
-	public boolean getToggleDisplay() {
-		return this.toggle_display;
-	}
+    public boolean getToggleDisplay() {
+        return this.toggle_display;
+    }
 
-	public OnCheckedChangeListener getOnToggleListener() {
-		return this.ontoggle;
-	}
+    public OnCheckedChangeListener getOnToggleListener() {
+        return this.ontoggle;
+    }
 
-	public void setFlag(int in) {
-		this.FLAG = in;
-	}
+    public void setFlag(int in) {
+        this.FLAG = in;
+    }
 
-	public void setTittle(String in) {
-		this.title = in;
-	}
+    public void setTittle(String in) {
+        this.title = in;
+    }
 
-	public void setCaptionDisplay(boolean in) {
-		this.caption_display = in;
-	}
+    public void setCaptionDisplay(boolean in) {
+        this.caption_display = in;
+    }
 
-	public void setCaption(String in) {
-		this.caption = in;
-	}
+    public void setCaption(String in) {
+        this.caption = in;
+    }
 
-	public void setURLLaunch(boolean in) {
-		this.URL_launch = in;
-	}
+    public void setURLLaunch(boolean in) {
+        this.URL_launch = in;
+    }
 
-	public void setURL(String in) {
-		this.URL = in;
-	}
+    public void setURL(String in) {
+        this.URL = in;
+    }
 
-	public void setPackageName(String in) {
-		this.package_name = in;
-	}
+    public void setPackageName(String in) {
+        this.package_name = in;
+    }
 
-	public void setPackageLaunch(boolean in) {
-		this.package_launch = in;
-	}
+    public void setPackageLaunch(boolean in) {
+        this.package_launch = in;
+    }
 
-	public void setPackagePath(String in) {
-		this.package_path = in;
-	}
+    public void setPackagePath(String in) {
+        this.package_path = in;
+    }
 
-	public void setToggleDisplay(boolean in) {
-		this.toggle_display = in;
-	}
+    public void setToggleDisplay(boolean in) {
+        this.toggle_display = in;
+    }
 
-	public void setOnToggleListener(OnCheckedChangeListener in) {
-		this.ontoggle = in;
-	}
+    public void setOnToggleListener(OnCheckedChangeListener in) {
+        this.ontoggle = in;
+    }
 
-	@Override
-	public int getViewType() {
-		// TODO Auto-generated method stub
-		return RowType.LIST_ITEM.ordinal();
-	}
+    @Override
+    public int getViewType() {
+        // TODO Auto-generated method stub
+        return RowType.LIST_ITEM.ordinal();
+    }
 
-	@Override
-	public View getView(LayoutInflater inflater, View convertView) {
-		View view = convertView;
-		if (view == null) {
-			view = inflater.inflate(R.layout.drawer_list_item, null);
-		}
+    @Override
+    public View getView(LayoutInflater inflater, View convertView) {
+        View view = convertView;
+        if (view == null) {
+            view = inflater.inflate(R.layout.drawer_list_item, null);
+        }
 
-		/*
-		 * Only show the required parts of the view as long as there is a item
-		 * to show default is just a title
-		 */
+        /*
+         * Only show the required parts of the view as long as there is a item
+         * to show default is just a title
+         */
 
-		// set the title
-		TextView tvTit = (TextView) view.findViewById(id.dli_title);
-		tvTit.setText(this.getTittle());
-		// show the caption
-		if (this.getCaptionDisplay()) {
-			TextView tvCap = (TextView) view.findViewById(id.dli_summary);
-			tvCap.setText(this.getCaption());
-			tvCap.setVisibility(View.VISIBLE);
+        // set the title
+        TextView tvTit = (TextView) view.findViewById(id.dli_title);
+        tvTit.setText(this.getTittle());
+        // show the caption
+        if (this.getCaptionDisplay()) {
+            TextView tvCap = (TextView) view.findViewById(id.dli_summary);
+            tvCap.setText(this.getCaption());
+            tvCap.setVisibility(View.VISIBLE);
 
-		} else {
-			TextView tvCap = (TextView) view.findViewById(id.dli_summary);
-			tvCap.setVisibility(View.GONE);
-		}
+        } else {
+            TextView tvCap = (TextView) view.findViewById(id.dli_summary);
+            tvCap.setVisibility(View.GONE);
+        }
 
-		return view;
+        return view;
 
-	}
+    }
 
 }

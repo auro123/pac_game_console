@@ -7,6 +7,5 @@ LOCAL_STATIC_JAVA_LIBRARIES := android-support-v4
 LOCAL_SRC_FILES := $(call all-subdir-java-files) $(call all-renderscript-files-under, src)
 
 LOCAL_PACKAGE_NAME := PacConsole
-LOCAL_CERTIFICATE := shared
 
 include $(BUILD_PACKAGE)

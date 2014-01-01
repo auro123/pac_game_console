@@ -32,22 +32,22 @@ import android.widget.ArrayAdapter;
  *
  */
 public class drawerItemAdapter extends ArrayAdapter<ListArrayItem>{
-	
-	private LayoutInflater mInflater;
 
-	public drawerItemAdapter(Context context, int textViewResourceId,
-			ArrayList<ListArrayItem> drawList) {
-		super(context, textViewResourceId, drawList);
+    private LayoutInflater mInflater;
 
-		this.mInflater = LayoutInflater.from(context);
-		
-	}
-	
+    public drawerItemAdapter(Context context, int textViewResourceId,
+            ArrayList<ListArrayItem> drawList) {
+        super(context, textViewResourceId, drawList);
+
+        this.mInflater = LayoutInflater.from(context);
+
+    }
+
     public enum RowType {
         LIST_ITEM, HEADER_ITEM
     }
 
-	@Override
+    @Override
     public int getViewTypeCount() {
         return RowType.values().length;
     }
@@ -57,9 +57,9 @@ public class drawerItemAdapter extends ArrayAdapter<ListArrayItem>{
         return getItem(position).getViewType();
     }
 
-	@Override
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO logic for view
-		return getItem(position).getView(mInflater, convertView);
-	}
+        // TODO logic for view
+        return getItem(position).getView(mInflater, convertView);
+    }
 }

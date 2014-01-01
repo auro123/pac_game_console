@@ -29,82 +29,82 @@ import android.util.Log;
 
 public class ReportingServiceManager extends BroadcastReceiver {
 
-	private static final long MILLIS_PER_HOUR = 60L * 60L * 1000L;
-	private static final long MILLIS_PER_DAY = 24L * MILLIS_PER_HOUR;
+    private static final long MILLIS_PER_HOUR = 60L * 60L * 1000L;
+    private static final long MILLIS_PER_DAY = 24L * MILLIS_PER_HOUR;
 
-	// UPDATE_INTERVAL days is set in the build.prop file
-	// private static final long UPDATE_INTERVAL = 1L * MILLIS_PER_DAY;
+    // UPDATE_INTERVAL days is set in the build.prop file
+    // private static final long UPDATE_INTERVAL = 1L * MILLIS_PER_DAY;
 
-	@Override
-	public void onReceive(Context context, Intent intent) {
-		if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
-			setAlarm(context, 0);
-		} else {
-			launchService(context);
-		}
-	}
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
+            setAlarm(context, 0);
+        } else {
+            launchService(context);
+        }
+    }
 
-	public static void setAlarm(Context context, long millisFromNow) {
-		SharedPreferences prefs = PACStats.getPreferences(context);
-		boolean optedIn = prefs.getBoolean(PACStats.PAC_OPT_IN, true);
-		if (!optedIn) {
-			return;
-		}
+    public static void setAlarm(Context context, long millisFromNow) {
+        SharedPreferences prefs = PACStats.getPreferences(context);
+        boolean optedIn = prefs.getBoolean(PACStats.PAC_OPT_IN, true);
+        if (!optedIn) {
+            return;
+        }
 
-		long UPDATE_INTERVAL = Long.valueOf(Utilities.getTimeFrame()) * MILLIS_PER_DAY;
+        long UPDATE_INTERVAL = Long.valueOf(Utilities.getTimeFrame()) * MILLIS_PER_DAY;
 
-		if (millisFromNow <= 0) {
-			long lastSynced = prefs.getLong(PACStats.PAC_LAST_CHECKED, 0);
-			if (lastSynced == 0) {
-				// never synced, so let's fake out that the last sync was just now.
-				// this will allow the user tFrame time to opt out before it will start
-				// sending up PAC stats.
-				lastSynced = System.currentTimeMillis();
-				prefs.edit().putLong(PACStats.PAC_LAST_CHECKED, lastSynced).apply();
-				Log.d(Utilities.TAG, "Set alarm for first sync.");
-			}
-			millisFromNow = (lastSynced + UPDATE_INTERVAL) - System.currentTimeMillis();
-		}
+        if (millisFromNow <= 0) {
+            long lastSynced = prefs.getLong(PACStats.PAC_LAST_CHECKED, 0);
+            if (lastSynced == 0) {
+                // never synced, so let's fake out that the last sync was just now.
+                // this will allow the user tFrame time to opt out before it will start
+                // sending up PAC stats.
+                lastSynced = System.currentTimeMillis();
+                prefs.edit().putLong(PACStats.PAC_LAST_CHECKED, lastSynced).apply();
+                Log.d(Utilities.TAG, "Set alarm for first sync.");
+            }
+            millisFromNow = (lastSynced + UPDATE_INTERVAL) - System.currentTimeMillis();
+        }
 
-		Intent intent = new Intent(ConnectivityManager.CONNECTIVITY_ACTION);
-		intent.setClass(context, ReportingServiceManager.class);
+        Intent intent = new Intent(ConnectivityManager.CONNECTIVITY_ACTION);
+        intent.setClass(context, ReportingServiceManager.class);
 
-		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-		alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + millisFromNow,
-				PendingIntent.getBroadcast(context, 0, intent, 0));
-		Log.d(Utilities.TAG, "Next sync attempt in : " + millisFromNow / MILLIS_PER_HOUR + " hours");
-	}
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + millisFromNow,
+                PendingIntent.getBroadcast(context, 0, intent, 0));
+        Log.d(Utilities.TAG, "Next sync attempt in : " + millisFromNow / MILLIS_PER_HOUR + " hours");
+    }
 
-	public static void launchService(Context context) {
-		ConnectivityManager cm = (ConnectivityManager)
-				context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    public static void launchService(Context context) {
+        ConnectivityManager cm = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-		NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-		if (networkInfo == null || !networkInfo.isConnected()) {
-			return;
-		}
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        if (networkInfo == null || !networkInfo.isConnected()) {
+            return;
+        }
 
-		SharedPreferences prefs = PACStats.getPreferences(context);
-		boolean optedIn = prefs.getBoolean(PACStats.PAC_OPT_IN, true);
-		if (!optedIn) {
-			return;
-		}
-		long lastSynced = prefs.getLong(PACStats.PAC_LAST_CHECKED, 0);
-		if (lastSynced == 0) {
-			setAlarm(context, 0);
-			return;
-		}
+        SharedPreferences prefs = PACStats.getPreferences(context);
+        boolean optedIn = prefs.getBoolean(PACStats.PAC_OPT_IN, true);
+        if (!optedIn) {
+            return;
+        }
+        long lastSynced = prefs.getLong(PACStats.PAC_LAST_CHECKED, 0);
+        if (lastSynced == 0) {
+            setAlarm(context, 0);
+            return;
+        }
 
-		long UPDATE_INTERVAL = Long.valueOf(Utilities.getTimeFrame()) * MILLIS_PER_DAY;
+        long UPDATE_INTERVAL = Long.valueOf(Utilities.getTimeFrame()) * MILLIS_PER_DAY;
 
-		long timeLeft = System.currentTimeMillis() - lastSynced;
-		if (timeLeft < UPDATE_INTERVAL) {
-			Log.d(Utilities.TAG, "Waiting for next sync : " + timeLeft / MILLIS_PER_HOUR + " hours");
-			return;
-		}
+        long timeLeft = System.currentTimeMillis() - lastSynced;
+        if (timeLeft < UPDATE_INTERVAL) {
+            Log.d(Utilities.TAG, "Waiting for next sync : " + timeLeft / MILLIS_PER_HOUR + " hours");
+            return;
+        }
 
-		Intent intent = new Intent();
-		intent.setClass(context, ReportingService.class);
-		context.startService(intent);
-	}
+        Intent intent = new Intent();
+        intent.setClass(context, ReportingService.class);
+        context.startService(intent);
+    }
 }

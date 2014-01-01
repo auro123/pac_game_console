@@ -33,23 +33,23 @@ import android.widget.TextView;
  *
  */
 public class text_frag extends Fragment {
-	
-	public static String mText = "";
-	boolean store = false;
-	
-	public static text_frag newInstance(String text) {
-		text_frag fragment = new text_frag();
-		mText = text;
-		return fragment;
-	
-	}
-	    
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle ofLove) {
-		
-		View layout = inflater.inflate(R.layout.contrib_frag_layout, null);
-		((TextView) layout.findViewById(R.id.tv_ota_rom_header)).setText(mText);
-		return layout;
-	}
+
+    public static String mText = "";
+    boolean store = false;
+
+    public static text_frag newInstance(String text) {
+        text_frag fragment = new text_frag();
+        mText = text;
+        return fragment;
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle ofLove) {
+
+        View layout = inflater.inflate(R.layout.contrib_frag_layout, null);
+        ((TextView) layout.findViewById(R.id.tv_ota_rom_header)).setText(mText);
+        return layout;
+    }
 
 }

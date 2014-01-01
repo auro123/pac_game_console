@@ -37,23 +37,23 @@ import android.util.Log;
 
 public class ReportingService extends Service {
 
-	private StatsUploadTask mTask;
+    private StatsUploadTask mTask;
 
-	@Override
-	public IBinder onBind(Intent intent) {
-		return null;
-	}
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
 
     @Override
     public int onStartCommand (Intent intent, int flags, int startId) {
-    	Log.d(Utilities.TAG, "User has opted in -- reporting.");
+        Log.d(Utilities.TAG, "User has opted in -- reporting.");
 
-		String PACStatsUrl = Utilities.getStatsUrl();
-		if (PACStatsUrl == null || PACStatsUrl.isEmpty()) {
-			Log.e(Utilities.TAG, "This ROM is not configured for PAC Statistics.");
-			stopSelf();
-		}
-    	
+        String PACStatsUrl = Utilities.getStatsUrl();
+        if (PACStatsUrl == null || PACStatsUrl.isEmpty()) {
+            Log.e(Utilities.TAG, "This ROM is not configured for PAC Statistics.");
+            stopSelf();
+        }
+
         if (mTask == null || mTask.getStatus() == AsyncTask.Status.FINISHED) {
             mTask = new StatsUploadTask();
             mTask.execute();
@@ -61,30 +61,30 @@ public class ReportingService extends Service {
 
         return Service.START_REDELIVER_INTENT;
     }
-    
+
     private class StatsUploadTask extends AsyncTask<Void, Void, Boolean> {
         @Override
         protected Boolean doInBackground(Void... params) {
-    		String deviceId = Utilities.getUniqueID(getApplicationContext());
-    		String deviceName = Utilities.getDevice();
-    		String deviceVersion = Utilities.getModVersion();
-    		String deviceCountry = Utilities.getCountryCode(getApplicationContext());
-    		String deviceCarrier = Utilities.getCarrier(getApplicationContext());
-    		String deviceCarrierId = Utilities.getCarrierId(getApplicationContext());
-    		String RomName = Utilities.getRomName();
-    		String RomVersion = Utilities.getRomVersion();
+            String deviceId = Utilities.getUniqueID(getApplicationContext());
+            String deviceName = Utilities.getDevice();
+            String deviceVersion = Utilities.getModVersion();
+            String deviceCountry = Utilities.getCountryCode(getApplicationContext());
+            String deviceCarrier = Utilities.getCarrier(getApplicationContext());
+            String deviceCarrierId = Utilities.getCarrierId(getApplicationContext());
+            String RomName = Utilities.getRomName();
+            String RomVersion = Utilities.getRomVersion();
 
-    		String PACStatsUrl = Utilities.getStatsUrl();
-    		
-    		Log.d(Utilities.TAG, "SERVICE: Report URL=" + PACStatsUrl);
-    		Log.d(Utilities.TAG, "SERVICE: Device ID=" + deviceId);
-    		Log.d(Utilities.TAG, "SERVICE: Device Name=" + deviceName);
-    		Log.d(Utilities.TAG, "SERVICE: Device Version=" + deviceVersion);
-    		Log.d(Utilities.TAG, "SERVICE: Country=" + deviceCountry);
-    		Log.d(Utilities.TAG, "SERVICE: Carrier=" + deviceCarrier);
-    		Log.d(Utilities.TAG, "SERVICE: Carrier ID=" + deviceCarrierId);
-    		Log.d(Utilities.TAG, "SERVICE: ROM Name=" + RomName);
-    		Log.d(Utilities.TAG, "SERVICE: ROM Version=" + RomVersion);
+            String PACStatsUrl = Utilities.getStatsUrl();
+
+            Log.d(Utilities.TAG, "SERVICE: Report URL=" + PACStatsUrl);
+            Log.d(Utilities.TAG, "SERVICE: Device ID=" + deviceId);
+            Log.d(Utilities.TAG, "SERVICE: Device Name=" + deviceName);
+            Log.d(Utilities.TAG, "SERVICE: Device Version=" + deviceVersion);
+            Log.d(Utilities.TAG, "SERVICE: Country=" + deviceCountry);
+            Log.d(Utilities.TAG, "SERVICE: Carrier=" + deviceCarrier);
+            Log.d(Utilities.TAG, "SERVICE: Carrier ID=" + deviceCarrierId);
+            Log.d(Utilities.TAG, "SERVICE: ROM Name=" + RomName);
+            Log.d(Utilities.TAG, "SERVICE: ROM Version=" + RomVersion);
 
             // report to the PACstats service
             HttpClient httpClient = new DefaultHttpClient();
@@ -93,14 +93,14 @@ public class ReportingService extends Service {
 
             try {
                 List<NameValuePair> kv = new ArrayList<NameValuePair>(5);
-    			kv.add(new BasicNameValuePair("device_hash", deviceId));
-    			kv.add(new BasicNameValuePair("device_name", deviceName));
-    			kv.add(new BasicNameValuePair("device_version", deviceVersion));
-    			kv.add(new BasicNameValuePair("device_country", deviceCountry));
-    			kv.add(new BasicNameValuePair("device_carrier", deviceCarrier));
-    			kv.add(new BasicNameValuePair("device_carrier_id", deviceCarrierId));
-    			kv.add(new BasicNameValuePair("rom_name", RomName));
-    			kv.add(new BasicNameValuePair("rom_version", RomVersion));
+                kv.add(new BasicNameValuePair("device_hash", deviceId));
+                kv.add(new BasicNameValuePair("device_name", deviceName));
+                kv.add(new BasicNameValuePair("device_version", deviceVersion));
+                kv.add(new BasicNameValuePair("device_country", deviceCountry));
+                kv.add(new BasicNameValuePair("device_carrier", deviceCarrier));
+                kv.add(new BasicNameValuePair("device_carrier_id", deviceCarrierId));
+                kv.add(new BasicNameValuePair("rom_name", RomName));
+                kv.add(new BasicNameValuePair("rom_version", RomVersion));
 
                 httpPost.setEntity(new UrlEncodedFormEntity(kv));
                 httpClient.execute(httpPost);
@@ -112,7 +112,7 @@ public class ReportingService extends Service {
 
             return success;
         }
-        
+
         @Override
         protected void onPostExecute(Boolean result) {
             final Context context = ReportingService.this;
@@ -133,5 +133,5 @@ public class ReportingService extends Service {
             stopSelf();
         }
     }
-        
+
 }

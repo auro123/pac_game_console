@@ -43,48 +43,48 @@ import android.widget.Toast;
  */
 public class OTA_enabler implements OnCheckedChangeListener {
 
-	protected final Context mContext;
-	private Switch mSwitch;
+    protected final Context mContext;
+    private Switch mSwitch;
 
-	public OTA_enabler(Context context, Switch swtch) {
-		mContext = context;
-		setSwitch(swtch);
-	}
+    public OTA_enabler(Context context, Switch swtch) {
+        mContext = context;
+        setSwitch(swtch);
+    }
 
-	public void setSwitch(Switch swtch) {
-		if (mSwitch == swtch)
-			return;
+    public void setSwitch(Switch swtch) {
+        if (mSwitch == swtch)
+            return;
 
-		if (mSwitch != null)
-			mSwitch.setOnCheckedChangeListener(null);
-		
-		mSwitch = swtch;
-		mSwitch.setOnCheckedChangeListener(this);
+        if (mSwitch != null)
+            mSwitch.setOnCheckedChangeListener(null);
 
-		mSwitch.setChecked(isSwitchOn());
-	}
+        mSwitch = swtch;
+        mSwitch.setOnCheckedChangeListener(this);
 
-	public void onCheckedChanged(CompoundButton view, boolean isChecked) {
+        mSwitch.setChecked(isSwitchOn());
+    }
 
-		Settings.System.putInt(mContext.getContentResolver(), "OTA_ENABLE", (isChecked) ? 1 : 0);
-		String pac = LocalTools.getProp("ro.pacrom.version");
-		// TODO fire up service! maybe?
-		if (!pac.equals("")){
-			if (isChecked && !isMyServiceRunning()){
-				Intent i = new Intent("com.pac.console.updateChecker");
-				Log.d("PACCON", "STARTING OTA SERVER");
-				i.setClass(mContext, updateChecker.class);
-				mContext.startService(i);
-			} else if (!isChecked && isMyServiceRunning()){
-				Log.d("PACCON", "ENDING OTA SERVER");
-	
-				mContext.stopService(new Intent(mContext, com.pac.console.updateChecker.class));
-			}
-		} else {
-			Toast.makeText(mContext, mContext.getString(R.string.ota_non_pac), Toast.LENGTH_LONG).show();
-		}
-	}
-	
+    public void onCheckedChanged(CompoundButton view, boolean isChecked) {
+
+        Settings.System.putInt(mContext.getContentResolver(), "OTA_ENABLE", (isChecked) ? 1 : 0);
+        String pac = LocalTools.getProp("ro.pacrom.version");
+        // TODO fire up service! maybe?
+        if (!pac.equals("")){
+            if (isChecked && !isMyServiceRunning()){
+                Intent i = new Intent("com.pac.console.updateChecker");
+                Log.d("PACCON", "STARTING OTA SERVER");
+                i.setClass(mContext, updateChecker.class);
+                mContext.startService(i);
+            } else if (!isChecked && isMyServiceRunning()){
+                Log.d("PACCON", "ENDING OTA SERVER");
+
+                mContext.stopService(new Intent(mContext, com.pac.console.updateChecker.class));
+            }
+        } else {
+            Toast.makeText(mContext, mContext.getString(R.string.ota_non_pac), Toast.LENGTH_LONG).show();
+        }
+    }
+
     private boolean isMyServiceRunning() {
         ActivityManager manager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
         for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
@@ -95,26 +95,26 @@ public class OTA_enabler implements OnCheckedChangeListener {
         return false;
     }
 
-	public boolean isSwitchOn() {
-		Boolean onoff = false;
-		try {
-			onoff = (1 == Settings.System.getInt(mContext.getContentResolver(), "OTA_ENABLE"))?true:false;
-		} catch (SettingNotFoundException e) {
-			onoff = false;
-		}
-		return onoff;
-	}
+    public boolean isSwitchOn() {
+        Boolean onoff = false;
+        try {
+            onoff = (1 == Settings.System.getInt(mContext.getContentResolver(), "OTA_ENABLE"))?true:false;
+        } catch (SettingNotFoundException e) {
+            onoff = false;
+        }
+        return onoff;
+    }
 
-	public void resume() {
-		mSwitch.setOnCheckedChangeListener(this);
-		mSwitch.setChecked(isSwitchOn());
-		mSwitch.setVisibility(View.VISIBLE);
-		
-	}
+    public void resume() {
+        mSwitch.setOnCheckedChangeListener(this);
+        mSwitch.setChecked(isSwitchOn());
+        mSwitch.setVisibility(View.VISIBLE);
 
-	public void pause() {
-		mSwitch.setOnCheckedChangeListener(null);
-		mSwitch.setVisibility(View.GONE);
+    }
 
-	}
+    public void pause() {
+        mSwitch.setOnCheckedChangeListener(null);
+        mSwitch.setVisibility(View.GONE);
+
+    }
 }

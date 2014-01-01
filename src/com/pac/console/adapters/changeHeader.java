@@ -38,28 +38,28 @@ import android.widget.TextView;
 
 public class changeHeader implements ListArrayItem {
 
-	private String title;
+    private String title;
 
     public changeHeader(String title) {
         this.title = title;
     }
-    
+
     // getters and setters
     public String getTitle(){
-    	return this.title;
+        return this.title;
     }
-    
+
     public void setTitle(String input){
-    	this.title = input;
+        this.title = input;
     }
 
-	@Override
-	public int getViewType() {
-		return RowType.HEADER_ITEM.ordinal();
-	}
+    @Override
+    public int getViewType() {
+        return RowType.HEADER_ITEM.ordinal();
+    }
 
-	@Override
-	public View getView(LayoutInflater inflater, View convertView) {
+    @Override
+    public View getView(LayoutInflater inflater, View convertView) {
         View view;
         if (convertView == null) {
             view = (View) inflater.inflate(R.layout.header_list_item, null);
@@ -69,24 +69,24 @@ public class changeHeader implements ListArrayItem {
         }
 
         TextView text = (TextView) view.findViewById(R.id.hli_date);
-        
+
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String titleText = title;
         try {
-			Date result =  df.parse(title);
-			((SimpleDateFormat) df).applyPattern("d MMMM yyyy");
-			titleText = df.format(result);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}  
+            Date result =  df.parse(title);
+            ((SimpleDateFormat) df).applyPattern("d MMMM yyyy");
+            titleText = df.format(result);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }  
 
         text.setText(titleText);
-        
+
         RelativeLayout rlHolder = (RelativeLayout) view.findViewById(R.id.hli_back);
-		rlHolder.setBackgroundColor(Color.parseColor("#33B5E5"));
-		
+        rlHolder.setBackgroundColor(Color.parseColor("#33B5E5"));
+
         return view;
-	}
+    }
 
 }

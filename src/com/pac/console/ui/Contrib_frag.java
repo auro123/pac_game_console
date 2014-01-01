@@ -49,141 +49,142 @@ import android.widget.TextView;
  *
  */
 public class Contrib_frag extends Fragment {
-	
-	private boolean zomby = true;
-	TextView contrib;
-	public String contribs = "";
-	boolean store = false;
-	
-	public static Contrib_frag newInstance(String content) {
-		Contrib_frag fragment = new Contrib_frag();		
-		return fragment;
-	
-	}
-	
-	@Override
-	public void onResume() {
-		super.onResume();
-        zomby = false;
-	}
 
-	@Override
-	public void onPause() {
-		super.onPause();
+    private boolean zomby = true;
+    TextView contrib;
+    public String contribs = "";
+    boolean store = false;
+
+    public static Contrib_frag newInstance(String content) {
+        Contrib_frag fragment = new Contrib_frag();		
+        return fragment;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        zomby = false;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
         zomby = true;
-	}
+    }
 
 
     @Override
     public void onSaveInstanceState(Bundle ofLove) {
-      super.onSaveInstanceState(ofLove);
-      // Save UI state changes to the savedInstanceState.
-      // This bundle will be passed to onCreate if the process is
-      // killed and restarted.
-      ofLove.putBoolean("store", true);
-      ofLove.putString("contribs", contribs);
+        super.onSaveInstanceState(ofLove);
+        // Save UI state changes to the savedInstanceState.
+        // This bundle will be passed to onCreate if the process is
+        // killed and restarted.
+        ofLove.putBoolean("store", true);
+        ofLove.putString("contribs", contribs);
     }
-    
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle ofLove) {
-		zomby = false;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle ofLove) {
+        zomby = false;
         if (ofLove!=null){
-        	contribs = ofLove.getString("contribs");
-	        store = ofLove.getBoolean("store");
+            contribs = ofLove.getString("contribs");
+            store = ofLove.getBoolean("store");
         }
 
         contribs = Settings.System.getString(this.getActivity().getContentResolver(), "contribs");
-		View layout = inflater.inflate(R.layout.contrib_frag_layout, null);
-		contrib = (TextView) layout.findViewById(R.id.tv_ota_rom_header);
-		contrib.setText("Loading");
-		//restore old state if needed
-			int con = RemoteTools.checkConnection(Contrib_frag.this.getActivity());
-			if (con > RemoteTools.DISCONNECTED){
-				AsyncTask checkTast = new CheckRemote();
-				String[] dev = {" "};
-				dev[0] = (String)Build.DEVICE;
-				checkTast.execute(dev);
-			} else {
-				if (contribs==null){
-					contrib.setText(Contrib_frag.this.getActivity().getString(R.string.no_data));
-				}
-			}
-		return layout;
-	}
+        View layout = inflater.inflate(R.layout.contrib_frag_layout, null);
+        contrib = (TextView) layout.findViewById(R.id.tv_ota_rom_header);
+        contrib.setText("Loading");
+        //restore old state if needed
+        int con = RemoteTools.checkConnection(Contrib_frag.this.getActivity());
+        if (con > RemoteTools.DISCONNECTED){
+            AsyncTask checkTast = new CheckRemote();
+            String[] dev = {" "};
+            dev[0] = (String)Build.DEVICE;
+            checkTast.execute((java.lang.Object[]) dev);
+        } else {
+            if (contribs==null){
+                contrib.setText(Contrib_frag.this.getActivity().getString(R.string.no_data));
+            }
+        }
+        return layout;
+    }
 
-	Handler updateRemote = new Handler(){
+    Handler updateRemote = new Handler(){
 
-	    @Override
-	    public void handleMessage(Message msg){
-	    	if (!zomby){
-				String markdownString = msg.getData().getString("contribs");
-				contribs = markdownString;
-	
-		    	//msg.getData().getString("file");
-				try{
-						Bypass bypass = new Bypass();
-						String[] formater = markdownString.split("\n");
-						markdownString = "";
-						Pattern pattern = Pattern.compile("[^\\S\\r\\n]{2,}");
-	
-						for (int i = 0; i< formater.length; i++){
-							Matcher matcher = pattern.matcher(formater[i]);
-							//formater[i].replaceAll("\\s{2,}+||\\t", " ");
-							String str = matcher.replaceAll(" ");
-							markdownString+=str+"\n";	
-						}
-						CharSequence string = bypass.markdownToSpannable(markdownString);
-						Log.d("MARKUP", ""+string);
-						contrib.setText(string);
-				} catch (Error e){
-					e.printStackTrace();
-					contrib.setText(markdownString);
-				} catch (Exception e){
-					e.printStackTrace();
-					contrib.setText(markdownString);
-				}
-				//contrib.setMovementMethod(LinkMovementMethod.getInstance());
-	    	}
-	    }
+        @Override
+        public void handleMessage(Message msg){
+            if (!zomby){
+                Log.d("MARKDOWN", "handler Start");
+                String markdownString = msg.getData().getString("contribs");
+                contribs = markdownString;
+                Log.d("MARKDOWN", "parsed string");
+                //msg.getData().getString("file");
+                try{
+                    Bypass bypass = new Bypass();
+                    Log.d("MARKDOWN", "Bypass Loaded");
+                    String[] formater = markdownString.split("\n");
+                    markdownString = "";
+                    Pattern pattern = Pattern.compile("[^\\S\\r\\n]{2,}");
+                    Log.d("MARKDOWN", "Patturn Stuff Done");
+                    for (int i = 0; i< formater.length; i++){
+                        Matcher matcher = pattern.matcher(formater[i]);
+                        //formater[i].replaceAll("\\s{2,}+||\\t", " ");
+                        String str = matcher.replaceAll(" ");
+                        markdownString+=str+"\n";	
+                    }
+                    Log.d("MARKDOWN", "String formated");
+                    CharSequence string = bypass.markdownToSpannable(markdownString);
+                    Log.d("MARKUP", "String Done!!!");
+                    contrib.setText(string);
+                    Log.d("MARKUP", "Set to TV");
+                } catch (Error e){
+                    e.printStackTrace();
+                    contrib.setText(markdownString);
+                } catch (Exception e){
+                    e.printStackTrace();
+                    contrib.setText(markdownString);
+                }
+                //contrib.setMovementMethod(LinkMovementMethod.getInstance());
+            }
+        }
 
-	};
-	private class CheckRemote extends
-	AsyncTask<String, Void, String> {
+    };
+    private class CheckRemote extends
+    AsyncTask<String, Void, String> {
 
-		@Override
-		protected String doInBackground(String... arg0) {
-			
-			// TODO Auto-generated method stub
-			if (Contrib_frag.this.contribs != null){
-				Message msg = new Message();
-				Bundle data = new Bundle();
-				data.putString("contribs", contribs);
-				msg.setData(data);
-				updateRemote.sendMessage(msg);
-			}
-			
-			String out = RemoteTools.getContrib();
-			return out;
-		}
-		
-		@Override
-		protected void onPostExecute(final String result) {
-			if (!zomby){
-				Message msg = new Message();
-				Bundle data = new Bundle();
-				if (result != null){
-					data.putString("contribs", result);
-					if (Contrib_frag.this.getActivity()!=null){
-						Settings.System.putString(Contrib_frag.this.getActivity().getContentResolver(), "contribs", result);
-					}
-				} else {
-					if (Contrib_frag.this.contribs==null){
-						data.putString("contribs", "Or Tyler Broke Something!");
-					}
-				}
-				msg.setData(data);
-				updateRemote.sendMessage(msg);
-			}
-		}
-	};
+        @Override
+        protected String doInBackground(String... arg0) {
+            // TODO Auto-generated method stub
+            if (Contrib_frag.this.contribs != null){
+                Message msg = new Message();
+                Bundle data = new Bundle();
+                data.putString("contribs", contribs);
+                msg.setData(data);
+                updateRemote.sendMessage(msg);
+            }
+            String out = RemoteTools.getContrib();
+            return out;
+        }
+
+        @Override
+        protected void onPostExecute(final String result) {
+            if (!zomby){
+                Message msg = new Message();
+                Bundle data = new Bundle();
+                if (result != null){
+                    data.putString("contribs", result);
+                    if (Contrib_frag.this.getActivity()!=null){
+                        Settings.System.putString(Contrib_frag.this.getActivity().getContentResolver(), "contribs", result);
+                    }
+                } else {
+                    if (Contrib_frag.this.contribs==null){
+                        data.putString("contribs", "Or Tyler Broke Something!");
+                    }
+                }
+                msg.setData(data);
+                updateRemote.sendMessage(msg);
+            }
+        }
+    };
 }
