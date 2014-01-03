@@ -17,34 +17,53 @@
  */
 package com.pac.console.adapters;
 
-import com.pac.console.R;
-import com.pac.console.adapters.changeItemAdapter.RowType;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.pac.console.R;
+import com.pac.console.adapters.changeItemAdapter.RowType;
+
 /**
  * AOSP'esc list catagory header type
- *
+ * 
  * @author pvyParts
- *
+ * 
  */
 public class aospHeader implements ListArrayItem {
 
     private String title;
+    private int groupTag;
+    private boolean groupOpen = false;
 
-    public aospHeader(String title) {
+    public aospHeader(String title, int groupTag) {
         this.title = title;
+        this.groupTag = groupTag;
     }
 
     // getters and setters
-    public String getTitle(){
+    public String getTitle() {
         return this.title;
     }
 
-    public void setTitle(String input){
+    public void setTitle(String input) {
         this.title = input;
+    }
+
+    public int getGroupTag() {
+        return this.groupTag;
+    }
+
+    public void setGroupTag(int input) {
+        this.groupTag = input;
+    }
+
+    public boolean getGroupOpen() {
+        return this.groupOpen;
+    }
+
+    public void setGroupOpen(boolean input) {
+        this.groupOpen = input;
     }
 
     @Override
@@ -56,14 +75,20 @@ public class aospHeader implements ListArrayItem {
     public View getView(LayoutInflater inflater, View convertView) {
         View view;
         if (convertView == null) {
-            view = (View) inflater.inflate(R.layout.aosp_header, null);
+            view = inflater.inflate(R.layout.aosp_header, null);
             // Do some initialization
         } else {
             view = convertView;
         }
 
         ((TextView) view).setText(title);
-
+        if (this.groupOpen) {
+            ((TextView) view).setCompoundDrawablesWithIntrinsicBounds(0, 0,
+                    R.drawable.expander_close_holo_dark, 0);
+        } else {
+            ((TextView) view).setCompoundDrawablesWithIntrinsicBounds(0, 0,
+                    R.drawable.expander_open_holo_dark, 0);
+        }
         return view;
     }
 

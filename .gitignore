@@ -1,4 +1,6 @@
 /gen
+/libs
+/libs/*
 /bin
 /bin/*
 /proguard-project.txt

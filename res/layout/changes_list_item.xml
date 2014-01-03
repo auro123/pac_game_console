@@ -45,7 +45,6 @@
                 android:textColor="#ff00ff00"
                 android:textColorHint="#ff00ff00"
                 android:textColorLink="#ff00ff00" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -69,7 +68,6 @@
                 android:textAppearance="?android:attr/textAppearanceSmallInverse"
                 android:textColor="#ffc2c2c2" />
         </LinearLayout>
-        
     </LinearLayout>
 
 </RelativeLayout>

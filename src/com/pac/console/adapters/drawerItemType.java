@@ -35,7 +35,9 @@ import com.pac.console.adapters.changeItemAdapter.RowType;
  */
 public class drawerItemType implements ListArrayItem {
 
-    private int FLAG;
+    private int FLAG;  // fragment shit
+    private int GROUP; // expandable shit
+    
     private String title;
 
     private boolean caption_display = false;
@@ -53,6 +55,10 @@ public class drawerItemType implements ListArrayItem {
 
     public int getFlag() {
         return this.FLAG;
+    }
+
+    public int getGroup() {
+        return this.GROUP;
     }
 
     public String getTittle() {
@@ -97,6 +103,10 @@ public class drawerItemType implements ListArrayItem {
 
     public void setFlag(int in) {
         this.FLAG = in;
+    }
+
+    public void setGroup(int in) {
+        this.GROUP = in;
     }
 
     public void setTittle(String in) {

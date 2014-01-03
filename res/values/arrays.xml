@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string-array name="ota_types">
-        <item >@string/ota_un</item>
-        <item >@string/ota_ni</item>
-        <item >@string/ota_st</item>
-        </string-array>
-    
+        <item>@string/ota_un</item>
+        <item>@string/ota_ni</item>
+        <item>@string/ota_st</item>
+    </string-array>
+
 </resources>

@@ -1,13 +1,14 @@
 Nothing to see here, Move along good sir.
 
-PACMAN Ultimate Console in the making.
+PACMAN Console
+==============
 
-![main][1]
-![ota][2]
-![contrib][3]
-![about][4]
+To build in eclipse
+-------------------
 
-[1]: https://raw.github.com/pvyParts/pac_game_console/images/main.png?raw=true
-[2]: https://raw.github.com/pvyParts/pac_game_console/images/ota.png?raw=true
-[3]: https://raw.github.com/pvyParts/pac_game_console/images/contrib.png?raw=true
-[4]: https://raw.github.com/pvyParts/pac_game_console/images/about.png?raw=true
+1 - Import the aplication using the "Android Project using Excsiting Code"
+2 - add support lib to the app using the android menu
+3 - delete the apk from the PAC rom system folder on your phone (/system/app/PacConsole.apk)
+4 - reboot phone
+5 - press debug in eclipse to install your testing version
+6 - make your edits, submit your changes, etc etc...

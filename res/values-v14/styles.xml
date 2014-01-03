@@ -3,13 +3,13 @@
     <!--
         Base application theme for API 14+. This theme completely replaces
         AppBaseTheme from BOTH res/values/styles.xml and
-        res/values-v11/styles.xml on API 14+ devices.
+        res/values-v11/styles.xml on API 14+ devices.
     -->
     <style name="AppBaseTheme" parent="android:Theme.Holo">
+
         <!-- API 14 theme customizations can go here. -->
-		<item name="android:homeAsUpIndicator">@drawable/ic_drawer</item>
-		<item name="android:actionBarStyle">@android:style/Widget.Holo.ActionBar.Solid</item>
-        
+        <item name="android:homeAsUpIndicator">@drawable/ic_drawer</item>
+        <item name="android:actionBarStyle">@android:style/Widget.Holo.ActionBar.Solid</item>
     </style>
 
 </resources>

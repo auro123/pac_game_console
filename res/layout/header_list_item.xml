@@ -35,7 +35,6 @@
             android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold" />
-
     </LinearLayout>
 
 </RelativeLayout>

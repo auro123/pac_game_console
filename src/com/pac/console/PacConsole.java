@@ -59,6 +59,7 @@ public class PacConsole extends Activity {
 
     // some variables...
     private ArrayList<ListArrayItem> mGameTitles;
+    private ArrayList<ListArrayItem> mDrawerGameTitles;
     private ListView mDrawerList;
     private drawerItemType mSelectedItem;
     private DrawerLayout mDrawerLayout;
@@ -66,6 +67,12 @@ public class PacConsole extends Activity {
     private int poss = 0;
     private boolean state = false;
     Fragment mContent = null;
+
+    // *** setup the Flags for the Frags
+    private final int UPDATES_GROUP = 0;
+    private final int INTERFACE_GROUP = 1;
+    private final int HYBRID_GROUP = 2;
+    private final int ROMINFO_GROUP = 3;
 
     // *** setup the Flags for the Frags
     private final int OTA_FLAG = 0;
@@ -138,9 +145,7 @@ public class PacConsole extends Activity {
 
         // Setup the Menu List
         createDrawList();
-
-        mDrawerList.setAdapter(new drawerItemAdapter(this,
-                R.layout.drawer_list_item, mGameTitles));
+        expandList();
 
         mDrawerList.setOnItemClickListener(new OnItemClickListener() {
 
@@ -148,12 +153,21 @@ public class PacConsole extends Activity {
                     long arg3) {
 
                 // handle clicks on the drawer
-                if (mGameTitles.get(arg2).getViewType() == RowType.LIST_ITEM
+                if (mDrawerGameTitles.get(arg2).getViewType() == RowType.LIST_ITEM
                         .ordinal()) {
+                    
                     attachFrag(arg2);
                     mDrawerList.setSelection(arg2);
                     poss = arg2;
+                    
+                } else if (mDrawerGameTitles.get(arg2).getViewType() == RowType.HEADER_ITEM
+                        .ordinal()) {
+                    
+                    // redo the list and update the adapter 
+                    ((aospHeader)mDrawerGameTitles.get(arg2)).setGroupOpen(!((aospHeader)mDrawerGameTitles.get(arg2)).getGroupOpen());
+                    expandList();
                 }
+                
             }
 
         });
@@ -170,7 +184,31 @@ public class PacConsole extends Activity {
         }
 
     }
-
+    /**
+     * Some Hacktrickery for the expandable list...
+     * 
+     * this could be better...
+     * 
+     */
+    private void expandList(){
+         mDrawerGameTitles = new ArrayList<ListArrayItem>();
+         boolean groupOpen = false;
+         int groupId = -1;
+         for(int i=0; i<mGameTitles.size();i++){
+             if(mGameTitles.get(i).getViewType() == RowType.HEADER_ITEM.ordinal()) { 
+                 mDrawerGameTitles.add(mGameTitles.get(i));
+                 groupOpen = ((aospHeader) mGameTitles.get(i)).getGroupOpen();
+                 groupId = ((aospHeader) mGameTitles.get(i)).getGroupTag();
+             } else {
+                 if (groupOpen && groupId==((drawerItemType) mGameTitles.get(i)).getGroup()){
+                     mDrawerGameTitles.add(mGameTitles.get(i));
+                 }
+             }
+         }
+         mDrawerList.setAdapter(new drawerItemAdapter(this,
+                 R.layout.drawer_list_item, mDrawerGameTitles));
+    }
+    
     /**
      * Attach the right Fragment
      * 
@@ -263,8 +301,9 @@ public class PacConsole extends Activity {
          */
 
         // OTA Frag
-        holder = new aospHeader("Updates");
-
+        holder = new aospHeader("Updates", UPDATES_GROUP);
+        ((aospHeader) holder).setGroupOpen(true);
+        
         mGameTitles.add(holder);
 
         holder = new drawerItemType();
@@ -274,6 +313,7 @@ public class PacConsole extends Activity {
                 R.string.ota_menu_cap));
         ((drawerItemType) holder).setCaptionDisplay(true);
         ((drawerItemType) holder).setFlag(OTA_FLAG);
+        ((drawerItemType) holder).setGroup(UPDATES_GROUP);
 
         mGameTitles.add(holder);
 
@@ -285,6 +325,7 @@ public class PacConsole extends Activity {
                 R.string.change_menu_cap));
         ((drawerItemType) holder).setCaptionDisplay(true);
         ((drawerItemType) holder).setFlag(CHANGE_FLAG);
+        ((drawerItemType) holder).setGroup(UPDATES_GROUP);
 
         mGameTitles.add(holder);
         /*
@@ -359,7 +400,7 @@ public class PacConsole extends Activity {
          * mGameTitles.add(holder);
          */
 
-        holder = new aospHeader("ROM Info");
+        holder = new aospHeader("ROM Info", ROMINFO_GROUP);
 
         mGameTitles.add(holder);
 
@@ -371,6 +412,7 @@ public class PacConsole extends Activity {
                 R.string.contrib_menu_cap));
         ((drawerItemType) holder).setCaptionDisplay(true);
         ((drawerItemType) holder).setFlag(CONTRIB_FLAG);
+        ((drawerItemType) holder).setGroup(ROMINFO_GROUP);
 
         mGameTitles.add(holder);
 
@@ -382,6 +424,7 @@ public class PacConsole extends Activity {
                 R.string.stat_menu_cap));
         ((drawerItemType) holder).setCaptionDisplay(false);
         ((drawerItemType) holder).setFlag(STATS_FLAG);
+        ((drawerItemType) holder).setGroup(ROMINFO_GROUP);
 
         mGameTitles.add(holder);
 
@@ -393,6 +436,7 @@ public class PacConsole extends Activity {
                 R.string.help_menu_cap));
         ((drawerItemType) holder).setCaptionDisplay(true);
         ((drawerItemType) holder).setFlag(ABOUT_FLAG);
+        ((drawerItemType) holder).setGroup(ROMINFO_GROUP);
 
         mGameTitles.add(holder);
 

@@ -24,18 +24,18 @@
     <string name="mobile_data">You are Connected to a Mobile Network!</string>
     <string name="wifi_rec">Wifi is recomended!</string>
     <string name="carges">You Provider may Charge Extra! Continue?</string>
- 	<string name="error">Or Tyler Broke Something!</string>
- 	<string name="error_serv">Server Is Borked</string>
- 	<string name="error_dev">No Updates Found on Server</string>
- 	<string name="ota_un">Unofficial</string>
- 	<string name="ota_ni">Nightly</string>
-  	<string name="ota_st">Stable</string>
-  	<string name="ota_loc">OTA Will Be Downloaded To:</string>
-  	<string name="change_load">Tyler Broke Some Stuff!\nSomeone Fixed Some Stuff!\nSomeone Else Added Some New Stuff!</string>
-   		
+    <string name="error">Or Tyler Broke Something!</string>
+    <string name="error_serv">Server Is Borked</string>
+    <string name="error_dev">No Updates Found on Server</string>
+    <string name="ota_un">Unofficial</string>
+    <string name="ota_ni">Nightly</string>
+    <string name="ota_st">Stable</string>
+    <string name="ota_loc">OTA Will Be Downloaded To:</string>
+    <string name="change_load">Tyler Broke Some Stuff!\nSomeone Fixed Some Stuff!\nSomeone Else Added Some New Stuff!</string>
+
     <!-- Notification -->
     <string name="main_link">&lt;a href=&quot;http://www.cyanogenmod.org/blog/cmstats-what-it-is-and-why-you-should-opt-in&quot;&gt;Learn More&lt;/a&gt;</string>
-    
+
     <!-- PAC Statistics #CM -->
     <!-- About device screen, list item title. Takes the user to the screen about opting in or out of pac statistics. -->
     <string name="pac_stats_title">PAC Stats</string>
@@ -49,37 +49,37 @@
     <string name="preview_data_summary">%s</string>
     <string name="view_stats_title">View stats</string>
     <string name="pac_learn_more">Learn more</string>
-    
     <string name="btn_yes">Yes</string>
     <string name="btn_no">No</string>
-	
+
     <!-- Pac Statistics - Preview -->
     <string name="preview_id_title">Unique ID</string>
     <string name="preview_device_title">Device</string>
     <string name="preview_version_title">Version</string>
     <string name="preview_country_title">Country</string>
-    <string name="preview_carrier_title">Carrier</string>    
-    <string name="preview_romname_title">ROM Name</string>    
-    <string name="preview_romversion_title">ROM Version</string>    
-    
+    <string name="preview_carrier_title">Carrier</string>
+    <string name="preview_romname_title">ROM Name</string>
+    <string name="preview_romversion_title">ROM Version</string>
+
     <!-- Pac info -->
-    <string name="pref_abt_head">"PAC-MAN Rom "</string>    
+    <string name="pref_abt_head">"PAC-MAN Rom "</string>
     <string name="pref_abt_web">Find Us Online</string>
-    <string name="pref_abt_web_cap">At pac-rom.com</string>    
-    <string name="pref_abt_web_link">http://pac-rom.com</string>    
+    <string name="pref_abt_web_cap">At pac-rom.com</string>
+    <string name="pref_abt_web_link">http://pac-rom.com</string>
     <string name="pref_abt_irc">Contact us on IRC</string>
-    <string name="pref_abt_irc_cap">Freenode #pac-rom</string>    
-    <string name="pref_abt_irc_link">irc://irc.freenode.net:6667/pac-rom</string>    
+    <string name="pref_abt_irc_cap">Freenode #pac-rom</string>
+    <string name="pref_abt_irc_link">irc://irc.freenode.net:6667/pac-rom</string>
     <string name="pref_abt_google">Find us on Google+</string>
-    <string name="pref_abt_google_cap">PAC-man : The AIO Rom @ google+</string>    
+    <string name="pref_abt_google_cap">PAC-man : The AIO Rom @ google+</string>
     <string name="pref_abt_google_link">https://plus.google.com/102557242936341392082/</string>
     <string name="pref_abt_facebook">Find us on Facebook</string>
-    <string name="pref_abt_facebook_cap">PacManTheAioRom @ facebook</string>    
-    <string name="pref_abt_facebook_link">https://www.facebook.com/PacManTheAioRom/</string>    
-    <string name="ota_checking">Checking Now!</string>    
+    <string name="pref_abt_facebook_cap">PacManTheAioRom @ facebook</string>
+    <string name="pref_abt_facebook_link">https://www.facebook.com/PacManTheAioRom/</string>
+    <string name="ota_checking">Checking Now!</string>
     <string name="tv_type_tittle">Desired OTA Type</string>
-    
+
     <!-- changes -->
     <string name="chng_title">Changes:</string>
     <string name="chng_new">NEW</string>
+
 </resources>
