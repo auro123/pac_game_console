@@ -4,6 +4,7 @@ PACMAN Console
 ==============
 
 To build in eclipse
+
 -------------------
 
 1 - Import the aplication using the "Android Project using Excsiting Code"
